@@ -6,7 +6,7 @@ export default function Header (){
 
     return(
         <header className="header">
-            <div className="container">
+            {/* <div className="container">
                 <div className="header-inner">
                     <div>
                         <Image src={logoIcon}/>
@@ -26,7 +26,7 @@ export default function Header (){
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </header>
     )
 }

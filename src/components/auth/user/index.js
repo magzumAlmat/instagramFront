@@ -1,27 +1,27 @@
 'use client'
+import Image from 'next/image'
+import insta from '@/app/images/insta.png'
+import Link from 'next/link'
  export default function UserLogin() {
     return (
         <>
             <section className="login-page">
                 <div className="card">
-                    <h1>Поиск работы</h1>
+                  <Image src={insta}/>
                     <form action="">
                         <input type="text" className="input"/>
+                        <input type="password" className="input"/>
+                      
                         <button className="button button-primary">
-                            Продолжить
+                            Войти
                         </button>
                     </form>
                 </div>
-
                 <div className="card">
-                    <h1>Размещение вакансий и доступ к базе резюме</h1>
-
-
-                    <button className="button button-primary-bordered">
-                        Ищу сотрудников
-                    </button>
-
+                  <p>У вас ещё нет аккаунта? <Link href="#">Зарегистрироваться</Link></p>
                 </div>
+
+             
             </section>
         </>
     )

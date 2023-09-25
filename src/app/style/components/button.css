@@ -1,6 +1,6 @@
 .button{
     height: 40px;
-    border-radius: 4px;
+    border-radius: 14px;
     padding: 0 20px;
     outline: none;
     border: none;
@@ -14,7 +14,7 @@
     opacity: 0.8;
 }
 .button-primary-bordered{
-    border: 1px solid #1785e5;
+    border: 1px solid #6a6a6a;
     color: #1785e5;
     background-color: transparent;
 }
