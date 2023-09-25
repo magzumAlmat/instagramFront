@@ -78,3 +78,10 @@ body{
 .mtb7{
     margin: 40px 0;
 }
+.pheader{
+    font-weight: 600;
+    color: #9b9b9b;
+   
+    text-align: center;
+    margin: 0 21% 16%;
+}
