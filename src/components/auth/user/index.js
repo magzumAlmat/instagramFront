@@ -7,7 +7,6 @@ import Link from 'next/link'
         <>
             <section className="login-page">
                 <div className="card">
-                  <Image src={insta}/>
                     <form action="">
                         <input type="text" className="input" placeholder='Телефон, имя пользователя или эл. адрес'/>
                         <input type="password" className="input" placeholder='Пароль'/>
