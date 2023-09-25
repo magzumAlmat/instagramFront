@@ -85,3 +85,8 @@ body{
     text-align: center;
     margin: 0 21% 16%;
 }
+
+.profile{
+margin-top: 4vh;
+flex-wrap: wrap;
+gap: 5%;}

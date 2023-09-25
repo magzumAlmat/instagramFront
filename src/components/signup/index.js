@@ -10,10 +10,10 @@ import Link from 'next/link'
                   <Image src={insta}/>
                   <p className='pheader'>Зарегистрируйтесь, чтобы смотреть фото и видео ваших друзей.</p>
                     <form action="">
-                        <input type="text" className="input"/>
-                        <input type="password" className="input"/>
-                        <input type="text" className="input"/>
-                        <input type="password" className="input"/>
+                        <input type="text" className="input" placeholder='Моб. телефон или эл. адрес'/>
+                        <input type="text" className="input" placeholder='Имя и фамилия'/>
+                        <input type="text" className="input" placeholder='Имя пользователя'/>
+                        <input type="text" className="input" placeholder='Пароль'/>
                       
                         <button className="button button-primary">
                             Регистрация
