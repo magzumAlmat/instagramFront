@@ -1,50 +1,46 @@
 .header{
-    background-color: #222324;
-    width: 100%;
-}
-.header-inner{
-    display: flex;
-    align-items: center;
+    padding: 0 22%!important;
+    width: 60%;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 0 50px;
     justify-content: space-between;
-    width: 100%;
-    height: 80px;
-}
-.header-inner > div{
     display: flex;
+}
+.header .header-container:nth-child(2){
+    width: 25%;
     align-items: center;
+
 }
-.header a{
-    color: #fff;
-    margin: 0 10px;
-    cursor: pointer;
-}
+
 .header-search{
-    border: none;
-    outline: none;
-    background-color: transparent;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 10px;
-    height: 40px;
+    background-image: url('../../images/search.svg');
+    background-repeat: no-repeat;
+    background-position: 32%;
+    border: 1px solid #bdbdbd;;
+    width: 100%;
+    border-radius: 13px;
+    height: 10%;
+    padding: 16px;
+}
+.header-search::placeholder{
+    text-align: center;
+    color: #bdbdbd;
+    
+}
+.header-search:focus{
+    background-image: none;
+}
+.header-container a{
     cursor: pointer;
 }
-.header-button{
-    border-radius: 25px;
-    border: 1px solid #fff;
-    outline: none;
-    background-color: transparent;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 10px;
-    height: 40px;
-    margin: 0 10px;
-    cursor: pointer;
+
+.header-container img{
+    width: 62%;
+    height: 72%;
+    margin: 4% 0px 0px 4%;
 }
-.header-button--green{
-    border: 1px solid rgba(163, 218, 165, .5);
-    color: #a3daa5;
+.moduleicon{
+    align-items: center;
+    width: 31%;
+    gap: 5%;
 }

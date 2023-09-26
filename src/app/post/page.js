@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import Header from '@/components/header'
 import Posts from '@/components/posts'
-import profilePic from '@/app/images/profile.jpg'
+import profilePic from '@/app/images/profile-pic.png'
 export default function PostPage() {
     return (
         <main>
@@ -12,19 +12,19 @@ export default function PostPage() {
                     <div className='profile-image'>
                         <Image src={profilePic} width={100} height={100} />
                     </div>
-                    <div className='profile-info flex-cl'>
-                        <div className='flex ai-c gap-10'>
-                            <span>DOGGY</span>
-                            <button className='follow-button button button-primary'>Follow</button>
-                            <a className='text-d-n' href="">...</a>
+                    <div className='profile-info justify-content: space-around;'>
+                        <div className='flex '>
+                            <span className='username'> TERRYLUCAS</span>
+                            <button className='follow-button button button-primary' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>Follow</button>
+                            <a className='text-d-n username' href="">...</a>
                         </div>
-                        <div className='flex gap-10'>
+                        <div className='flex'>
                             <p>1258 posts</p>
                             <p>4M followers</p>
                             <p>1250 following</p>
                         </div>
                         <div>
-                            UserFullName
+                            Terry Lucas
                         </div>
                     </div>
                 </div>
