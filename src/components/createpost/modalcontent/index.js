@@ -1,61 +1,126 @@
 import Image from "next/image";
-import createLogo from '@/app/images/create-blog-small.svg'
-import { useRef } from "react";
+import createLogo from '@/app/images/drag_and_drop.svg'
+import React, {useRef, useState} from "react";
+import backLogo from '@/app/images/back-arrow.svg';
 import axios from 'axios';
 
 
 
 export default function ModalContent () {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isNext, setIsNext] = useState(false);
     let file = "";
     const handleClick = () => {
         console.log("handle click start")
         inputRef.current.click();
-        postData();
+        // postData();
     };
-    const handleFileChange = event => {
-        const fileObj = event.target.files && event.target.files[0]
-        if (!fileObj) {
-            return;
+    const nextClick = () => {
+        console.log(isNext);
+        setIsNext(true)
+        console.log('isNext: ', isNext)
+    }
+
+    const backClick = () => {
+        setIsNext(false);
+    }
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+
+        if (file) {
+            uploadFile(file);
         }
-        file = fileObj
-
-        console.log(fileObj);
-
-        event.target.value = null;
-    }
-
-    function postData () {
-        const endpoint = 'http://157.245.193.184:3002/api/createpost';
-        const config = {
-            headers: {Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44`}
-        };
-        const bodyParametrs = {
-            postmedia: file,
-            description: "asd"
-        };
-
-        axios.post(endpoint, bodyParametrs, config)
-            .then(console.log)
-            .catch(console.log);
-    }
+    };
 
 
+    const uploadFile = (file) => {
+        const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
+        const formData = new FormData();
+        formData.append('post_media', file);
+        formData.append('description', 'example'); // Adding the description field
+
+        axios.post('http://157.245.193.184:3002/api/createpost', formData, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then((response) => {
+                // Handle success
+                console.log('File uploaded successfully:', response.data);
+            })
+            .catch((error) => {
+                // Handle error
+                console.error('Error uploading file:', error);
+            });
+    };
 
     const inputRef = useRef(null);
 
-
-
     return (
         <div>
-            <div className='modal-header'>
-                <p>Create new post</p>
-            </div>
-            <div className='modal-content'>
-                <Image src={createLogo} alt=""/>
-                <span style={{'font-family': 'Roboto, sans-serif'}}>Drag and drop</span>
-                <input ref={inputRef} onChange={handleFileChange} type="file" id="file" style={{"display":"none"}}/>
-                <button className="button button-primary" onClick={handleClick}>Select from computer</button>
-            </div>
+            {selectedFile ? (
+                <div className='modal-edit'>
+                    {isNext ? (
+                        <>
+                            <div className='modal-header-edit'>
+
+                                <button onClick={backClick} className='button-edit'>
+                                    <Image src={backLogo} alt="back" />
+                                </button>
+                                <p>create new post</p>
+                                <button onClick={nextClick} className='button-edit'>Share</button>
+                            </div>
+                            <div className='modal-content-edit'>
+                                <div className='left-column'>
+                                    <img src={URL.createObjectURL(selectedFile)} alt="" />
+                                </div>
+                                <div className='right-column'>
+                                    ghbd
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className='modal-header-edit'>
+                                <button onClick={backClick} className='button-edit'>
+                                    <Image src={backLogo} alt="back" />
+                                </button>
+                                <p>edit</p>
+                                <button onClick={nextClick} className='button-edit'>Next</button>
+                            </div>
+                            <div className='modal-content-edit'>
+                                <div className='left-column'>
+                                    <img src={URL.createObjectURL(selectedFile)} alt="" />
+                                </div>
+                                <div className='right-column'>
+                                    ghbd
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
+            ) : (
+                <div className='modal'>
+                    <div className='modal-header'>
+                        <p>Create new post</p>
+                    </div>
+                    <div className='modal-content'>
+                        <Image src={createLogo} alt="" />
+                        <span>Drag photos and videos</span>
+                        <input ref={inputRef} onChange={handleFileChange} type="file" id="file" style={{"display":"none"}}/>
+
+
+
+                        {/*<input type="file" onChange={handleFileChange} id="file"  placeholder="Select from computer"/>*/}
+                        {/*<input ref={inputRef} onChange={handleFileChange} type="file" id="file" style={{"display":"none"}} />*/}
+                        <button className="button button-primary" onClick={handleClick}>Select from computer</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
+
 }
