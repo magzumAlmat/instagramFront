@@ -20,6 +20,7 @@ export default function CreatePostPage() {
     return (
         <div>
             <button onClick={openModal}>Открыть модальное окно</button>
+            
             <Modal isOpen={isModalOpen} onClose={closeModal}>
                 <ModalContent />
             </Modal>

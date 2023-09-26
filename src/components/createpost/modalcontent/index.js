@@ -29,11 +29,11 @@ export default function ModalContent () {
         const file = event.target.files[0];
         setSelectedFile(file);
 
+
         if (file) {
             uploadFile(file);
         }
     };
-
 
     const uploadFile = (file) => {
         const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'

@@ -12,12 +12,12 @@ import axios from "axios";
 export default function Posts() {
     console.log('1 Функция Posts отработалась')
 
-
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
 
     const [myposts, setMyPosts] = useState([]);
 
     useEffect(() => {
+
         // Define a function to fetch your posts
         const fetchMyPosts = async () => {
             try {

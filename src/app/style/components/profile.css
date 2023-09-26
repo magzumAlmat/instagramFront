@@ -2,7 +2,7 @@
     margin-bottom: 10%;
 }
 .profile-container{
-    padding: 0 50px;
+    padding: 0 22%;
 }
 .profile-image{
     margin: 0 40px;
@@ -32,12 +32,18 @@
     gap: 5%;
 }
 .profile-my-post{
-    height: 20vh;
+    height: 68vh;
     flex-basis: 30%;
-    margin-bottom: 4vh;
+    margin-bottom: 9vh;
+
 }
 .profile-my-post > img{
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
+
+.username{
+    margin: 4% 0px;
+}
+
