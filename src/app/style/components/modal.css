@@ -76,6 +76,11 @@
     padding: 10px;
 }
 
+.right-column > textarea {
+    height: 40%;
+    width: 100%;
+}
+
 
 .modal-header > p  {
     margin: 5px;

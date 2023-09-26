@@ -1,64 +1,142 @@
 import Image from "next/image";
-import createLogo from '@/app/images/drag_and_drop.svg'
+import createLogo from '@/app/images/drag_and_drop.jpeg'
 import React, {useRef, useState} from "react";
 import backLogo from '@/app/images/back-arrow.svg';
 import axios from 'axios';
 
-
+import { useRouter } from 'next/navigation'
 
 export default function ModalContent () {
+    const router = useRouter()
+ 
     const [selectedFile, setSelectedFile] = useState(null);
     const [isNext, setIsNext] = useState(false);
-    let file = "";
+    const inputRef = useRef(null);
+
     const handleClick = () => {
         console.log("handle click start")
         inputRef.current.click();
         // postData();
     };
+    const [description,setDescription]=useState('')
+
+    const handleTextAreaChange = (event) => {
+        const newText = event.target.value;
+        setDescription(newText);
+        console.log('this is description', description)
+      };
+
+   
+      const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+
+        
+
+
+    };
+      const shareFunction = () => {
+       
+        console.log('shareFunction file =',selectedFile)
+       
+            const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
+            const formData = new FormData();
+            formData.append('post_media', selectedFile);
+            formData.append('description', description); // Adding the description field
+    
+            axios.post('http://157.245.193.184:3002/api/createpost', formData, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+                .then((response) => {
+                    console.log('File uploaded successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error uploading file:', error);
+                });
+
+         
+            router.push('/post', { scroll: false })
+      };
+
+
     const nextClick = () => {
+        
         console.log(isNext);
         setIsNext(true)
         console.log('isNext: ', isNext)
     }
+       
 
     const backClick = () => {
         setIsNext(false);
     }
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+  
+
+   
+
+    // const uploadFile = (file) => {
+    //     const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
+    //     const formData = new FormData();
+    //     formData.append('post_media', file);
+    //     formData.append('description', description); 
+
+    //     axios.post('http://157.245.193.184:3002/api/createpost', formData, {
+    //         headers: {
+    //             'Authorization': `Bearer ${authToken}`,
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //     })
+    //         .then((response) => {
+              
+    //             console.log('File uploaded successfully:', response.data);
+    //         })
+    //         .catch((error) => {
+                
+    //             console.error('Error uploading file:', error);
+    //         });
+    // };
 
 
-        if (file) {
-            uploadFile(file);
-        }
-    };
+    //---------------------------------------------------------------
+    // const handleFileChange = (event) => {
+    //     const file = event.target.files[0];
+    //     setSelectedFile(file);
 
-    const uploadFile = (file) => {
-        const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
-        const formData = new FormData();
-        formData.append('post_media', file);
-        formData.append('description', 'example'); // Adding the description field
 
-        axios.post('http://157.245.193.184:3002/api/createpost', formData, {
-            headers: {
-                'Authorization': `Bearer ${authToken}`,
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-            .then((response) => {
-                // Handle success
-                console.log('File uploaded successfully:', response.data);
-            })
-            .catch((error) => {
-                // Handle error
-                console.error('Error uploading file:', error);
-            });
-    };
+    //     if (file) {
+    //         uploadFile(file);
+    //     }
+    // };
 
-    const inputRef = useRef(null);
+    // const uploadFile = (file) => {
+    //     const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
+    //     const formData = new FormData();
+    //     formData.append('post_media', file);
+    //     formData.append('description', 'example'); // Adding the description field
 
+    //     axios.post('http://157.245.193.184:3002/api/createpost', formData, {
+    //         headers: {
+    //             'Authorization': `Bearer ${authToken}`,
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //     })
+    //         .then((response) => {
+    //             // Handle success
+    //             console.log('File uploaded successfully:', response.data);
+    //         })
+    //         .catch((error) => {
+    //             // Handle error
+    //             console.error('Error uploading file:', error);
+    //         });
+    // };
+
+  
+
+  
     return (
         <div>
             {selectedFile ? (
@@ -71,14 +149,15 @@ export default function ModalContent () {
                                     <Image src={backLogo} alt="back" />
                                 </button>
                                 <p>create new post</p>
-                                <button onClick={nextClick} className='button-edit'>Share</button>
+                                <button onClick={shareFunction} className='button-edit'>Share</button>
                             </div>
                             <div className='modal-content-edit'>
                                 <div className='left-column'>
                                     <img src={URL.createObjectURL(selectedFile)} alt="" />
                                 </div>
                                 <div className='right-column'>
-                                    ghbd
+                                    <p>User</p>
+                                    <textarea  placeholder="Write a caption..." hight={200}  value={description} onChange={handleTextAreaChange}  />
                                 </div>
                             </div>
                         </>
@@ -96,7 +175,7 @@ export default function ModalContent () {
                                     <img src={URL.createObjectURL(selectedFile)} alt="" />
                                 </div>
                                 <div className='right-column'>
-                                    ghbd
+                                    Filters
                                 </div>
                             </div>
                         </>
