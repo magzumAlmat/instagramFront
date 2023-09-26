@@ -6,6 +6,16 @@
     border: none;
     cursor: pointer;
 }
+.button-edit{
+    height: 40px;
+    padding: 0 20px;
+    outline: none;
+    border: 0;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+    color: #1785e5;
+}
 .button-primary{
     background-color: #1785e5;
     color: #fff;
