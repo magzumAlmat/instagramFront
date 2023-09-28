@@ -1,0 +1,66 @@
+.recommended{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.recommended .post{
+   width: 35%;
+}
+
+.recommended .post img{
+    width: 100%;
+    height: auto;
+ }
+
+ .recommended .post .like{
+    width: 2rem;
+    height: auto;
+ }
+
+
+ .recommended .post .comment{
+    width: 2rem;
+    height: auto;
+ }
+
+
+ .recommended .post .send{
+    width: 2rem;
+    height: auto;
+ }
+
+
+ .recommended .post .save{
+    
+    height: auto;
+  
+ }
+
+
+ /* .recommended .post .saveLink{
+    display: flex;
+ justify-content: end;
+ margin: -9% 0% 0% 0%;
+  
+ } */
+
+
+
+
+
+ #flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  #flex-container > .flex-item1 {
+    -webkit-flex: auto;
+    flex: auto;
+  }
+  
+  #flex-container > .raw-item1 {
+    width: 2rem;
+  }

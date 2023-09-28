@@ -4,11 +4,14 @@ import instaLogo from '@/app/images/insta.png';
 import homeLogo from '@/app/images/home-small.svg';
 import searchLogo from '@/app/images/search.svg';
 import brouserLogo from '@/app/images/interesting-small.svg';
-import reelsLogo from '@/app/images/drag_and_drop.svg';
+import reelsLogo from '@/app/images/drag_and_drop.jpeg';
 import messageLogo from '@/app/images/message-small.svg';
 import notificationLogo from '@/app/images/notification-small.svg';
 import createLogo from '@/app/images/create-blog-small.svg';
 import profile from '@/app/images/user-photo-small.svg';
+import CreatePostPage from '../createpost/page';
+import Link from 'next/link';
+import PostPage from '../post/page';
 export default function LayoutPage() {
 
 
@@ -56,10 +59,13 @@ export default function LayoutPage() {
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
+                        {/* <Link href='/createpost'> */}
                         <button className='layout-left-body-button'>
                             <Image src={createLogo} />
+                            
                             <p>Создать</p>
                         </button>
+                        {/* </Link> */}
                     </div>
                     <div className='layout-left-body-item'>
                         <button className='layout-left-body-button'>
@@ -78,6 +84,8 @@ export default function LayoutPage() {
                 </div>
             </div>
             <div className='layout-right'>
+                {/* <PostPage/> */}
+                Рекомендуемые публикации
             </div>
 
         </div>
