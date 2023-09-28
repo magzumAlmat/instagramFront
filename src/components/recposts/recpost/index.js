@@ -2,21 +2,32 @@
 import Image from 'next/image'
 import notificationLogo from '@/app/images/notification-small.svg';
 export default function RecommendedPost({post}){
-    console.log('3 Post=',post.mediaLinks)
-
+  
     const host='http://157.245.193.184:3002'
- 
+    
+    const ram=post.likes
+    const data = []
+    ram.map(i=>{
+      
+           data.push(i)
+        
+    })
+
+
+    console.log(data.length)
+    // console.log('Likes= ',typeof(numberOfLikes.likes))
+
 
 
     return (
-    <div className="post">
-    
+    <div className="post">  
         <Image
-            src={post.postImage}
+            src={`${host}/${post.mediaLinks}`}
             alt="some alt"
-          
-            />
-        
+            width={500}
+            height={500}
+        />
+
         {/* <div className=''>
             <a className=""> <Image src={notificationLogo} alt='some alt2'  className='like'   /></a>
             <a className=""> <Image src={notificationLogo} alt='some alt2'  className='comment'/></a>
@@ -24,8 +35,7 @@ export default function RecommendedPost({post}){
             <a className="saveLink"> <Image src={notificationLogo} alt='some alt2'  className='save'   id="raw"  /></a>
         </div> */}
 
-
-        < div id = "flex-container" > <div class="flex-item1" id="flex">
+        < div id = "flex-container" > <div className="flex-item1" id="flex">
             <a className="">
                 <Image src={notificationLogo}
                     alt='some alt2'
@@ -39,14 +49,14 @@ export default function RecommendedPost({post}){
                     alt='some alt2'
                     className='send'/></a>
         </div>
-        <div class="raw-item1" id="raw">
+        <div className="raw-item1" id="raw">
             <a>
                 <Image src={notificationLogo}
                     alt='some alt2'
                     className='save'
                     id="raw"/></a>
         </div></div><div className="counOftLikes">
-        <h6>36 отметок "Нравится"</h6></div>
+        <h6> отметок "Нравится"</h6></div>
 
 
 

@@ -12,6 +12,7 @@ import profile from '@/app/images/user-photo-small.svg';
 import CreatePostPage from '../createpost/page';
 import Link from 'next/link';
 import PostPage from '../post/page';
+import RecommendedPostsPage from '../recposts/page';
 export default function LayoutPage() {
 
 
@@ -85,7 +86,7 @@ export default function LayoutPage() {
             </div>
             <div className='layout-right'>
                 {/* <PostPage/> */}
-                Рекомендуемые публикации
+                <RecommendedPostsPage/>
             </div>
 
         </div>
