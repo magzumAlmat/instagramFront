@@ -8,13 +8,25 @@ export default function RecommendedPost({post}){
     const ram=post.likes
     const data = []
     ram.map(i=>{
-      
-           data.push(i)
-        
+           data.push(i) 
     })
 
+    console.log('post ',post)
+    // console.log('comments ',post.commentaries)
+    const ramComments=post.commentaries
+    const data2 = []
+    ramComments.map(i=>{
+           data2.push(i) 
+    })
 
-    console.log(data.length)
+    let comment = []
+  
+
+    // console.log('data2',data2)
+    const mapComment = data2.map(i => {
+        console.log(i.commentary)
+        comment.push(i.commentary)
+    })
     // console.log('Likes= ',typeof(numberOfLikes.likes))
 
 
@@ -56,12 +68,17 @@ export default function RecommendedPost({post}){
                     className='save'
                     id="raw"/></a>
         </div></div><div className="counOftLikes">
-        <h6> отметок "Нравится"</h6></div>
+        <h6> {data.length} отметок "Нравится"</h6></div>
 
 
 
         <div className="comments">
-            <h6>Комментариии</h6>
+            {comment.map((key) => (
+                <h6>
+                    {key}
+                </h6>
+                
+            ))}
         </div> 
     </div>
         )
