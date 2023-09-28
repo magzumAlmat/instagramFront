@@ -1,5 +1,5 @@
 export default function Modal({isOpen, onClose, children}) {
-    if (!isOpen) 
+    if (!isOpen)
         return null;
     return (
         <div className="modal-overlay">
@@ -8,7 +8,8 @@ export default function Modal({isOpen, onClose, children}) {
                     onClick={onClose}>
                     Х
                 </button>
-                {children} </div>
+                {children}
+            </div>
         </div>
     );
 }

@@ -58,7 +58,7 @@ export default function ModalContent () {
                 });
 
          
-            router.push('/post', { scroll: false })
+            router.push('/profile', { scroll: false })
       };
 
 
