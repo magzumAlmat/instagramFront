@@ -14,25 +14,28 @@
  }
 
  .recommended .post .like{
-    width: 2rem;
+    width: 1.6rem;
     height: auto;
+    margin: 0px 1% 0px 0px;
  }
 
 
  .recommended .post .comment{
-    width: 2rem;
+   width: 1.6rem;
     height: auto;
+    margin: 0px 1% 0px 0px;
  }
 
 
  .recommended .post .send{
-    width: 2rem;
-    height: auto;
+   width: 1.6rem;
+   height: auto;
+   margin: 0px 1% 0px 0px;
  }
 
 
  .recommended .post .save{
-    
+   width: 1.6rem;
     height: auto;
   
  }
@@ -63,4 +66,19 @@
   
   #flex-container > .raw-item1 {
     width: 2rem;
+  }
+
+  .comment-text{margin: 0 10px;}
+
+
+  .counOftLikes {
+   margin: 10px 0;
+  }
+
+  .authorname{
+   margin: 10px 0;
+  }
+
+  .gap{
+   margin: 10px 0;
   }
