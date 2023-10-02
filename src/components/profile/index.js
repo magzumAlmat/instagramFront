@@ -1,16 +1,18 @@
-'use client'
-import Image from 'next/image'
+import Posts from "@/components/profile/posts";
 
-export default function Profile({post}){
-    console.log('3 Post=',post.mediaLinks)
+export default function Profile () {
+    let isTrue = true;
 
-    const host='http://157.245.193.184:3002'
- 
-    return (<a className="profile-my-post">
-        <Image
-            src={`${host}/${post.mediaLinks}`}
-            alt="some alt"
-            width={500} height={300}
-            />
-        </a>)
+    return (
+        <>
+            {isTrue ? (
+                    <Posts/>
+                )
+                :
+                (
+                    <h1>asd</h1>
+                )}
+        </>
+
+    );
 }

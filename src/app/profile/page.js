@@ -1,8 +1,11 @@
 'use client'
 import Image from 'next/image'
 import Header from '@/components/header'
-import Posts from '@/components/posts'
+import Posts from '@/components/profile/posts'
 import profilePic from '@/app/images/profile-pic.png'
+import Profile from "@/components/profile";
+
+
 export default function ProfilePage() {
     return (
         <main>
@@ -32,7 +35,7 @@ export default function ProfilePage() {
                     <span className='posts-top-icon'>POSTS</span>
                     <input className='profile-posts-input' />
                 </div>
-                <Posts />
+                <Profile/>
             </div>
         </main>
     )

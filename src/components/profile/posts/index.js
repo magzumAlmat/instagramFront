@@ -1,5 +1,5 @@
-import Post from '../profile'
-import image1 from '../../app/images/post/1.jpg'
+import Post from './post'
+import image1 from '../../../app/images/post/1.jpg'
 import image2 from '@/app/images/post/2.jpg'
 import image3 from '@/app/images/post/3.jpg'
 import image4 from '@/app/images/post/4.jpeg'
