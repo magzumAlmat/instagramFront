@@ -5,9 +5,14 @@ import likeLogo from '@/app/images/heart-3510.svg';
 import commentLogo from '@/app/images/instagram-comment-13415.svg';
 import shareLogo from '@/app/images/instagram-share-13421.svg';
 import saveLogo from '@/app/images/save-instagram-black-lineal-18315.svg';
+import axios from 'axios';
+import { useEffect ,useState} from 'react';
 export default function RecommendedPost({post, users, myposts}) {
-
+    const [postId,setPostId]=useState(0)
+    //const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
+    const authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44'
     const host = 'http://157.245.193.184:3002'
+
     const data3 = []
     users.map(i => {
         data3.push(i.id)
@@ -15,7 +20,7 @@ export default function RecommendedPost({post, users, myposts}) {
     let authorPost = '';
     let authorComment = '';
 
-    console.log(data3)
+    // console.log(data3)
 
 
     const ram = post.likes
@@ -24,7 +29,7 @@ export default function RecommendedPost({post, users, myposts}) {
         data.push(i)
     })
 
-    console.log('post ', post)
+    // console.log('post ', post)
     // console.log('comments ',post.commentaries)
     const ramComments = post.commentaries
     const data2 = []
@@ -45,21 +50,43 @@ export default function RecommendedPost({post, users, myposts}) {
                 authorPost = u.username
                 console.log('check resolve', u.username)
             }
-            console.log('this is user from map', u)
+            // console.log('this is user from map', u)
         })
         data4.push(i)
-        console.log('this is post', i)
+        // console.log('this is post', i)
     })
     let comment = []
 
 
-    // console.log('data2',data2)
+    
     const mapComment = data2.map(i => {
-        console.log(i.commentary)
+        // console.log(i.commentary)
         comment.push(i.commentary)
     })
-    // console.log('Likes= ',typeof(numberOfLikes.likes))
+    
+    
 
+    const likeHandleClick = async(post) => {
+        // console.log('POSTID=',post.id)
+        setPostId(Number(post.id))
+        if (postId!=0){
+            try {
+                const resp = await axios.post(`${host}/api/like/post/${postId}`, null, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                console.log('Response:', resp.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        else{
+            console.log('this is postID',postId)
+        }
+        }
+
+        useEffect(()=>{},[likeHandleClick])
 
     return (
         <div className="post">
@@ -74,39 +101,35 @@ export default function RecommendedPost({post, users, myposts}) {
                 }
                 alt="some alt"
                 width={500}
-                height={500}/> {/* <div className=''>
-            <a className=""> <Image src={notificationLogo} alt='some alt2'  className='like'   /></a>
-            <a className=""> <Image src={notificationLogo} alt='some alt2'  className='comment'/></a>
-            <a className=""> <Image src={notificationLogo} alt='some alt2'  className='send'     /></a>
-            <a className="saveLink"> <Image src={notificationLogo} alt='some alt2'  className='save'   id="raw"  /></a>
-        </div> */}
+                height={500}/> 
+                
 
             <div id="flex-container">
                 <div className="flex-item1" id="flex">
-                    <a className="">
+                    <button className=""  onClick={()=>likeHandleClick(post)}>
                         <Image src={likeLogo}
                             alt='some alt2'
-                            className='like'/></a>
-                    <a className="">
-                        <Image src={commentLogo}
-                            alt='some alt2'
-                            className='comment'/></a>
-                    <a className="">
+                            className='like'/></button>
+                    <button  className="">
+                      <Image src={commentLogo}
+                          alt='some alt2'
+                          className='comment'/></button>
+                    <button className="">
                         <Image src={shareLogo}
                             alt='some alt2'
-                            className='send'/></a>
+                            className='send'/></button>
                 </div>
                 <div className="raw-item1" id="raw">
-                    <a>
+                    <button>
                         <Image src={saveLogo}
                             alt='some alt2'
                             className='save'
-                            id="raw"/></a>
+                            id="raw"/></button>
                 </div>
             </div>
         <div className='gap'>    
             <div className="counOftLikes" >
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                
                 <span> {
                     data.length
                 }{' '}
@@ -123,7 +146,7 @@ export default function RecommendedPost({post, users, myposts}) {
 
             <div className="comments">
                 {comment.map((key) => (
-                    // eslint-disable-next-line react/jsx-key <div>
+                    
                      <div>
                      <span>
                     {authorComment} {' '}{key}
