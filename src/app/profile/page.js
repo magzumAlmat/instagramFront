@@ -13,12 +13,12 @@ export default function ProfilePage() {
                         <Image src={profilePic} width={100} height={100} />
                     </div>
                     <div className='profile-info justify-content: space-around;'>
-                        <div className='flex '>
+                        <div className='flex gap'>
                             <span className='username'> TERRYLUCAS</span>
                             <button className='follow-button button button-primary' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>Follow</button>
                             <a className='text-d-n username' href="">...</a>
                         </div>
-                        <div className='flex'>
+                        <div className='flex gap'>
                             <p>1258 posts</p>
                             <p>4M followers</p>
                             <p>1250 following</p>

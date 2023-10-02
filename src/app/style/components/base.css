@@ -90,3 +90,7 @@ body{
 margin-top: 4vh;
 flex-wrap: wrap;
 gap: 5%;}
+
+.gap{
+    gap: 1rem;
+}

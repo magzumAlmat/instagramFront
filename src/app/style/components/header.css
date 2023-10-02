@@ -14,13 +14,14 @@
 
 .header-search{
     background-image: url('../../images/search.svg');
+    
     background-repeat: no-repeat;
-    background-position: 32%;
-    border: 1px solid #bdbdbd;;
-    width: 100%;
-    border-radius: 13px;
-    height: 10%;
-    padding: 16px;
+    background-position: 0%;
+    border: 1px solid #bdbdbd;
+    width: 91%;
+    border-radius: 19px;
+    height: 15%;
+    padding: 13px;
 }
 .header-search::placeholder{
     text-align: center;
@@ -35,8 +36,8 @@
 }
 
 .header-container img{
-    width: 62%;
-    height: 72%;
+    width: 73%;
+    height: 88%;
     margin: 4% 0px 0px 4%;
 }
 .moduleicon{
