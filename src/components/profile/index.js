@@ -1,7 +1,7 @@
 import Posts from "@/components/profile/posts";
 
 export default function Profile () {
-    let isTrue = true;
+    let isTrue = false;
 
     return (
         <>
