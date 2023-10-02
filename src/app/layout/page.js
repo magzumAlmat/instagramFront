@@ -11,9 +11,30 @@ import createLogo from '@/app/images/create-blog-small.svg';
 import profile from '@/app/images/user-photo-small.svg';
 import CreatePostPage from '../createpost/page';
 import Link from 'next/link';
-import PostPage from '../post/page';
+import PostPage from '@/app/profile/page';
 import RecommendedPostsPage from '../recposts/page';
+import {useState} from "react";
+import ModalContent from "@/components/createpost/modalcontent";
+import Modal from "@/components/createpost";
 export default function LayoutPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState("Home");
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const renderRightContent = () => {
+        if (activeSection === "Home") {
+            return <RecommendedPostsPage />;
+        } else if (activeSection === "Profile") {
+            return <PostPage />;
+        }
+    };
 
 
     return (
@@ -24,7 +45,7 @@ export default function LayoutPage() {
                 </div>
                 <div className="layout-left-body">
                     <div className='layout-left-body-item'>
-                        <button className='layout-left-body-button'>
+                        <button onClick={() => setActiveSection("Home")} className='layout-left-body-button'>
                             <Image src={homeLogo} />
                             <p>Главная</p>
                         </button>
@@ -42,7 +63,7 @@ export default function LayoutPage() {
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
-                        <button className='layout-left-body-button'>
+                        <button onClick={() => setActiveSection("Reels")} className='layout-left-body-button'>
                             <Image src={reelsLogo} />
                             <p>Reels</p>
                         </button>
@@ -60,16 +81,13 @@ export default function LayoutPage() {
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
-                        {/* <Link href='/createpost'> */}
-                        <button className='layout-left-body-button'>
+                        <button onClick={openModal} className='layout-left-body-button'>
                             <Image src={createLogo} />
-                            
                             <p>Создать</p>
                         </button>
-                        {/* </Link> */}
                     </div>
                     <div className='layout-left-body-item'>
-                        <button className='layout-left-body-button'>
+                        <button onClick={() => setActiveSection('Profile')} className='layout-left-body-button'>
                             <Image src={profile} />
                             <p>Профиль</p>
                         </button>
@@ -85,8 +103,10 @@ export default function LayoutPage() {
                 </div>
             </div>
             <div className='layout-right'>
-                {/* <PostPage/> */}
-                <RecommendedPostsPage/>
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <ModalContent />
+                </Modal>
+                <div>{renderRightContent()}</div>
             </div>
 
         </div>

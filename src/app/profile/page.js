@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Header from '@/components/header'
 import Posts from '@/components/posts'
 import profilePic from '@/app/images/profile-pic.png'
-export default function PostPage() {
+export default function ProfilePage() {
     return (
         <main>
             <Header/>

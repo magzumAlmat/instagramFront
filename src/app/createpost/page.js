@@ -1,9 +1,5 @@
 'use client'
-import Image from 'next/image'
 import Modal from "@/components/createpost";
-import Header from '@/components/header'
-import Posts from '@/components/posts'
-import profilePic from '@/app/images/profile.jpg'
 import {useState} from "react";
 import ModalContent from "@/components/createpost/modalcontent";
 export default function CreatePostPage() {
