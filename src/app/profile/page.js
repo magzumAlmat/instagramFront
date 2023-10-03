@@ -34,7 +34,7 @@ export default function ProfilePage() {
                 <div className='profile flex jc-c ai-c'>
                     <div className='profile-image'>
                         <button onClick={openModal}>
-                            <Modal isOpen={isModalOpen} onClose={closeModal} onClick={(e) => e.stopPropagation()}>
+                            <Modal isOpen={isModalOpen} onClose={closeModal}>
                                 <Stories/>
                             </Modal>
                             <Image src={profilePic} width={100} height={100} alt='some alt'/>

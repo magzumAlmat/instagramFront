@@ -27,8 +27,6 @@ export default function RecommendedPost({post, users, myposts}) {
 
     // setPostEntity(post)
     // console.log('POST ENTITY',postEntity)
-    
-   
     const likeArray = []
     let counter=0
     post.likes.map(i => {
@@ -36,7 +34,6 @@ export default function RecommendedPost({post, users, myposts}) {
         if (Number(i.id)>0){
             // console.log('i >0',i,'with post id',i.postId)
             likeArray.push(i)
-
         }
 
     })
@@ -78,8 +75,6 @@ export default function RecommendedPost({post, users, myposts}) {
         // console.log(i.commentary)
         comment.push(i.commentary)
     })
-    
-    
 
           const likeHandleClick = async (post) => {
             setPostId(Number(post.id));
@@ -104,7 +99,7 @@ export default function RecommendedPost({post, users, myposts}) {
                 });
             
 
-                  setResponse(newPosts)
+                  setResponse(...likeArray,newPosts)
 
                   console.log('NEWPOSTS from server ', response);
 
