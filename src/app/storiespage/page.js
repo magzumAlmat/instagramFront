@@ -1,7 +1,8 @@
 'use client'
-import Modal from "@/components/createpost";
+import ModalStories from "@/components/modalstories";
 import {useState} from "react";
 import ModalStoriesContent from "@/components/modalstories/stories/index.js";
+
 export default function CreateStoryPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -17,9 +18,9 @@ export default function CreateStoryPage() {
         <div>
             <button onClick={openModal}>Открыть модальное окно</button>
             
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <ModalStories isOpen={isModalOpen} onClose={closeModal}>
                 <ModalStoriesContent />
-            </Modal>
+            </ModalStories>
         </div>
     );
 

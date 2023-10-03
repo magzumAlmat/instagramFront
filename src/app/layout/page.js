@@ -34,6 +34,7 @@ export default function LayoutPage() {
         } else if (activeSection === "Profile") {
             return <PostPage />;
         }
+        
     };
 
 
@@ -41,54 +42,54 @@ export default function LayoutPage() {
         <div className='layout'>
             <div className="layout-left">
                 <div className='layout-logo'>
-                    <Image src={instaLogo} />
+                    <Image src={instaLogo} alt='some alt' />
                 </div>
                 <div className="layout-left-body">
                     <div className='layout-left-body-item'>
                         <button onClick={() => setActiveSection("Home")} className='layout-left-body-button'>
-                            <Image src={homeLogo} />
+                            <Image src={homeLogo} alt='some alt'/>
                             <p>Главная</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button className='layout-left-body-button'>
-                            <Image src={searchLogo} />
+                            <Image src={searchLogo} alt='some alt' />
                             <p>Поисковый запрос</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button className='layout-left-body-button'>
-                            <Image src={brouserLogo} />
+                            <Image src={brouserLogo} alt='some alt'/>
                             <p>Интересное</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button onClick={() => setActiveSection("Reels")} className='layout-left-body-button'>
-                            <Image src={reelsLogo} />
+                            <Image src={reelsLogo} alt='some alt'/>
                             <p>Reels</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button className='layout-left-body-button'>
-                            <Image src={messageLogo} />
+                            <Image src={messageLogo} alt='some alt'/>
                             <p>Сообщения</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button className='layout-left-body-button'>
-                            <Image src={notificationLogo} />
+                            <Image src={notificationLogo} alt='some alt' />
                             <p>Уведомления</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button onClick={openModal} className='layout-left-body-button'>
-                            <Image src={createLogo} />
+                            <Image src={createLogo}  alt='some alt'/>
                             <p>Создать</p>
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
                         <button onClick={() => setActiveSection('Profile')} className='layout-left-body-button'>
-                            <Image src={profile} />
+                            <Image src={profile}  alt='some alt'/>
                             <p>Профиль</p>
                         </button>
                     </div>
@@ -96,7 +97,7 @@ export default function LayoutPage() {
                 <div className="layout-left-footer">
                     <div className='layout-left-footer-item'>
                         <button className='layout-left-body-button'>
-                            <Image src={createLogo} />
+                            <Image src={createLogo}  alt='some alt'/>
                             <p>Еще</p>
                         </button>
                     </div>

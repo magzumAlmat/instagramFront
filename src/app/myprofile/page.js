@@ -14,15 +14,15 @@ export default function MyProfilePage() {
             <div className="profile-container">
                 <div className='profile flex jc-c ai-c'>
                     <div className='profile-image'>
-                        <Image src={profilePic} width={100} height={100} />
+                        <Image src={profilePic} width={100} height={100} alt='some alt' />
                     </div>
                     <div className='profile-info justify-content: space-around;'>
                         <div className='flex gap'>
                             <span className='username'> TERRYLUCAS</span>
-                            <button className='follow-button button' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>Edit</button>
-                            <button className='follow-button button' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>Show archive</button>
-                            <button className='follow-button button' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>
-                                <Image src={settingsLogo}/>
+                            <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px','margin':'4px 16px;'}}>Edit</button>
+                            <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px','margin':'4px 16px;'}}>Show archive</button>
+                            <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px','margin':'4px 16px;'}}>
+                                <Image src={settingsLogo} alt='some alt'/>
                                 </button>
                             <a className='text-d-n username' href="">...</a>
                         </div>

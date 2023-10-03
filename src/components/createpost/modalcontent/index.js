@@ -70,7 +70,7 @@ export default function ModalContent () {
                 });
 
          
-            router.push('/profile', { scroll: false })
+            router.push('/layout', { scroll: false })
       };
 
       const shareStoriesFunction = () => {
@@ -96,7 +96,7 @@ export default function ModalContent () {
                 });
 
          
-            router.push('/profile', { scroll: false })
+            router.push('/layout', { scroll: false })
       };
 
     const nextClick = () => {

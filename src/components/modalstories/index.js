@@ -1,4 +1,4 @@
-export default function Modal({isOpen, onClose, children}) {
+export default function ModalStories({isOpen, onClose, children}) {
     if (!isOpen)
         return null;
     return (
@@ -6,7 +6,7 @@ export default function Modal({isOpen, onClose, children}) {
             <div className="modal">
                 <button className="close-button"
                     onClick={onClose}>
-                    Х
+                    CLOSE
                 </button>
                 {children}
             </div>

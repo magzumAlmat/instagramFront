@@ -7,7 +7,7 @@ import Profile from "@/components/profile";
 import { useState } from 'react'
 import ModalStories from '@/components/modalstories/index.js';
 import Stories from '@/components/modalstories/stories';
-
+import Modal from '@/components/createpost'
 
 
 export default function ProfilePage() {
@@ -26,6 +26,7 @@ export default function ProfilePage() {
 
     
 
+
     return (
         <main>
             <Header/>
@@ -33,10 +34,10 @@ export default function ProfilePage() {
                 <div className='profile flex jc-c ai-c'>
                     <div className='profile-image'>
                         <button onClick={openModal}>
-                            <ModalStories isOpen={isModalOpen} onClose={closeModal}>
+                            <Modal isOpen={isModalOpen} onClose={closeModal} onClick={(e) => e.stopPropagation()}>
                                 <Stories/>
-                            </ModalStories>
-                            <Image src={profilePic} width={100} height={100} />
+                            </Modal>
+                            <Image src={profilePic} width={100} height={100} alt='some alt'/>
                         </button>
                            
                         
@@ -45,7 +46,7 @@ export default function ProfilePage() {
                     <div className='profile-info justify-content: space-around;'>
                         <div className='flex gap'>
                             <span className='username'> TERRYLUCAS</span>
-                            <button className='follow-button button button-primary' style={{'width':'90px','height':'30px','border-radius':'6px','margin':'4px 16px;'}}>Follow</button>
+                            <button className='follow-button button button-primary' style={{'width':'90px','height':'30px','borderRadius':'6px','margin':'4px 16px;'}}>Follow</button>
                             <a className='text-d-n username' href="">...</a>
                         </div>
                         <div className='flex gap'>

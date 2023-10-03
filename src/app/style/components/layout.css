@@ -27,7 +27,7 @@
 }
 .layout-left-body-button:hover {
     background-color: lightgrey;
-    border-radius: 10px;
+    borderRadius: 10px;
 }
 .layout-left-body-button > p {
     padding-left: 16px;

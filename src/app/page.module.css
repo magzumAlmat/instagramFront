@@ -31,7 +31,7 @@
   padding: 1rem;
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
+  borderRadius: var(--borderRadius);
 }
 
 .code {
@@ -48,7 +48,7 @@
 
 .card {
   padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
+  borderRadius: var(--borderRadius);
   background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
@@ -82,7 +82,7 @@
 
 .center::before {
   background: var(--secondary-glow);
-  border-radius: 50%;
+  borderRadius: 50%;
   width: 480px;
   height: 360px;
   margin-left: -400px;
@@ -175,7 +175,7 @@
     align-items: center;
     inset: 0 0 auto;
     padding: 2rem 1rem 1.4rem;
-    border-radius: 0;
+    borderRadius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
     background: linear-gradient(
