@@ -1,7 +1,7 @@
 import Image from "next/image"
 import {useState, useEffect} from "react";
 import axios from "axios";
-import RecommendedPost from './recpost'
+import RecommendedPost from './recpost/RecommendedPost';
 
 export default function ReccomendedPosts() {
     
@@ -47,14 +47,14 @@ export default function ReccomendedPosts() {
 
 
 
-    const showPosts = myposts.map((item, index) => (
-        <RecommendedPost key={index} users={users} myposts={myposts}
-            post={item}/>
-    ));
+    // const showPosts = myposts.map((item, index) => (
+    //     <RecommendedPost key={index} users={users} myposts={myposts}
+    //         post={item}/>
+    // ));
 
     return (
         <div className='recommended flex'>
-            {showPosts}
+          <RecommendedPost  users={users} myposts={myposts}/>
         </div>
     );
 

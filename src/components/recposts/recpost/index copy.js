@@ -27,6 +27,8 @@ export default function RecommendedPost({post, users, myposts}) {
 
     // setPostEntity(post)
     // console.log('POST ENTITY',postEntity)
+    
+   
     const likeArray = []
     let counter=0
     post.likes.map(i => {
