@@ -10,7 +10,8 @@ import save from '@/app/images/save-instagram-black-lineal-18315.svg';
 import emoji from '@/app/images/smartphone.webp';
 
 
-export default function ModalPost () {
+export default function ModalPost ({post}) {
+    console.log('post from modal post', post)
 
 
     return (

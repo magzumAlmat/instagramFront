@@ -10,11 +10,20 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 
 export default function Posts() {
+    
+    
     console.log('1 Функция Posts отработалась')
 
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
 
     const [myposts, setMyPosts] = useState([]);
+
+    const handleClick = (event, posts) => {
+        // 👇️ refers to the image element
+        console.log(posts);
+    
+        console.log('Image clicked');
+      };
 
     useEffect(() => {
 
@@ -52,11 +61,12 @@ export default function Posts() {
     ];
 
     const showPosts = myposts.map((item, index) => (
-        <Post key={index} post={item} />
+        <Post key={index} post={item} />    
     ));
 
     return (
         <div className='profile flex'>
+            
             {showPosts}
         </div>
     );
