@@ -7,7 +7,7 @@ import Profile from "@/components/profile";
 import { useState } from 'react'
 import ModalStories from '@/components/modalstories/index.js';
 import Stories from '@/components/modalstories/stories';
-import Modal from '@/components/createpost'
+import Modal from '@/components/modalstories/index.js';
 
 
 export default function ProfilePage() {
@@ -18,10 +18,12 @@ export default function ProfilePage() {
 
     const openModal = () => {
         setIsModalOpen(true);
+        console.log('isModalOpen?:', isModalOpen);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        console.log('open?:', isModalOpen);
     };
 
     
@@ -34,14 +36,13 @@ export default function ProfilePage() {
                 <div className='profile flex jc-c ai-c'>
                     <div className='profile-image'>
                         <button onClick={openModal}>
-                            <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                <Stories/>
-                            </Modal>
                             <Image src={profilePic} width={100} height={100} alt='some alt'/>
+
                         </button>
-                           
-                        
-                        
+                        <Modal isOpen={isModalOpen} onClose={closeModal}>
+                            <Stories/>
+                        </Modal>
+
                     </div>
                     <div className='profile-info justify-content: space-around;'>
                         <div className='flex gap'>

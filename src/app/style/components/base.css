@@ -20,6 +20,13 @@ body{
     display: flex;
     flex-direction: column;
 }
+.flex-rw{
+    display: flex;
+    flex-direction: row;
+}
+.flex-jc-fe{
+    justify-content: flex-end;
+}
 .flex-jc-c{
     justify-content: center;
 }
@@ -93,4 +100,20 @@ gap: 5%;}
 
 .gap{
     gap: 1rem;
+}
+
+.border {
+    border: 1px solid lightgrey;
+}
+.border-top {
+    border-top: 1px solid #000000;
+}
+.border-left {
+    border-left: 1px solid #000000;
+}
+.border-bottom {
+    border-bottom: 1px solid #000000;
+}
+.border-right {
+    border-right: 1px solid #000000;
 }

@@ -107,7 +107,7 @@ export default function LayoutPage() {
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <ModalContent />
                 </Modal>
-                <div>{renderRightContent()}</div>
+                {renderRightContent()}
             </div>
 
         </div>

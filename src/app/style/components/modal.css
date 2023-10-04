@@ -15,16 +15,15 @@
 
 .modal {
     background-color: #fff;
-    borderRadius: 2px;
+    border-radius: 2px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 700px; /* Ширина по вашему выбору */
+    width: 1300px; /* Ширина по вашему выбору */
 }
 
 .modal-edit {
     background-color: #fff;
-    borderRadius: 2px;
+    border-radius: 2px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 900px;
 }
 
 .close-button {
@@ -90,7 +89,7 @@
 
 .modal-header {
     border: 1px solid dodgerblue;
-    borderRadius: 2px;
+    border-radius: 2px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -104,7 +103,7 @@
 
 .modal-header-edit {
     border: 1px solid dodgerblue;
-    borderRadius: 2px;
+    border-radius: 2px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -120,12 +119,6 @@
     margin-bottom: 20px;
 }
 
-.modal-footer {
-    border-top: 1px solid #e5e5e5;
-    padding-top: 10px;
-    text-align: right;
-}
-
 .modal-button-primary {
     borderRadius: 4px;
     display: flex;
@@ -137,3 +130,150 @@
     width: 100%;
     height: 100%;
 }
+
+/* Обертка модального окна */
+.modal-post {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Стили для левой части (фотография) */
+.modal-post-left {
+    width: 880px;
+    height: 880px;
+    position: relative;
+    overflow: hidden; /* Обрезать изображение, если оно превышает размеры */
+}
+
+/* Стили для изображения внутри левой части */
+.modal-post-left img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover; /* Подогнать изображение под размер блока, обрезая по необходимости */
+}
+
+
+/* Стили для правой части (информация о пользователе и комментарии) */
+.modal-post-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+/* Стили для заголовка (фото пользователя и информация) */
+.modal-post-right-header {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+}
+
+/* Стили для фото пользователя в заголовке */
+.modal-post-right-header img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Стили для имени пользователя и города */
+.modal-post-right-header-username {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Стили для ссылки на имя пользователя */
+.modal-post-right-header-username a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Стили для комментариев */
+/* Стили для блока с комментариями */
+.modal-post-right-body {
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    max-width: 450px;
+    max-height: 660px; /* Задайте желаемую максимальную высоту */
+    overflow-y: auto; /* Добавьте вертикальную прокрутку при необходимости */
+    padding: 14px; /* Добавьте отступы внутри блока по вашему усмотрению */
+}
+
+
+/* Стили для фото пользователя в комментарии */
+.modal-post-right-body img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Стили для комментария и времени */
+.modal-post-right-header-username span {
+    margin-right: 10px;
+}
+
+/* Стили для времени */
+.modal-post-right-header-username time {
+    color: #888;
+}
+.modal-post-section {
+    padding: 6px 16px 8px;
+    display: flex;
+    width: 100%;
+}
+.modal-post-section-start {
+    display: flex;
+    justify-content: flex-start;
+}
+.modal-post-section-end {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Стили для секции с кнопками */
+.modal-post-section-start {
+    justify-content: flex-start;
+}
+.modal-post-section-end {
+    justify-content: flex-end;
+}
+
+/* Стили для кнопок */
+.modal-post-section button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 10px;
+}
+
+/* Стили для изображений в кнопках */
+.modal-post-section button img {
+    height: 24px;
+    width: 24px;
+}
+.modal-post-liked {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.modal-post-comment {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: auto;
+    max-width: 100%;
+}
+.section {
+    padding: 6px 16px 6px 0;
+}
+
+
