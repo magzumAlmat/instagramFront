@@ -15,13 +15,15 @@ let initialState = {
 
 if (token) {
     let decodedToken = jwt_decode(token)
+    console.log('decodedToken from redux',decodedToken)
     initialState = {
         isAuth: true,
         currentUser: {
             id: decodedToken.id,
             email: decodedToken.email,
             name: decodedToken.name,
-            password: decodedToken.password
+            password: decodedToken.password,
+            username: decodedToken.username,
         }
     }
 } else {

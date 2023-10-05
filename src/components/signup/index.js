@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation'
     console.log('thisis isAuth from UserSIGNUP= ',isAuth)
     
     const doCreateUSER=()=>{
-        console.log('doCreateUser запустился ',email,name,password)
+        console.log('!!!!!2 doCreateUser запустился ',email,name,password,username)
         dispatch(createUser(email,name,password,username))
     }
 
