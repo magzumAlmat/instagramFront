@@ -8,11 +8,13 @@ import image6 from '@/app/images/post/6.jpeg'
 import Image from "next/image"
 import { useState,useEffect } from "react";
 import axios from "axios";
-
+import { useSelector } from 'react-redux/es/hooks/useSelector'
 export default function Posts() {
-   
+    const isAuth = useSelector((state) => state.auth.isAuth);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
     
-    console.log('1 Функция Posts отработалась')
+    console.log('1 Функция Posts отработалась',currentUser)
 
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
 
@@ -62,7 +64,7 @@ export default function Posts() {
 
     const showPosts = myposts.map((item, index) => (
      
-        <Post key={index} post={item} />    
+        <Post key={index} post={item} currentUser={currentUser} />    
     ));
 
     return (

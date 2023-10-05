@@ -10,24 +10,25 @@ import { useRouter } from 'next/navigation'
     const [email,setEmail]=useState('')
     const [name,setName]=useState('')
     const [password,setPassword]=useState('')
+    const [username,setUsername]=useState('')
     const router=useRouter('')
 
-    const isCurrentUser=useSelector((state)=>{state.auth.isCurrentUser})
+    
     const isAuth = useSelector((state) => state.auth.isAuth);
 
     const dispatch=useDispatch()
 
     console.log('thisis isAuth from UserSIGNUP= ',isAuth)
+    
     const doCreateUSER=()=>{
         console.log('doCreateUser запустился ',email,name,password)
-        dispatch(createUser(email,name,password))
+        dispatch(createUser(email,name,password,username))
     }
 
     
     useEffect(()=>{
-        
         if(isAuth===true){
-            router.push('/layout')
+            router.push('/login')
         }
     }
     ,[isAuth])
@@ -41,6 +42,7 @@ import { useRouter } from 'next/navigation'
                     <form action="">
                         <input type="text" className="input" placeholder='Моб. телефон или эл. адрес'  value={email} onChange={(e)=>setEmail(e.target.value)}/>
                         <input type="text" className="input" placeholder='Имя и фамилия' value={name} onChange={(e)=>setName(e.target.value)}/>
+                        <input type="text" className="input" placeholder='Имя пользователя' value={username} onChange={(e)=>setUsername(e.target.value)}/>
                         <input type="password" className="input" placeholder='Пароль' value={password} onChange={(e)=>setPassword(e.target.value)}/>
                       
                         <button className="button button-primary" onClick={doCreateUSER} type='button'>

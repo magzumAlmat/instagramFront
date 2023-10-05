@@ -5,11 +5,11 @@ import Modal from '@/components/createpost'
 import ModalPost from './modalpost'
 import { useState } from 'react'
 
-export default function Post({post}){
+export default function Post({post,currentUser}){
 
  
 
-    console.log('isAuth from redux=',isAuth)
+    
     // console.log('3 Post=',post.mediaLinks)
     const [clickedPost, setClickedPost] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);

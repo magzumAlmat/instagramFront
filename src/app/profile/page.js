@@ -8,9 +8,37 @@ import { useState } from 'react'
 import ModalStories from '@/components/modalstories/index.js';
 import Stories from '@/components/modalstories/stories';
 import Modal from '@/components/modalstories/index.js';
-
+import { useEffect } from 'react'
+import { useSelector,useDispatch } from 'react-redux'
+import { logoutAction } from '@/store/slices/authSlice'
+import { useRouter } from 'next/navigation'
+import { logOut } from '@/store/slices/authSlice'
 
 export default function ProfilePage() {
+
+    const router=useRouter('')
+
+    
+    const isAuth = useSelector((state) => state.auth.isAuth);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
+    const dispatch=useDispatch()
+
+    console.log('thisis isAuth from UserSIGNUP= ',isAuth)
+    console.log('thisis current user in profile= ',currentUser)
+    
+    const doLogOutUser=()=>{
+      
+        dispatch(logoutAction());
+        
+        router.push('/login');
+        
+    
+        
+    }
+ 
+   
+
 
     const [myStories, setMyStories] = useState([]);
 
@@ -29,43 +57,50 @@ export default function ProfilePage() {
     
 
 
+
     return (
         <main>
-            <Header/>
-            <div className="profile-container">
-                <div className='profile flex jc-c ai-c'>
-                    <div className='profile-image'>
-                        <button onClick={openModal}>
-                            <Image src={profilePic} width={100} height={100} alt='some alt'/>
-
-                        </button>
-                        <Modal isOpen={isModalOpen} onClose={closeModal}>
-                            <Stories/>
-                        </Modal>
-
+        <Header />
+        {isAuth ? (
+            <>
+                <button onClick={doLogOutUser}>EXIT</button>
+                <div className="profile-container">
+                    <div className='profile flex jc-c ai-c'>
+                        <div className='profile-image'>
+                            <button onClick={openModal}>
+                                <Image src={profilePic} width={100} height={100} alt='some alt' />
+                            </button>
+                            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                <Stories />
+                            </Modal>
+                        </div>
+                        <div className='profile-info justify-content: space-around;'>
+                            <div className='flex gap'>
+                                <span className='username'>{currentUser.email}</span>
+                                <button className='follow-button button button-primary' style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px', 'margin': '4px 16px;' }}>Follow</button>
+                                <a className='text-d-n username' href="">...</a>
+                            </div>
+                            <div className='flex gap'>
+                                <p>1258 posts</p>
+                                <p>4M followers</p>
+                                <p>1250 following</p>
+                            </div>
+                            <div>
+                                Terry Lucas
+                            </div>
+                        </div>
                     </div>
-                    <div className='profile-info justify-content: space-around;'>
-                        <div className='flex gap'>
-                            <span className='username'> TERRYLUCAS</span>
-                            <button className='follow-button button button-primary' style={{'width':'90px','height':'30px','borderRadius':'6px','margin':'4px 16px;'}}>Follow</button>
-                            <a className='text-d-n username' href="">...</a>
-                        </div>
-                        <div className='flex gap'>
-                            <p>1258 posts</p>
-                            <p>4M followers</p>
-                            <p>1250 following</p>
-                        </div>
-                        <div>
-                            Terry Lucas
-                        </div>
+                    <div className='profile-posts-top flex jc-c ai-c gap-10'>
+                        <span className='posts-top-icon'>POSTS</span>
+                        <input className='profile-posts-input' />
                     </div>
+                    <Profile />
                 </div>
-                <div className='profile-posts-top flex jc-c ai-c gap-10'>
-                    <span className='posts-top-icon'>POSTS</span>
-                    <input className='profile-posts-input' />
-                </div>
-                <Profile/>
-            </div>
-        </main>
+            </>
+        ) : (
+            // Render something for non-authenticated users
+            <p>Please log in to view your profile.</p>
+        )}
+    </main>
     )
 }

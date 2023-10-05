@@ -16,10 +16,12 @@ import RecommendedPostsPage from '../recposts/page';
 import {useState} from "react";
 import ModalContent from "@/components/createpost/modalcontent";
 import Modal from "@/components/createpost";
+import { useSelector,useDispatch } from 'react-redux'
 export default function LayoutPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("Home");
-
+    const isCurrentUser=useSelector((state)=>{state.auth.isCurrentUser})
+    const isAuth = useSelector((state) => state.auth.isAuth);
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -40,6 +42,7 @@ export default function LayoutPage() {
 
     return (
         <div className='layout'>
+            
             <div className="layout-left">
                 <div className='layout-logo'>
                     <Image src={instaLogo} alt='some alt' />
@@ -104,6 +107,8 @@ export default function LayoutPage() {
                 </div>
             </div>
             <div className='layout-right'>
+            <h3>{console.log('1  isCurrentUser=',isCurrentUser)}
+            </h3>   <h3>{console.log('1  isAuth=',isAuth)}</h3>
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <ModalContent />
                 </Modal>
