@@ -10,7 +10,7 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 
 export default function Posts() {
-    
+   
     
     console.log('1 Функция Posts отработалась')
 
@@ -61,12 +61,13 @@ export default function Posts() {
     ];
 
     const showPosts = myposts.map((item, index) => (
+     
         <Post key={index} post={item} />    
     ));
 
     return (
         <div className='profile flex'>
-            
+          
             {showPosts}
         </div>
     );

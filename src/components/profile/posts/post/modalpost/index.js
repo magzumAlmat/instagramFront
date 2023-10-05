@@ -9,13 +9,18 @@ import share from '@/app/images/instagram-share-13421.svg';
 import save from '@/app/images/save-instagram-black-lineal-18315.svg';
 import emoji from '@/app/images/smartphone.webp';
 
-
+import { authSlice,authorize,logout } from '@/store/slices/authSlice'
+import { useSelector, useDispatch } from 'react-redux'
 export default function ModalPost ({post}) {
     console.log('post from modal post', post)
+  
+
+
 
 
     return (
             <div className="modal-post">
+               
                     <div className='modal-post-left'>
                         asd
                         <Image src={img} alt="alt" />

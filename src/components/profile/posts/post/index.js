@@ -6,6 +6,10 @@ import ModalPost from './modalpost'
 import { useState } from 'react'
 
 export default function Post({post}){
+
+ 
+
+    console.log('isAuth from redux=',isAuth)
     // console.log('3 Post=',post.mediaLinks)
     const [clickedPost, setClickedPost] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +34,7 @@ export default function Post({post}){
     return (
     
     <a className='profile-my-post'>
-
+       
     
         <Image 
             onClick={()=>{handleClick(post)}}
