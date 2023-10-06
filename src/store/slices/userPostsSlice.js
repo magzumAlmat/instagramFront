@@ -10,7 +10,8 @@ let initialState = {
     isAuth: false,
     currentUser: null,
     someVar: 'blah blah blah',
-    authToken: ''
+    authToken: '',
+    posts:{}
 }
 
 if (token) {
@@ -32,11 +33,44 @@ if (token) {
 }
 
 
-export const authSlice = createSlice({
-    name: 'auth',
+export const userPostsSlice = createSlice({
+    name: 'userposts',
     initialState,
 
     reducers: {
+        getUsersPosts:(state,data,action,currentUser)=>{
+            localStorage.setItem('token', action.payload.token)
+
+            axios.defaults.headers.common['Authorization'] = `Bearer${
+                action.payload.token
+            }`
+            const decoded = jwt_decode(action.payload.token);
+            state.currentUser = {
+                id: decoded.id,
+                email: decoded.email,
+                name: decoded.name,
+                username: decoded.username,
+                password: decoded.password
+            };
+            state.isAuth = true;
+
+            console.log('getUsersPosts - data=',data)
+            console.log('getUsersPosts - decoded=',currentUser.username)
+
+
+
+            state.posts={
+                commentaries,
+                creatorId,
+                description,
+                id,
+                likes,
+                mediaLinks,
+
+            }
+
+
+        },
         authorize: (state, action) => {
             localStorage.setItem('token', action.payload.token)
 
@@ -66,7 +100,37 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {authorize, logout, editVar} = authSlice.actions;
+export const {authorize, logout, editVar,getUsersPosts} = userPostsSlice.actions;
+
+export const getUsersPostsFunc = (decodedToken) => (dispatch) => {
+    console.log('getUsersPostsFunc STARTED')
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+    
+    try{
+        axios.post(`${END_POINT}/api/posts/byUsername/${decodedToken.username}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then((res) => {
+            dispatch(getUsersPosts(res.data));
+        });
+           }
+   
+       catch (error) {
+           // Handle errors, e.g., by returning an error object
+           throw error;
+         }
+};
+
+
 
 export const createUser = (email, name, password, username) => (dispatch) => {
     console.log('1 createUser запустился ', email, name, password, username);
@@ -104,5 +168,5 @@ export const logoutAction = () => (dispatch) => {
 };
 
 
-export default authSlice.reducer;
+export default userPostsSlice.reducer;
 

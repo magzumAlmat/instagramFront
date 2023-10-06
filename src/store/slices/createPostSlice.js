@@ -32,11 +32,41 @@ if (token) {
 }
 
 
-export const authSlice = createSlice({
-    name: 'auth',
+export const createPostSlice = createSlice({
+    name: 'createpost',
     initialState,
 
     reducers: {
+        createPost:(state)=>{
+            console.log('createpost reducer started')
+            localStorage.setItem('token', action.payload.token)
+
+            axios.defaults.headers.common['Authorization'] = `Bearer${
+                action.payload.token
+            }`
+            const decoded = jwt_decode(action.payload.token);
+            console.log('createPostReducer',decoded)
+            state.currentUser = {
+                id: decoded.id,
+                email: decoded.email,
+                name: decoded.name,
+                username: decoded.username,
+                password: decoded.password
+            };
+            
+            state.isAuth = true;
+
+            state.userPosts={
+
+            }
+           
+        },
+
+        getUsersPosts:(state)=>{
+            localStorage.setItem('token', action.payload.token)
+
+
+        },
         authorize: (state, action) => {
             localStorage.setItem('token', action.payload.token)
 
@@ -66,7 +96,60 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {authorize, logout, editVar} = authSlice.actions;
+export const {authorize, logout, editVar,createPost} = createPostSlice.actions;
+
+export const createPostFunc = (formData) => (dispatch) => {
+
+    console.log('1 createPostSlice | createPostFunc запустился ');
+    
+    for (const value of formData.values()) {
+        console.log('formData Values',value);
+      }
+  
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+    console.log('token from localstorage',token)
+
+    
+    try{
+     axios.post(`${END_POINT}/api/createpost`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+                .then((response) => {
+                    console.log('File uploaded successfully:', response.data);
+                })
+                .catch((error) => {
+                    console.error('Error uploading file:', error);
+                });
+        }
+
+    catch (error) {
+        // Handle errors, e.g., by returning an error object
+        throw error;
+      }
+    // axios.post(`${END_POINT}/api/posts/byUsername/`, {
+    //     email: email,
+    //     name: name,
+    //     username: username,
+    //     password: password
+    // }).then((res) => {
+    //     dispatch(authorize(res.data));
+    // });
+};
+
+
+
+
+
 
 export const createUser = (email, name, password, username) => (dispatch) => {
     console.log('1 createUser запустился ', email, name, password, username);
@@ -104,5 +187,5 @@ export const logoutAction = () => (dispatch) => {
 };
 
 
-export default authSlice.reducer;
+export default createPostSlice.reducer;
 
