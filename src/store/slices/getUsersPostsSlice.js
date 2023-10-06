@@ -38,7 +38,7 @@ export const userPostsSlice = createSlice({
     initialState,
 
     reducers: {
-        getUsersPosts:(state,data,action,currentUser)=>{
+        getUsersPostsReducer:(state,data,action,currentUser)=>{
             localStorage.setItem('token', action.payload.token)
 
             axios.defaults.headers.common['Authorization'] = `Bearer${
@@ -100,9 +100,9 @@ export const userPostsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {authorize, logout, editVar,getUsersPosts} = userPostsSlice.actions;
+export const {authorize, logout, editVar,getUsersPostsReducer} = userPostsSlice.actions;
 
-export const getUsersPostsFunc = (decodedToken) => (dispatch) => {
+export const getUsersPostsAction = (decodedToken) => (dispatch) => {
     console.log('getUsersPostsFunc STARTED')
     const token = localStorage.getItem("token");
 
@@ -169,4 +169,3 @@ export const logoutAction = () => (dispatch) => {
 
 
 export default userPostsSlice.reducer;
-

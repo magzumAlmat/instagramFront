@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
  export default function UserLogin() {
     const dispatch=useDispatch()
     const isAuth = useSelector((state) => state.auth.isAuth);
-    const someVar = useSelector((state) => state.auth.someVar);
+    // const someVar = useSelector((state) => state.auth.someVar);
     
     console.log('this is localstorage=',localStorage)
 

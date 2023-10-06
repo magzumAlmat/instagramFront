@@ -99,14 +99,17 @@ export const createPostSlice = createSlice({
 export const {authorize, logout, editVar,createPost} = createPostSlice.actions;
 
 export const createPostFunc = (formData) => (dispatch) => {
+    const token = localStorage.getItem("token");
+    console.log('2 token from localstorage',token)
 
     console.log('1 createPostSlice | createPostFunc запустился ');
     
     for (const value of formData.values()) {
         console.log('formData Values',value);
-      }
-  
-    const token = localStorage.getItem("token");
+    }
+      
+
+
 
     if (!token) {
         // Handle the case where the token is not available or invalid
@@ -114,7 +117,6 @@ export const createPostFunc = (formData) => (dispatch) => {
         return;
     }
 
-    console.log('token from localstorage',token)
 
     
     try{
@@ -188,4 +190,3 @@ export const logoutAction = () => (dispatch) => {
 
 
 export default createPostSlice.reducer;
-

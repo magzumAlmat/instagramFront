@@ -105,4 +105,3 @@ export const logoutAction = () => (dispatch) => {
 
 
 export default authSlice.reducer;
-

@@ -6,7 +6,7 @@ import shareLogo from '@/app/images/instagram-share-13421.svg';
 import saveLogo from '@/app/images/save-instagram-black-lineal-18315.svg';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
-import { getUsersPostsFunc } from '@/store/slices/userPostsSlice';
+// import { getUsersPostsFunc } from '@/store/slices/userPostsSlice';
 import { useDispatch } from 'react-redux';
 export default function RecommendedPost({post, users, myposts}) {
     const dispatch=useDispatch()
@@ -28,7 +28,7 @@ export default function RecommendedPost({post, users, myposts}) {
     let refreshedLikesCount=[]
     
 
-    dispatch(getUsersPostsFunc())
+    // dispatch(getUsersPostsFunc())
 
 
     myposts.map((item) => {
@@ -296,4 +296,3 @@ export default function RecommendedPost({post, users, myposts}) {
     );
 
 }
-
