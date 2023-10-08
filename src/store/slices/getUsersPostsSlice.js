@@ -1,43 +1,8 @@
-// // dataSlice.js
-
-// import { createSlice } from '@reduxjs/toolkit';
-
-// const initialState = {
-//   // Define your initial state here
-//   data: [],
-//   isLoading: false,
-//   error: null,
-// };
-
-// const dataSlice = createSlice({
-//   name: 'data',
-//   initialState,
-//   reducers: {
-//     fetchDataStart: (state) => {
-//       state.isLoading = true;
-//       state.error = null;
-//     },
-//     fetchDataSuccess: (state, action) => {
-//       state.data = action.payload;
-//       state.isLoading = false;
-//     },
-//     fetchDataFailure: (state, action) => {
-//       state.isLoading = false;
-//       state.error = action.payload;
-//     },
-//   },
-// });
-
-// export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } = dataSlice.actions;
-
-// export default dataSlice.reducer;
-
-
-
 import {createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
+import {useEffect} from 'react';
 
 
 const token = localStorage.getItem("token")
@@ -47,13 +12,14 @@ let initialState = {
     currentUser: null,
     someVar: 'blah blah blah',
     authToken: '',
-    posts:[],
-    isLoading: false,
+    posts: [],
+  
+    allPosts:[]
 }
 
 if (token) {
     let decodedToken = jwt_decode(token)
-    console.log('decodedToken from redux',decodedToken)
+    console.log('decodedToken from redux', decodedToken)
     initialState = {
         isAuth: true,
         currentUser: {
@@ -61,10 +27,11 @@ if (token) {
             email: decodedToken.email,
             name: decodedToken.name,
             password: decodedToken.password,
-            username: decodedToken.username,
+            username: decodedToken.username
         },
-    posts:[]
-    
+        posts: [],
+        allPosts:[]
+
     }
 } else {
     localStorage.removeItem("token")
@@ -72,97 +39,94 @@ if (token) {
 
 
 export const userPostsSlice = createSlice({
-    
+
     name: 'userposts',
     initialState,
 
     reducers: {
-        getUsersPostsReducer:(state,data)=>{
-     
-            console.log('data =',data.payload)
-         
-           
+        getUsersPostsReducer: (state, data) => {
 
-            
-            // localStorage.setItem('token', action.payload.token)
 
-            // axios.defaults.headers.common['Authorization'] = `Bearer${
-            //     action.payload.token
-            // }`
+            // console.log('data =', data.payload)
+            state.posts.push(...data.payload);
 
-            // const decoded = jwt_decode(action.payload.token);
-            // state.currentUser = {
-            //     id: decoded.id,
-            //     email: decoded.email,
-            //     name: decoded.name,
-            //     username: decoded.username,
-            //     password: decoded.password
-            // };
-            // state.isAuth = true;
-
-            // console.log('getUsersPosts - data=',data)
-            // console.log('getUsersPosts - decoded=',currentUser.username)
-
-          state.posts.push(...data.payload);
-
-         
-          
-
-        // console.log('!!!!!POSTS',posts)
-            
-            // state.posts = {
-            //     commentaries: postItems.commentaries,
-            //     creatorId: postItems.creatorId,
-            //     description:  postItems.description,
-            //     id: postItems.id,
-            //     likes:  postItems.likes,
-            //     mediaLinks: postItems.mediaLinks,
-            //   };
-
-            //   console.log('POSTS=',state.posts)
         },
 
-    
-//   },
-      
+        getAllUsersPostsReducer: (state, data) => {
+
+
+            console.log('AllPosts data =', data.payload)
+            state.allPosts.push(...data.payload);
+
+        }
+
+
     }
 });
 
-// Action creators are generated for each case reducer function
-export const {getUsersPostsReducer} = userPostsSlice.actions;
+
+export const {getUsersPostsReducer,getAllUsersPostsReducer} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
+
     console.log('1 getUsersPosts STARTED');
     const token = localStorage.getItem('token');
 
-    console.log('2 getUsersPosts token=', token);
+    // console.log('2 getUsersPosts token=', token);
     let decodedToken = jwt_decode(token)
-    console.log('3 getUsersPosts decoded=', decodedToken.username);
-  
-    if (!token) {
-      // Handle the case where the token is not available or invalid
-      console.error('Token not available');
-      return;
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+
+    if (! token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
     }
-  
+
 
     try {
-      const response = await axios.get(`${END_POINT}/api/posts/byUsername/${decodedToken.username}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('response from axios=',response.data)
-      dispatch(getUsersPostsReducer(response.data));
-      
-    } catch (error) {
-      // Handle errors, e.g., by returning an error object
-      throw error;
+        const response = await axios.get(`${END_POINT}/api/posts/byUsername/${
+            decodedToken.username
+        }`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        // console.log('response from axios=',response.data)
+        dispatch(getUsersPostsReducer(response.data));
+
+    } catch (error) { // Handle errors, e.g., by returning an error object
+        throw error;
     }
-  };
+};
+
+export const getAllUsersPostsAction=()=>async(dispatch)=>{
+    console.log('1 getAllUserPostsAction STARTED');
+    const token = localStorage.getItem('token');
+
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+
+    if (! token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
 
 
+    try {
+        const response = await axios.get(`${END_POINT}/api/post/all`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        // console.log('response from axios=',response.data)
+        dispatch(getAllUsersPostsReducer(response.data));
+
+    } catch (error) { // Handle errors, e.g., by returning an error object
+        throw error;
+    }
+}
 
 export const createUser = (email, name, password, username) => (dispatch) => {
     console.log('1 createUser запустился ', email, name, password, username);

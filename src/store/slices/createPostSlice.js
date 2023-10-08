@@ -47,7 +47,7 @@ export const createPostSlice = createSlice({
                 action.payload.token
             }`
             const decoded = jwt_decode(action.payload.token);
-            console.log('createPostReducer',decoded)
+            // console.log('createPostReducer',decoded)
             state.currentUser = {
                 id: decoded.id,
                 email: decoded.email,
@@ -65,7 +65,7 @@ export const createPostSlice = createSlice({
         },
 
         getUsersPostsReducer:(state,action,data)=>{
-            console.log('4 getUsersPosts STARTED')
+            // console.log('4 getUsersPosts STARTED')
             
             // useEffect(() => {
             //     if (token) {
@@ -144,10 +144,10 @@ export const createPostFunc = (formData) => (dispatch) => {
     const token = localStorage.getItem("token");
     console.log('2 token from localstorage',token)
 
-    console.log('1 createPostSlice | createPostFunc запустился ');
+    // console.log('1 createPostSlice | createPostFunc запустился ');
     
     for (const value of formData.values()) {
-        console.log('formData Values',value);
+        // console.log('formData Values',value);
     }
       
 
@@ -191,12 +191,12 @@ export const createPostFunc = (formData) => (dispatch) => {
 };
 
 export const getUsersPostsAction = () => async (dispatch) => {
-    console.log('1 getUsersPosts STARTED');
+    // console.log('1 getUsersPosts STARTED');
     const token = localStorage.getItem('token');
 
-    console.log('2 getUsersPosts token=', token);
+    // console.log('2 getUsersPosts token=', token);
     let decodedToken = jwt_decode(token)
-    console.log('3 getUsersPosts decoded=', decodedToken.username);
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
   
     if (!token) {
       // Handle the case where the token is not available or invalid
@@ -211,7 +211,7 @@ export const getUsersPostsAction = () => async (dispatch) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('response from axios=',response.data)
+    //   console.log('response from axios=',response.data)
       dispatch(getUsersPostsReducer(response.data));
       
     } catch (error) {
@@ -225,7 +225,7 @@ export const getUsersPostsAction = () => async (dispatch) => {
 
 
 export const createUser = (email, name, password, username) => (dispatch) => {
-    console.log('1 createUser запустился ', email, name, password, username);
+    // console.log('1 createUser запустился ', email, name, password, username);
 
     axios.post(`${END_POINT}/api/auth/createuser`, {
         email: email,
@@ -240,7 +240,7 @@ export const createUser = (email, name, password, username) => (dispatch) => {
 
 export const authUser = (email, password) => (dispatch) => {
     localStorage.removeItem("token")
-    console.log('1 createUser запустился ', email, password);
+    // console.log('1 createUser запустился ', email, password);
 
     axios.post(`${END_POINT}/api/auth/login`, {
         email: email,

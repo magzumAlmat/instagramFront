@@ -9,6 +9,7 @@ import {useEffect, useState} from 'react';
 // import { getUsersPostsFunc } from '@/store/slices/userPostsSlice';
 import { useDispatch,useSelector } from 'react-redux';
 import { getUsersPostsAction } from '@/store/slices/getUsersPostsSlice';
+import { getAllUsersPostsAction} from '@/store/slices/getUsersPostsSlice';
 // import {getUsersPostsAction} from '@/store/slices/createPostSlice'
 export default function RecommendedPost({post, users, myposts}) {
     const dispatch=useDispatch()
@@ -30,20 +31,22 @@ export default function RecommendedPost({post, users, myposts}) {
     let refreshedLikesCount=[]
     
     const posts = useSelector((state) => state.userposts.posts);
+    const allPosts = useSelector((state) => state.userposts.allPosts);
     // dispatch(getUsersPostsFunc())
     // console.log('isAuth from recommended posts',posts.currentUser.username)
     // dispatch(getUsersPostsAction())
     useEffect(() => {
-        // Dispatch the fetchData action when the component mounts
-        dispatch(getUsersPostsAction());
+        
+        // dispatch(getUsersPostsAction());
+        dispatch(getAllUsersPostsAction());
       }, [dispatch]);
 
 
-      console.log('posts from use Selector= ',posts)
+      console.log('posts from use Selector= ',allPosts)
     return (
         <>
             <div className="post">
-            {posts.map((item, index) => (
+            {/* {allPosts.map((item, index) => (
                 <div key={index}>
                 <h2>ID: {item.id}</h2>
                 <p>Description: {item.description}</p>
@@ -56,7 +59,16 @@ export default function RecommendedPost({post, users, myposts}) {
                     ))}
                 </ul>
                 </div>
-      ))}
+      ))} */}
+
+        {allPosts.map((item) => (
+                <li key={item.id}>
+                    <p>ID: {item.id}</p>
+                    <p>Description: {item.description}</p>
+                    <p>Creator ID: {item.creatorId}</p>
+                   
+                </li>
+                ))}
             </div>
 
 

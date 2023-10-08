@@ -24,9 +24,9 @@ export default function ReccomendedPosts() {
     const [users, setUsers] = useState([]);
     const url = 'http://157.245.193.184:3002/';
 
-    console.log('isAuth from recommended Posts',isAuth)
-    console.log('isAuth from recommended someVar',someVar)
-    console.log('posts from recommended posts',posts)
+    // console.log('isAuth from recommended Posts',isAuth)
+    // console.log('isAuth from recommended someVar',someVar)
+    // console.log('posts from recommended posts',posts)
 
 
     dispatch(getUsersPostsAction())
