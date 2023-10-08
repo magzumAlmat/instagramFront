@@ -77,7 +77,7 @@ export default function ProfilePage() {
                         <div className='profile-info justify-content: space-around;'>
                             <div className='flex gap'>
                                 <span className='username'>{currentUser.username}</span>
-                                <button className='follow-button button button-primary' style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px', 'margin': '4px 16px;' }}>Follow</button>
+                                <button className='follow-button button button-primary' style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}>Follow</button>
                                 <a className='text-d-n username' href="">...</a>
                             </div>
                             <div className='flex gap'>

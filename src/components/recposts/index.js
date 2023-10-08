@@ -5,7 +5,7 @@ import RecommendedPost from './recpost/RecommendedPost';
 import { authSlice,editVar,logout } from '@/store/slices/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { authorize ,createUser,authUser} from '@/store/slices/authSlice'
-import { getUsersPostsReducer} from '@/store/slices/userPostsSlice';
+// import { getUsersPostsReducer} from '@/store/slices/userPostsSlice';
 
 import { useRouter } from 'next/navigation'
 export default function ReccomendedPosts() {
@@ -20,7 +20,7 @@ export default function ReccomendedPosts() {
     const [users, setUsers] = useState([]);
     const url = 'http://157.245.193.184:3002/';
 
-    dispatch(getUsersPostsReducer())
+    // dispatch(getUsersPostsReducer())
     useEffect(() => {
         
            

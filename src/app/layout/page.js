@@ -107,8 +107,8 @@ export default function LayoutPage() {
                 </div>
             </div>
             <div className='layout-right'>
-            <h3>{console.log('1  isCurrentUser=',isCurrentUser)}
-            </h3>   <h3>{console.log('1  isAuth=',isAuth)}</h3>
+          
+            <h3>{console.log('1  isAuth=',isAuth)}</h3>
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <ModalContent />
                 </Modal>
