@@ -4,6 +4,7 @@ import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
 
 
+
 const token = localStorage.getItem("token")
 
 let initialState = {
@@ -24,7 +25,8 @@ if (token) {
             name: decodedToken.name,
             password: decodedToken.password,
             username: decodedToken.username,
-        }
+        },
+        posts:{},
     }
 } else {
     localStorage.removeItem("token")
@@ -62,11 +64,50 @@ export const createPostSlice = createSlice({
            
         },
 
-        getUsersPosts:(state)=>{
+        getUsersPostsReducer:(state,action,data)=>{
+            console.log('4 getUsersPosts STARTED')
+            
+            // useEffect(() => {
+            //     if (token) {
+            //       let decodedToken = jwt_decode(token);
+            //       initialState.isAuth = true;
+            //       initialState.currentUser = {
+            //         id: decodedToken.id,
+            //         email: decodedToken.email,
+            //         name: decodedToken.name,
+            //         password: decodedToken.password,
+            //         username: decodedToken.username,
+            //       };
+            //       initialState.posts={
+            //         sfd:'afsdfsd'
+            //       }
+            //     } else {
+            //       localStorage.removeItem('token');
+            //     }
+            //   }, [token]);
             localStorage.setItem('token', action.payload.token)
 
+            axios.defaults.headers.common['Authorization'] = `Bearer${
+                action.payload.token
+            }`
+            const decoded = jwt_decode(action.payload.token);
+
+            state.currentUser = {
+                id: decoded.id,
+                email: decoded.email,
+                name: decoded.name,
+                username: decoded.username,
+                password: decoded.password
+            };
+            state.isAuth = true;
+            
+            
+            
+
+          
 
         },
+
         authorize: (state, action) => {
             localStorage.setItem('token', action.payload.token)
 
@@ -96,7 +137,8 @@ export const createPostSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {authorize, logout, editVar,createPost} = createPostSlice.actions;
+
+export const {authorize, logout, editVar,createPost,getUsersPostsReducer} = createPostSlice.actions;
 
 export const createPostFunc = (formData) => (dispatch) => {
     const token = localStorage.getItem("token");
@@ -148,6 +190,35 @@ export const createPostFunc = (formData) => (dispatch) => {
     // });
 };
 
+export const getUsersPostsAction = () => async (dispatch) => {
+    console.log('1 getUsersPosts STARTED');
+    const token = localStorage.getItem('token');
+
+    console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    console.log('3 getUsersPosts decoded=', decodedToken.username);
+  
+    if (!token) {
+      // Handle the case where the token is not available or invalid
+      console.error('Token not available');
+      return;
+    }
+  
+    try {
+      const response = await axios.get(`${END_POINT}/api/posts/byUsername/${decodedToken.username}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('response from axios=',response.data)
+      dispatch(getUsersPostsReducer(response.data));
+      
+    } catch (error) {
+      // Handle errors, e.g., by returning an error object
+      throw error;
+    }
+  };
 
 
 

@@ -7,7 +7,9 @@ import saveLogo from '@/app/images/save-instagram-black-lineal-18315.svg';
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 // import { getUsersPostsFunc } from '@/store/slices/userPostsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import { getUsersPostsAction } from '@/store/slices/getUsersPostsSlice';
+// import {getUsersPostsAction} from '@/store/slices/createPostSlice'
 export default function RecommendedPost({post, users, myposts}) {
     const dispatch=useDispatch()
 
@@ -27,14 +29,34 @@ export default function RecommendedPost({post, users, myposts}) {
     const arrayOfarrays = [];
     let refreshedLikesCount=[]
     
-
+    const posts = useSelector((state) => state.userposts.posts);
     // dispatch(getUsersPostsFunc())
+    // console.log('isAuth from recommended posts',posts.currentUser.username)
+    // dispatch(getUsersPostsAction())
+    useEffect(() => {
+        // Dispatch the fetchData action when the component mounts
+        dispatch(getUsersPostsAction());
+      }, [dispatch]);
 
 
+      console.log('posts from use Selector= ',posts)
     return (
         <>
             <div className="post">
-              
+            {posts.map((item, index) => (
+                <div key={index}>
+                <h2>ID: {item.id}</h2>
+                <p>Description: {item.description}</p>
+                <p>Creator ID: {item.creatorId}</p>
+                <ul>
+                    {item.mediaLinks.map((link, linkIndex) => (
+                    <li key={linkIndex}>
+                        Media Link {linkIndex + 1}: {link}
+                    </li>
+                    ))}
+                </ul>
+                </div>
+      ))}
             </div>
 
 
