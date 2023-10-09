@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 import axios from 'axios';
 import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
@@ -11,6 +11,7 @@ const initialState = {
   someVar: 'blah blah blah',
   authToken: '',
 };
+const token = localStorage.getItem('token');
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -19,8 +20,8 @@ export const authSlice = createSlice({
   reducers: {
     authorize: (state, action) => {
       localStorage.setItem('token', action.payload.token);
-
-      axios.defaults.headers.common['Authorization'] = `Bearer${action.payload.token}`;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+      // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
       const decoded = jwt_decode(action.payload.token);
 
       state.currentUser = {
@@ -34,7 +35,8 @@ export const authSlice = createSlice({
     },
 
     login: (state, action) => {
-      localStorage.setItem('token', action.payload.token);
+      console.log('Login Reducer started! ')
+      localStorage.setItem("token", action.payload.token);
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`; // Add space after 'Bearer'
       const decoded = jwt_decode(action.payload.token);
@@ -47,7 +49,9 @@ export const authSlice = createSlice({
         password: decoded.password,
       };
       state.isAuth = true;
+    console.log('curr user',state.currentUser)
     },
+
 
 
     logout: (state) => {
@@ -65,36 +69,42 @@ export const { authorize, logout, editVar,login } = authSlice.actions;
 
 // Use useEffect for token initialization
 export const useTokenInitialization = () => {
-  const token = localStorage.getItem('token');
-  const dispatch = useDispatch(); // Create a dispatch function
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (token) {
       let decodedToken = jwt_decode(token);
-      initialState.isAuth = true;
-      initialState.currentUser = {
-        id: decodedToken.id,
-        email: decodedToken.email,
-        name: decodedToken.name,
-        password: decodedToken.password,
-        username: decodedToken.username,
+
+      // Create a new state object and set properties
+      const newState = {
+        ...initialState,
+        isAuth: true,
+        currentUser: {
+          id: decodedToken.id,
+          email: decodedToken.email,
+          name: decodedToken.name,
+          password: decodedToken.password,
+          username: decodedToken.username,
+        },
       };
+
       axios.post(`${END_POINT}/api/auth/login`, {
-        email: decodedToken.email, // Use the decoded email
-        password: decodedToken.password, // Use the decoded password
+        email: decodedToken.email,
+        password: decodedToken.password,
       }).then((res) => {
-        dispatch(login(res.data)); // Dispatch the login action
+        dispatch(login(res.data));
       });
+
+      // Dispatch the login action with the new state
+      dispatch(login(newState));
     } else {
       localStorage.removeItem('token');
     }
-  }, [token, dispatch]); // Include dispatch as a dependency
+  }, [token, dispatch]);
 
   console.log('Token не найден');
   return null;
 };
-
-
 
 
 
@@ -111,6 +121,8 @@ export const createUser = (email, name, password, username) => (dispatch) => {
     password: password,
   }).then((res) => {
     dispatch(authorize(res.data));
+  }).catch((error)=>{
+    console.log('error')
   });
 };
 

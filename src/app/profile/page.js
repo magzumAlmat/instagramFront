@@ -63,7 +63,7 @@ export default function ProfilePage() {
         <Header />
         {isAuth ? (
             <>
-                <button onClick={doLogOutUser}>EXIT</button>
+                {/* <button onClick={doLogOutUser}>EXIT</button> */}
                 <div className="profile-container">
                     <div className='profile flex jc-c ai-c'>
                         <div className='profile-image'>

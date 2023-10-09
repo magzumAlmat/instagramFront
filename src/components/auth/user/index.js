@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authorize ,createUser,authUser} from '@/store/slices/authSlice'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { useTokenInitialization } from '@/store/slices/authSlice'
  export default function UserLogin() {
+    
     const dispatch=useDispatch()
     const isAuth = useSelector((state) => state.auth.isAuth);
     // const someVar = useSelector((state) => state.auth.someVar);
@@ -29,16 +30,19 @@ import { useRouter } from 'next/navigation'
     const doAuthUser=()=>{
         console.log('doAuthteUser запустился ',email,password)
         dispatch(authUser(email,password))
-        
+        if (isAuth === true) {
+            router.push('/layout');
+          }
+    
        
     }
-
+    
     useEffect(() => {
+
+        // useTokenInitialization();
         // Redirect to '/layout' when isAuth becomes true
-        if (isAuth === true) {
-          router.push('/layout');
-        }
-      }, [isAuth, router]); 
+      
+      }, []); 
 
 
     return (

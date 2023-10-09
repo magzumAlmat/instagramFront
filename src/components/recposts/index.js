@@ -29,10 +29,10 @@ export default function ReccomendedPosts() {
     // console.log('posts from recommended posts',posts)
 
 
-    dispatch(getUsersPostsAction())
+    // dispatch(getUsersPostsAction())
 
     useEffect(() => {
-        dispatch(getUsersPostsAction())
+        // dispatch(getUsersPostsAction())
         // const fetchMyPosts = async () => {
         //     try {
         //         const users = await axios.get('http://157.245.193.184:3002/api/getallusers', {
@@ -59,7 +59,7 @@ export default function ReccomendedPosts() {
 
         
         // fetchMyPosts();
-    }, [dispatch]);
+    }, []);
 
 
 

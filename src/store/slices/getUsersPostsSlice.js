@@ -59,11 +59,11 @@ export const userPostsSlice = createSlice({
 
         getAllUsersPostsReducer: (state, data) => {
 
-
+            // state.allPosts.push(null)
             console.log('11111AllPosts data =', data.payload)
-            console.log('22222AllPosts data =', data.payload)
             state.allPosts.push(...data.payload);
-            state.countOfLikes.push(...data.payload)
+
+            
 
         },
         getAllUsersReducer: (state, data) => {
@@ -126,11 +126,10 @@ export const getAllUsersPostsAction=()=>async(dispatch)=>{
     let decodedToken = jwt_decode(token)
     // console.log('3 getUsersPosts decoded=', decodedToken.username);
 
-    if (! token) { // Handle the case where the token is not available or invalid
+    if (!token) { // Handle the case where the token is not available or invalid
         console.error('Token not available');
         return;
     }
-
 
     try {
         const response = await axios.get(`${END_POINT}/api/post/all`, {

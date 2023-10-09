@@ -12,7 +12,7 @@ import {getUsersPostsAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersPostsAction,addPostLikeAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
 // import {getUsersPostsAction} from '@/store/slices/createPostSlice'
-export default function RecommendedPost({post, users, myposts}) {
+export default function RecommendedPost() {
     const dispatch = useDispatch()
 
     const [postId, setPostId] = useState(0);
@@ -29,7 +29,7 @@ export default function RecommendedPost({post, users, myposts}) {
     const arrayOfMedialinks = [];
     const arrayOfAuthorPosts = [];
     const arrayOfarrays = [];
-    let refreshedLikesCount = []
+    
 
     // const posts = useSelector((state) => state.userposts.posts);
     const allPosts = useSelector((state) => state.userposts.allPosts);
@@ -62,7 +62,7 @@ export default function RecommendedPost({post, users, myposts}) {
 
     const renderUserPosts = (user) => {
 
-        const userPosts = allPosts.filter((post) => post.creatorId === user.id);
+        const userPosts = allPosts.filter((post) =>  user.id===post.creatorId );
         const PostComments = allPosts.filter((post) => post.commentaries);
         
         // const PostLikes = allPosts.filter((post) => post);
@@ -71,10 +71,11 @@ export default function RecommendedPost({post, users, myposts}) {
 
 
         return userPosts.map((post) => (
-            arrayofLikes.map((likes,index)=>(
+
+           
 
           
-          <div key={post.id}>
+          <div key={post.id} >
             <p>{user.username}</p>
             <Image
               src={`${host}/${post.mediaLinks}`}
@@ -124,7 +125,7 @@ export default function RecommendedPost({post, users, myposts}) {
                                     {/* {arrayofLikes.map((i)=>(<span>{i}</span>))} */}
                                     
                                    
-                                    <span key={index}>{likes} отметок "Нравится"</span>
+                                    <span >{post.likes.length} отметок "Нравится"</span>
                                         
                                             {/* {post.likes.map((postLikes)=>{
                                                 let postLikesArray=[]
@@ -168,7 +169,7 @@ export default function RecommendedPost({post, users, myposts}) {
           </div>
         ),
         
-            ))
+             
      );
         
       };
@@ -193,7 +194,7 @@ export default function RecommendedPost({post, users, myposts}) {
 
             <div className="post">
                     {allUsers.map((user) => (
-                    <div key={user.id}>
+                    <div >
                         {renderUserPosts(user)}
                     </div>
                     ))}

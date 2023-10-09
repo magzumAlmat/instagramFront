@@ -250,7 +250,7 @@ export default function ModalContent () {
                             </div>
                             <div className='modal-content-edit'>
                                 <div className='left-column'>
-                                    <img src={URL.createObjectURL(selectedFile)} alt="" />
+                                    <img src={URL.createObjectURL(selectedFile)} alt="asdad" />
                                 </div>
                                 <div className='right-column'>
                                     <p>User</p>
