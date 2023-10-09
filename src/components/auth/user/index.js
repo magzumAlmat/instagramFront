@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authorize ,createUser,authUser} from '@/store/slices/authSlice'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+
  export default function UserLogin() {
     const dispatch=useDispatch()
     const isAuth = useSelector((state) => state.auth.isAuth);
@@ -23,21 +24,21 @@ import { useRouter } from 'next/navigation'
   
  
 
-    console.log('thisis isAuth from login= ',isAuth)
+    console.log('isAuth from login= ',isAuth)
+
     const doAuthUser=()=>{
-        console.log('doCreateUser запустился ',email,password)
+        console.log('doAuthteUser запустился ',email,password)
         dispatch(authUser(email,password))
         
-        if(isAuth===true){
-            router.push('/layout')
-        }
-    }
-
-    useEffect(()=>{
        
     }
-    ,[])
 
+    useEffect(() => {
+        // Redirect to '/layout' when isAuth becomes true
+        if (isAuth === true) {
+          router.push('/layout');
+        }
+      }, [isAuth, router]); 
 
 
     return (

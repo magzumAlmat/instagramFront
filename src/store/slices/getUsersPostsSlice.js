@@ -14,12 +14,14 @@ let initialState = {
     authToken: '',
     posts: [],
   
-    allPosts:[]
+    allPosts:[],
+    allUsers:[],
+    countOfLikes:[]
 }
 
 if (token) {
     let decodedToken = jwt_decode(token)
-    console.log('decodedToken from redux', decodedToken)
+    // console.log('decodedToken from redux', decodedToken)
     initialState = {
         isAuth: true,
         currentUser: {
@@ -30,7 +32,9 @@ if (token) {
             username: decodedToken.username
         },
         posts: [],
-        allPosts:[]
+        allPosts:[],
+        allUsers:[],
+        countOfLikes:[]
 
     }
 } else {
@@ -50,22 +54,37 @@ export const userPostsSlice = createSlice({
             // console.log('data =', data.payload)
             state.posts.push(...data.payload);
 
+
         },
 
         getAllUsersPostsReducer: (state, data) => {
 
 
-            console.log('AllPosts data =', data.payload)
+            console.log('11111AllPosts data =', data.payload)
+            console.log('22222AllPosts data =', data.payload)
             state.allPosts.push(...data.payload);
+            state.countOfLikes.push(...data.payload)
+
+        },
+        getAllUsersReducer: (state, data) => {
+            // console.log('AllUsers data =', data.payload)
+            state.allUsers.push(...data.payload);
+
+        },
+        addPostLikeReducer: (state, data) => {
+            console.log('4 AllLikes data =', data.payload)
+            // state.countOfLikes.push(data)
+            // state.allUsers.push(...data.payload);
 
         }
+
 
 
     }
 });
 
 
-export const {getUsersPostsReducer,getAllUsersPostsReducer} = userPostsSlice.actions;
+export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
 
@@ -127,6 +146,75 @@ export const getAllUsersPostsAction=()=>async(dispatch)=>{
         throw error;
     }
 }
+
+export const getAllUsersAction=()=>async(dispatch)=>{
+    console.log('1 getAllUserPostsAction STARTED');
+    const token = localStorage.getItem('token');
+
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+
+    if (! token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+
+    try {
+        const response = await axios.get(`${END_POINT}/api/getallusers`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        // console.log('response from axios=',response.data)
+        dispatch(getAllUsersReducer(response.data));
+
+    } catch (error) { // Handle errors, e.g., by returning an error object
+        throw error;
+    }
+}
+
+export const addPostLikeAction=(post)=> async (dispatch)=>{
+    console.log('1 addPostLikeAction STARTED',post);
+    const postId=String(post.id)
+    console.log('2 addPostLikeAction POSTID',postId);
+
+    const token = localStorage.getItem('token');
+
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+
+    if (! token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+
+    try {
+        const response = await axios.post(`${END_POINT}/api/like/post/${post.id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log('3 addPostLikeAction response from axios=',response.data)
+        dispatch(addPostLikeReducer(response.data));
+
+
+    } catch (error) { // Handle errors, e.g., by returning an error object
+        throw error;
+    }
+}
+
+
+
+
+
+
+
 
 export const createUser = (email, name, password, username) => (dispatch) => {
     console.log('1 createUser запустился ', email, name, password, username);

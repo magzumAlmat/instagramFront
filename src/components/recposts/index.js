@@ -32,34 +32,34 @@ export default function ReccomendedPosts() {
     dispatch(getUsersPostsAction())
 
     useEffect(() => {
+        dispatch(getUsersPostsAction())
+        // const fetchMyPosts = async () => {
+        //     try {
+        //         const users = await axios.get('http://157.245.193.184:3002/api/getallusers', {
+        //                 headers: {
+        //                     'Authorization': `Bearer ${authToken}`
+        //                 }
+        //         })
+
+        //         const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+        //             headers: {
+        //                 'Authorization': `Bearer ${authToken}`
+        //             }
+        //         });
+        //         setUsers(users.data);
+
+                
+                
+        //         setMyPosts(response.data);
+        //     } catch (error) {
+                
+        //         console.error('Error fetching posts:', error);
+        //     }
+        // };
+
         
-        const fetchMyPosts = async () => {
-            try {
-                const users = await axios.get('http://157.245.193.184:3002/api/getallusers', {
-                        headers: {
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                })
-
-                const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
-                setUsers(users.data);
-
-                
-                
-                setMyPosts(response.data);
-            } catch (error) {
-                
-                console.error('Error fetching posts:', error);
-            }
-        };
-
-        
-        fetchMyPosts();
-    }, [authToken]);
+        // fetchMyPosts();
+    }, [dispatch]);
 
 
 
