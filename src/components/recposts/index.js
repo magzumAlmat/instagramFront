@@ -5,7 +5,7 @@ import RecommendedPost from './recpost/RecommendedPost';
 import { authSlice,editVar,logout } from '@/store/slices/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { authorize ,createUser,authUser} from '@/store/slices/authSlice'
-// import { getUsersPostsReducer} from '@/store/slices/userPostsSlice';
+
 import getUsersPostsReducer from "@/store/slices/getUsersPostsSlice";
 import { useRouter } from 'next/navigation'
 
@@ -29,10 +29,10 @@ export default function ReccomendedPosts() {
     // console.log('posts from recommended posts',posts)
 
 
-    // dispatch(getUsersPostsAction())
+    //  dispatch(getUsersPostsAction())
 
     useEffect(() => {
-        // dispatch(getUsersPostsAction())
+        
         // const fetchMyPosts = async () => {
         //     try {
         //         const users = await axios.get('http://157.245.193.184:3002/api/getallusers', {

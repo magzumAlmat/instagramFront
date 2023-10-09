@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, current} from '@reduxjs/toolkit';
 import axios from 'axios';
 import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
@@ -16,7 +16,8 @@ let initialState = {
   
     allPosts:[],
     allUsers:[],
-    countOfLikes:[]
+    countOfLikes:[],
+    userPosts:[]
 }
 
 if (token) {
@@ -34,7 +35,8 @@ if (token) {
         posts: [],
         allPosts:[],
         allUsers:[],
-        countOfLikes:[]
+        countOfLikes:[],
+        userPosts:[]
 
     }
 } else {
@@ -49,14 +51,16 @@ export const userPostsSlice = createSlice({
 
     reducers: {
         getUsersPostsReducer: (state, data) => {
-
-
-            // console.log('data =', data.payload)
-            state.posts.push(...data.payload);
-
+            console.log('1 getUsersPostsReducer started   =', data.payload)
+            console.log('current YSER in getUsersPostsReducer ',currentUser)
+            localStorage.setItem("token", currentUser);
+            state.userPosts.push(...data.payload);
+            console.log('localstorage get item in  getUsersPostsReducer',localStorage.getItem("token"))
 
         },
-
+        showAllUserPostsReducer: (state, data) => {
+            state.userPosts.push(...data.payload);
+        },
         getAllUsersPostsReducer: (state, data) => {
 
             // state.allPosts.push(null)
@@ -84,18 +88,21 @@ export const userPostsSlice = createSlice({
 });
 
 
-export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer} = userPostsSlice.actions;
+export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, showAllUserPostsReducer} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
+    // if(token){
+    //     localStorage.removeItem("token")
+    // }
 
-    console.log('1 getUsersPosts STARTED');
+    console.log('1 getUsersPosts STARTED',token);
     const token = localStorage.getItem('token');
 
-    // console.log('2 getUsersPosts token=', token);
+    console.log('2 getUsersPosts token=', token);
     let decodedToken = jwt_decode(token)
     // console.log('3 getUsersPosts decoded=', decodedToken.username);
 
-    if (! token) { // Handle the case where the token is not available or invalid
+    if (!token) { // Handle the case where the token is not available or invalid
         console.error('Token not available');
         return;
     }
@@ -121,7 +128,7 @@ export const getUsersPostsAction = () => async (dispatch) => {
 export const getAllUsersPostsAction=()=>async(dispatch)=>{
     console.log('1 getAllUserPostsAction STARTED');
     const token = localStorage.getItem('token');
-
+    
     // console.log('2 getUsersPosts token=', token);
     let decodedToken = jwt_decode(token)
     // console.log('3 getUsersPosts decoded=', decodedToken.username);
@@ -151,28 +158,36 @@ export const getAllUsersAction=()=>async(dispatch)=>{
     const token = localStorage.getItem('token');
 
     // console.log('2 getUsersPosts token=', token);
-    let decodedToken = jwt_decode(token)
+    // let decodedToken = jwt_decode(token)
     // console.log('3 getUsersPosts decoded=', decodedToken.username);
 
-    if (! token) { // Handle the case where the token is not available or invalid
+    if (!token) { // Handle the case where the token is not available or invalid
         console.error('Token not available');
         return;
     }
 
 
-    try {
-        const response = await axios.get(`${END_POINT}/api/getallusers`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        // console.log('response from axios=',response.data)
-        dispatch(getAllUsersReducer(response.data));
+    const response = await axios.get(`${END_POINT}/api/getallusers`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    console.log('response from axios=',response.data)
+    dispatch(getAllUsersReducer(response.data));
 
-    } catch (error) { // Handle errors, e.g., by returning an error object
-        throw error;
-    }
+    
+}
+
+export const showAllUserPosts = () => async (dispatch) => {
+    const token = localStorage.getItem("token");
+    const response = await axios.get('http://157.245.193.184:3002/api/post', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                console.log('response data', response.data)
+                dispatch(showAllUserPostsReducer(response.data))
 }
 
 export const addPostLikeAction=(post)=> async (dispatch)=>{
@@ -192,20 +207,18 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
     }
 
 
-    try {
-        const response = await axios.post(`${END_POINT}/api/like/post/${post.id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        console.log('3 addPostLikeAction response from axios=',response.data)
-        dispatch(addPostLikeReducer(response.data));
+    
+    const response = await axios.post(`${END_POINT}/api/like/post/${post.id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    console.log('3 addPostLikeAction response from axios=',response.data)
+    dispatch(addPostLikeReducer(response.data));
 
 
-    } catch (error) { // Handle errors, e.g., by returning an error object
-        throw error;
-    }
+    
 }
 
 

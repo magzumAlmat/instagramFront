@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getUsersPostsAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersPostsAction,addPostLikeAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
-// import {getUsersPostsAction} from '@/store/slices/createPostSlice'
+
 export default function RecommendedPost() {
     const dispatch = useDispatch()
 
@@ -70,12 +70,12 @@ export default function RecommendedPost() {
 
 
 
-        return userPosts.map((post) => (
+        return userPosts.map((post, index) => (
 
            
 
           
-          <div key={post.id} >
+          <div key={index} >
             <p>{user.username}</p>
             <Image
               src={`${host}/${post.mediaLinks}`}
@@ -154,11 +154,11 @@ export default function RecommendedPost() {
                     <span> {user.username} {post.description} </span>
             </div>
             {/* <h1>{PostComments}</h1>  */}
-            {post.commentaries.map((commentaries)=>(
+            {post.commentaries.map((commentaries, index)=>(
                  console.log('post -',user.username,'has comments= ',commentaries.commentary),
                 
                  <div className="comments">
-                    <span>{user.username}</span>
+                    <span key={index}>{user.username}</span>
                     <h6 className='comment-text'>{commentaries.commentary}</h6>
                  </div>
                 

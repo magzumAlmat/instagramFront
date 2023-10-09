@@ -7,12 +7,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { authorize ,createUser,authUser} from '@/store/slices/authSlice'
 import { useState,useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useTokenInitialization } from '@/store/slices/authSlice'
  export default function UserLogin() {
-    
     const dispatch=useDispatch()
     const isAuth = useSelector((state) => state.auth.isAuth);
-    // const someVar = useSelector((state) => state.auth.someVar);
+    const someVar = useSelector((state) => state.auth.someVar);
     
     console.log('this is localstorage=',localStorage)
 
@@ -25,24 +23,22 @@ import { useTokenInitialization } from '@/store/slices/authSlice'
   
  
 
-    console.log('isAuth from login= ',isAuth)
-
+    console.log('thisis isAuth from login= ',isAuth)
     const doAuthUser=()=>{
-        console.log('doAuthteUser запустился ',email,password)
+        console.log('doCreateUser запустился ',email,password)
         dispatch(authUser(email,password))
-        if (isAuth === true) {
-            router.push('/layout');
-          }
-    
+        
+        
+    }
+
+    if(isAuth===true){
+        router.push('/layout')
+    }
+    useEffect(()=>{
        
     }
-    
-    useEffect(() => {
+    ,[])
 
-        // useTokenInitialization();
-        // Redirect to '/layout' when isAuth becomes true
-      
-      }, []); 
 
 
     return (

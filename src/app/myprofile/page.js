@@ -5,9 +5,26 @@ import Posts from '@/components/profile/posts'
 import profilePic from '@/app/images/profile-pic.png'
 import Profile from "@/components/profile";
 import settingsLogo from '@/app/images/back-arrow.svg';
-
+import { useEffect } from 'react'
+import { authorize } from '@/store/slices/authSlice'
 
 export default function MyProfilePage() {
+    const isAuth = useSelector((state) => state.auth.isAuth);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        const token=localStorage.getItem('token')
+        console.log('22pofile token',token)
+        if(token){
+            let decodedToken=jwtDecode(token)
+            dispatch(authorize({token}))
+        }
+        else{
+            localStorage.removeItem('token')
+        }
+    },[])  
+    
     return (
         <main>
             <Header/>

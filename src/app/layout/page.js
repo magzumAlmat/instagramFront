@@ -17,7 +17,27 @@ import {useState} from "react";
 import ModalContent from "@/components/createpost/modalcontent";
 import Modal from "@/components/createpost";
 import { useSelector,useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { authorize } from '@/store/slices/authSlice'
+import jwtDecode from 'jwt-decode'
 export default function LayoutPage() {
+
+    
+    const currentUser = useSelector((state) => state.auth.currentUser);
+
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        const token=localStorage.getItem('token')
+        console.log('22pofile token',token)
+        if(token){
+            let decodedToken=jwtDecode(token)
+            dispatch(authorize({token}))
+        }
+        else{
+            localStorage.removeItem('token')
+        }
+    },[])  
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeSection, setActiveSection] = useState("Home");
     const isCurrentUser=useSelector((state)=>{state.auth.isCurrentUser})

@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 
 const token = localStorage.getItem("token")
-
+console.log('Token from create post slice:', token)
 let initialState = {
     isAuth: false,
     currentUser: null,
@@ -35,11 +35,13 @@ if (token) {
 
 
 export const createPostSlice = createSlice({
+    
     name: 'createpost',
     initialState,
 
     reducers: {
         createPost:(state)=>{
+            console.log('Token from create post slice:', token)
             console.log('createpost reducer started')
             localStorage.setItem('token', action.payload.token)
 
