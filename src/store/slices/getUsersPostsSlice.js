@@ -10,7 +10,7 @@ const token = localStorage.getItem("token")
 let initialState = {
     isAuth: false,
     currentUser: null,
-    someVar: 'blah blah blah',
+    someVar: '111111111111111111',
     authToken: '',
     posts: [],
   
@@ -36,7 +36,8 @@ if (token) {
         allPosts:[],
         allUsers:[],
         countOfLikes:[],
-        userPosts:[]
+        userPosts:[],
+        someVar: '1111111111111111112',
 
     }
 } else {
@@ -50,6 +51,14 @@ export const userPostsSlice = createSlice({
     initialState,
 
     reducers: {
+        updatePostLikes: (state, action) => {
+            // Update the likes count for a specific post
+            const { postId, likesCount } = action.payload;
+            const post = state.allPosts.find((post) => post.id === postId);
+            if (post) {
+              post.likesCount = likesCount;
+            }
+          },
         getUsersPostsReducer: (state, data) => {
             console.log('1 getUsersPostsReducer started   =', data.payload)
             console.log('current YSER in getUsersPostsReducer ',currentUser)
@@ -66,9 +75,6 @@ export const userPostsSlice = createSlice({
             // state.allPosts.push(null)
             console.log('11111AllPosts data =', data.payload)
             state.allPosts.push(...data.payload);
-
-            
-
         },
         getAllUsersReducer: (state, data) => {
             // console.log('AllUsers data =', data.payload)
@@ -79,16 +85,16 @@ export const userPostsSlice = createSlice({
             console.log('4 AllLikes data =', data.payload)
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
-
-        }
-
+            // state.someVar=data.payload
 
 
-    }
-});
+
+        },
+     
+}});
 
 
-export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, showAllUserPostsReducer} = userPostsSlice.actions;
+export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, showAllUserPostsReducer,updatePostLikes} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
     // if(token){
@@ -127,6 +133,7 @@ export const getUsersPostsAction = () => async (dispatch) => {
 
 export const getAllUsersPostsAction=()=>async(dispatch)=>{
     console.log('1 getAllUserPostsAction STARTED');
+    
     const token = localStorage.getItem('token');
     
     // console.log('2 getUsersPosts token=', token);
@@ -153,8 +160,10 @@ export const getAllUsersPostsAction=()=>async(dispatch)=>{
     }
 }
 
+
+
 export const getAllUsersAction=()=>async(dispatch)=>{
-    console.log('1 getAllUserPostsAction STARTED');
+    // console.log('1 getAllUserPostsAction STARTED');
     const token = localStorage.getItem('token');
 
     // console.log('2 getUsersPosts token=', token);
@@ -173,7 +182,7 @@ export const getAllUsersAction=()=>async(dispatch)=>{
             'Content-Type': 'multipart/form-data'
         }
     });
-    console.log('response from axios=',response.data)
+    // console.log('response from axios=',response.data)
     dispatch(getAllUsersReducer(response.data));
 
     
@@ -186,14 +195,14 @@ export const showAllUserPosts = () => async (dispatch) => {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-                console.log('response data', response.data)
+                // console.log('response data', response.data)
                 dispatch(showAllUserPostsReducer(response.data))
 }
 
 export const addPostLikeAction=(post)=> async (dispatch)=>{
-    console.log('1 addPostLikeAction STARTED',post);
+    // console.log('1 addPostLikeAction STARTED',post);
     const postId=String(post.id)
-    console.log('2 addPostLikeAction POSTID',postId);
+    // console.log('2 addPostLikeAction POSTID',postId);
 
     const token = localStorage.getItem('token');
 
@@ -228,40 +237,41 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
 
 
 
-export const createUser = (email, name, password, username) => (dispatch) => {
-    console.log('1 createUser запустился ', email, name, password, username);
 
-    axios.post(`${END_POINT}/api/auth/createuser`, {
-        email: email,
-        name: name,
-        username: username,
-        password: password
-    }).then((res) => {
-        dispatch(authorize(res.data));
-    });
-};
+// export const createUser = (email, name, password, username) => (dispatch) => {
+//     // console.log('1 createUser запустился ', email, name, password, username);
 
-
-export const authUser = (email, password) => (dispatch) => {
-    localStorage.removeItem("token")
-    console.log('1 createUser запустился ', email, password);
-
-    axios.post(`${END_POINT}/api/auth/login`, {
-        email: email,
-        password: password
-    }).then((res) => {
-        dispatch(authorize(res.data));
-    });
-};
+//     axios.post(`${END_POINT}/api/auth/createuser`, {
+//         email: email,
+//         name: name,
+//         username: username,
+//         password: password
+//     }).then((res) => {
+//         dispatch(authorize(res.data));
+//     });
+// };
 
 
-export const logoutAction = () => (dispatch) => {
-    console.log('logoutAction started/');
+// export const authUser = (email, password) => (dispatch) => {
+//     localStorage.removeItem("token")
+//     // console.log('1 createUser запустился ', email, password);
+
+//     axios.post(`${END_POINT}/api/auth/login`, {
+//         email: email,
+//         password: password
+//     }).then((res) => {
+//         dispatch(authorize(res.data));
+//     });
+// };
 
 
-    dispatch(logout());
+// export const logoutAction = () => (dispatch) => {
+//     // console.log('logoutAction started/');
 
-};
+
+//     dispatch(logout());
+
+// };
 
 
 export default userPostsSlice.reducer;

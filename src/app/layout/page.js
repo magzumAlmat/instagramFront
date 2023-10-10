@@ -20,6 +20,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { authorize } from '@/store/slices/authSlice'
 import jwtDecode from 'jwt-decode'
+import ReccomendedPosts from '@/components/recposts';
 export default function LayoutPage() {
 
     
@@ -28,7 +29,7 @@ export default function LayoutPage() {
     const dispatch = useDispatch();
     useEffect(()=>{
         const token=localStorage.getItem('token')
-        console.log('22pofile token',token)
+        // console.log('22pofile token',token)
         if(token){
             let decodedToken=jwtDecode(token)
             dispatch(authorize({token}))
@@ -52,11 +53,11 @@ export default function LayoutPage() {
 
     const renderRightContent = () => {
         if (activeSection === "Home") {
-            return <RecommendedPostsPage />;
-        } else if (activeSection === "Profile") {
-            return <PostPage />;
+            return ( <ReccomendedPosts/>   );
+        // } else if (activeSection === "Profile") {
+        //     return (<PostPage />);
+        // }
         }
-        
     };
 
 

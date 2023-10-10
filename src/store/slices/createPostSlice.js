@@ -6,7 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 
 const token = localStorage.getItem("token")
-console.log('Token from create post slice:', token)
+// console.log('Token from create post slice:', token)
 let initialState = {
     isAuth: false,
     currentUser: null,
@@ -41,8 +41,8 @@ export const createPostSlice = createSlice({
 
     reducers: {
         createPost:(state)=>{
-            console.log('Token from create post slice:', token)
-            console.log('createpost reducer started')
+            // console.log('Token from create post slice:', token)
+            // console.log('createpost reducer started')
             localStorage.setItem('token', action.payload.token)
 
             axios.defaults.headers.common['Authorization'] = `Bearer${
@@ -144,7 +144,7 @@ export const {authorize, logout, editVar,createPost,getUsersPostsReducer} = crea
 
 export const createPostFunc = (formData) => (dispatch) => {
     const token = localStorage.getItem("token");
-    console.log('2 token from localstorage',token)
+    // console.log('2 token from localstorage',token)
 
     // console.log('1 createPostSlice | createPostFunc запустился ');
     
@@ -254,7 +254,7 @@ export const authUser = (email, password) => (dispatch) => {
 
 
 export const logoutAction = () => (dispatch) => {
-    console.log('logoutAction started/');
+    // console.log('logoutAction started/');
 
 
     dispatch(logout());

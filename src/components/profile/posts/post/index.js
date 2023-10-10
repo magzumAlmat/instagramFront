@@ -24,7 +24,7 @@ export default function Post({post,currentUser}){
 
     const host='http://157.245.193.184:3002'
     const handleClick = (event) => {
-        console.log(event.id)
+        // console.log(event.id)
         setClickedPost(event)
         // console.log('id post clicked post', clickedPost)
         openModal()

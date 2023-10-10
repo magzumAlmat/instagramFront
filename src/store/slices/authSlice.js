@@ -73,14 +73,14 @@ export const authSlice = createSlice({
   reducers: {
       authorize: (state, action) => {
 
-          console.log('Login Reducer started! token from profileMyposts',token)
+          // console.log('Login Reducer started! token from profileMyposts',token)
           localStorage.setItem("token", action.payload.token);
-          console.log('TOKEN',localStorage.getItem("token"));
+          // console.log('TOKEN',localStorage.getItem("token"));
           axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
           // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`; // Add space after 'Bearer'
         
           const decoded = jwt_decode(action.payload.token);
-          console.log('decoded token=========', decoded)
+          // console.log('decoded token=========', decoded)
           state.currentUser = {
             id: decoded.id,
             email: decoded.email,
@@ -148,11 +148,11 @@ export const useTokenInitialization = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log('TOKENNNNNNNNNnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', token)
+    // console.log('TOKENNNNNNNNNnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', token)
     if (token) {
       try {
         let decodedToken = jwt_decode(token);
-        console.log('decode token', decodedToken)
+        // console.log('decode token', decodedToken)
         // Dispatch the authorize action with user data from the token
         dispatch(
           authorize({
@@ -178,7 +178,7 @@ export const useTokenInitialization = () => {
 
 
 export const createUser = (email, name, password, username) => (dispatch) => {
-  console.log('1 createUser запустился ', email, name, password, username);
+  // console.log('1 createUser запустился ', email, name, password, username);
 
   axios.post(`${END_POINT}/api/auth/createuser`, {
     email: email,
@@ -195,10 +195,10 @@ export const createUser = (email, name, password, username) => (dispatch) => {
 export const authUser = (email, password) => (dispatch) => {
   // axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
 
-  console.log('auth user start')
+  // console.log('auth user start')
   localStorage.removeItem('token');
 
-  console.log('1 AutheUser запустился ', email, password);
+  // console.log('1 AutheUser запустился ', email, password);
 
   axios.post(`${END_POINT}/api/auth/login`, {
     email: email,
@@ -209,7 +209,7 @@ export const authUser = (email, password) => (dispatch) => {
 };
 
 export const logoutAction = () => (dispatch) => {
-  console.log('logoutAction started/');
+  // console.log('logoutAction started/');
 
   dispatch(logout());
 };
