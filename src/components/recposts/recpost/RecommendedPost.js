@@ -5,39 +5,45 @@ import commentLogo from '@/app/images/instagram-comment-13415.svg';
 import shareLogo from '@/app/images/instagram-share-13421.svg';
 import saveLogo from '@/app/images/save-instagram-black-lineal-18315.svg';
 import axios, { all } from 'axios';
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo} from 'react';
 // import { getUsersPostsFunc } from '@/store/slices/userPostsSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {getUsersPostsAction} from '@/store/slices/getUsersPostsSlice';
+import {getUsersPostsAction, updatePostLikes} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersPostsAction,addPostLikeAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
 
-export default function RecommendedPost({allPosts,allUsers}) {
-  console.log("ALLPOSTS++++++________=====",allPosts)
-  console.log("ALLUSERS form parent++++++________=====",allUsers)
+export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     const dispatch = useDispatch()
 
     const [postId, setPostId] = useState(0);
+    const [hardcodeArray, setHardcodeArray] = useState([]);
     const [postEntity, setPostEntity] = useState();
     const [countOfLike, setCountOfLikes] = useState([]);
+    const [like, setLike] = useState([]);
+
     // const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
     const host = 'http://157.245.193.184:3002';
 
-
+    const allPostsFromRedux = useSelector((state) => state.userposts.allPosts);
+    
 
     let authorPost = '';
     let authorComment = '';
     const arrayOfComments = [];
     let arrayofLikes = [];
+    let arrayOfUpdatedLikes = [];
     const arrayOfMedialinks = [];
     const arrayOfAuthorPosts = [];
     const arrayOfarrays = [];
 
+    let sum=0
+    let sum2=0
     if(allPosts){
       allPosts.map((item,index)=>{
       //   console.log('likes',   item.likes.length)
         arrayofLikes.push(item.likes.length)
+         sum=sum+Number(item.likes.length)
       })
       
     }
@@ -47,14 +53,59 @@ export default function RecommendedPost({allPosts,allUsers}) {
   else{
       console.log('allPosts is null')
   }
-
-useEffect (() => {
-  console.log('ARRAYOFLIKES', arrayofLikes)
-  setCountOfLikes(arrayofLikes)
-  console.log('COUNTOFLIKES' ,countOfLike)
-}, [setCountOfLikes])
-
+  
+  const handleClick = async (post) => {
+    await dispatch(addPostLikeAction(post))
+    try {
+      const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                response.data.map((item) => {
+                  arrayOfUpdatedLikes.push(item.likes.length) 
+                })
+                
+    } catch {
+      
+    }
+    setLike(arrayOfUpdatedLikes)
+    console.log('SETLIKE', like)
     
+    
+    
+
+    allPosts.map((item) => {
+      sum2=sum2+Number(item.likes.length)
+      console.log('sum1=',sum,'sum2=',sum2)
+      if (sum!==sum2){
+      arrayOfUpdatedLikes.push(item.likes.length)
+    }else{
+      console.log(sum,sum2,'равны')
+    }
+   
+    LIKES.push([])
+    LIKES.push(hardcodeArray)
+    })
+    
+    // console.log('allPostsFromRedux=',allPostsFromRedux)
+    
+  }
+  
+  useEffect (() => {
+    setLike(arrayofLikes)
+    dispatch(getAllUsersPostsAction());
+    setCountOfLikes(arrayofLikes)
+    handleClick()
+  }, [allPosts])
+
+
+const LIKES = useMemo(() => {
+  if (allPosts) {
+    return allPosts.map(item => item.likes.length);
+  }
+  return [];
+}, [allPosts]);
     
 
     // const posts = useSelector((state) => state.userposts.posts);
@@ -89,7 +140,6 @@ const [isLoading, setIsLoading] = useState(true);
     const renderUserPosts = (user) => {
 
         const userPosts = allPosts.filter((post) => user.id ===post.creatorId);
-        console.log('2 userPOSTS',userPosts)
         const PostComments = allPosts.filter((post) => post.commentaries);
         
         // const PostLikes = allPosts.filter((post) => post);
@@ -98,14 +148,12 @@ const [isLoading, setIsLoading] = useState(true);
 
 
         return userPosts.map((post, index) => (
-          <>
-          {console.log('countOfLikes', countOfLike)}
-          {countOfLike.map((item)=>(
-          <h1>{item}</h1>
-        ))}
-          </>,
+         
           <div key={index} >
-        
+         
+          
+          
+            
             <p>{user.username}</p>
             <Image
               src={`${host}/${post.mediaLinks}`}
@@ -121,7 +169,7 @@ const [isLoading, setIsLoading] = useState(true);
                                             alt='some altasd2'
                                             className='like'
                                             onClick={
-                                                () => dispatch(addPostLikeAction(post))
+                                                () => handleClick(post)
                                             }
                                             />
 
@@ -144,8 +192,8 @@ const [isLoading, setIsLoading] = useState(true);
                                     <div className="counOftLikes">
                                   
                                 
-                                   
-                                    <span >{post.likes.length} отметок "Нравится"</span>
+                                  
+                                    <span >{like[index]} отметок "Нравится"</span>
                                         
                                         
                                             
