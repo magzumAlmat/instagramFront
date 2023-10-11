@@ -13,7 +13,7 @@ import {getAllUsersPostsAction,addPostLikeAction} from '@/store/slices/getUsersP
 import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
 import Link from 'next/link'
 import Modal from '@/components/createpost'
-import ModalPost from '@/components/profile/posts/post/modalpost'
+import ModalPost from '@/components/recposts/recpost/modalpost/index'
 export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   const [clickedPost, setClickedPost] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,9 +90,10 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                 // arrayOfCommentsPush.map((commentary, index) => {
                 //   conso
                 // })
-                setArrayOfComments(arrayOfCommentsPush);
+               
                 setClickedPost(post);
                 openModal();
+                setArrayOfComments(arrayOfCommentsPush);
     } catch {
       
     }
@@ -259,7 +260,7 @@ const [isLoading, setIsLoading] = useState(true);
                                             />
                                             <Modal isOpen={isModalOpen} onClose={closeModal}>
                                               {console.log('id post clicked post', clickedPost)}
-                                              <ModalPost  post={clickedPost}/>
+                                              <ModalPost  post={clickedPost} users={allUsers} like={like}/>
                                            </Modal>
                                       
 

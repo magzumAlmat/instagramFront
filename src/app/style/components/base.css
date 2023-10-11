@@ -5,6 +5,9 @@ body, div, input, a, li, ul, textarea, span, p, h1, h2, h3, ol, aside, main{
 body{
     margin: 0;
 }
+a{
+    text-decoration: none;
+}
 
 .container{
     width: 100%;

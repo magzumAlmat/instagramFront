@@ -90,11 +90,20 @@ export const userPostsSlice = createSlice({
 
 
         },
+        addPostCommentaryReducer: (state, data) => {
+            console.log('4 AllLikes data =', data.payload)
+            // state.countOfLikes.push(data)
+            // state.allUsers.push(...data.payload);
+            // state.someVar=data.payload
+
+
+
+        },
      
 }});
 
 
-export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, showAllUserPostsReducer,updatePostLikes} = userPostsSlice.actions;
+export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, addPostCommentaryReducer,showAllUserPostsReducer,updatePostLikes} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
     // if(token){
@@ -229,6 +238,35 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
 
     
 }
+
+export const addPostCommentAction=(comment,post)=> async (dispatch)=>{
+    console.log('1 addPostCommentAction STARTED',comment,'postID=',post.id);
+ 
+    // console.log('2 addPostLikeAction POSTID',postId);
+
+    const token = localStorage.getItem('token');
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+    if (!token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+    
+    const response = await axios.post(`${END_POINT}/api/comment/${post.id}`, {commentary:comment},{
+        headers: {
+            'Authorization': `Bearer ${token}`,
+          
+        }
+    });
+    console.log('3 addPostLikeAction response from axios=',response.data)
+    dispatch(addPostCommentaryReducer(response.data));
+
+
+    
+}
+
 
 
 
