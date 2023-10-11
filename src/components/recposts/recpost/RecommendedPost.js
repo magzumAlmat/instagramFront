@@ -14,12 +14,13 @@ import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
 
 export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     const dispatch = useDispatch()
-
+    console.log('ALLPOST++++++++', allPosts)
     const [postId, setPostId] = useState(0);
     const [hardcodeArray, setHardcodeArray] = useState([]);
     const [postEntity, setPostEntity] = useState();
     const [countOfLike, setCountOfLikes] = useState([]);
     const [like, setLike] = useState([]);
+    const [arrayOfComments, setArrayOfComments] = useState([]);
 
     // const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
@@ -27,10 +28,10 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
 
     const allPostsFromRedux = useSelector((state) => state.userposts.allPosts);
     
-
+    let switcher=true
     let authorPost = '';
     let authorComment = '';
-    const arrayOfComments = [];
+    let arrayOfCommentsPush = [];
     let arrayofLikes = [];
     let arrayOfUpdatedLikes = [];
     const arrayOfMedialinks = [];
@@ -39,6 +40,8 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
 
     let sum=0
     let sum2=0
+
+    
     if(allPosts){
       allPosts.map((item,index)=>{
       //   console.log('likes',   item.likes.length)
@@ -47,6 +50,7 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
       })
       
     }
+    
   
   
   
@@ -54,6 +58,35 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
       console.log('allPosts is null')
   }
   
+  const addCommentClick = async (post) => {
+    // await dispatch(addPostLikeAction(post))
+    console.log("1 add comment click",arrayOfComments)
+    arrayOfCommentsPush=[]
+    console.log('2 after click arrayOfComments',arrayOfCommentsPush)
+    try {
+      const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                response.data.map((item) => {
+                  arrayOfCommentsPush.push(item.commentaries) 
+                })
+                
+                console.log("3 after click   ARRAYOFCOMMENTSPUSH", arrayOfCommentsPush)
+                // arrayOfCommentsPush.map((commentary, index) => {
+                //   conso
+                // })
+                
+    } catch {
+      
+    }
+    console.log('4 after click arrayofComments must be null',arrayOfComments)
+    console.log('5 beforesetcomments arrayofcomentspush=',arrayOfCommentsPush)
+    setArrayOfComments(arrayOfCommentsPush);
+    console.log('SETCOMMENTS',arrayOfComments)
+  }
+
   const handleClick = async (post) => {
     await dispatch(addPostLikeAction(post))
     try {
@@ -63,7 +96,8 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                     }
                 });
                 response.data.map((item) => {
-                  arrayOfUpdatedLikes.push(item.likes.length) 
+                  arrayOfUpdatedLikes.push(item.likes.length)
+                  arrayOfarrays.push(item) 
                 })
                 
     } catch {
@@ -91,8 +125,9 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     // console.log('allPostsFromRedux=',allPostsFromRedux)
     
   }
-  
+  console.log('COMMENTARIES', arrayOfComments)
   useEffect (() => {
+    // setArrayOfComments(arrayOfCommentsPush);
     setLike(arrayofLikes)
     dispatch(getAllUsersPostsAction());
     setCountOfLikes(arrayofLikes)
@@ -109,18 +144,14 @@ const LIKES = useMemo(() => {
     
 
     // const posts = useSelector((state) => state.userposts.posts);
-
     // const allPosts = useSelector((state) => state.userposts.allPosts);
     // const allUsers = useSelector((state) => state.userposts.allUsers);
-    const countOfLikes = useSelector((state) => state.userposts.countOfLikes);
+const countOfLikes = useSelector((state) => state.userposts.countOfLikes);
     // dispatch(getUsersPostsFunc())
     // console.log('isAuth from recommended posts',posts.currentUser.username)
     // dispatch(getUsersPostsAction())
     
-   
-    
 const [isLoading, setIsLoading] = useState(true);
-
   // useEffect(() => {
   //   dispatch(getAllUsersAction());
   //   dispatch(getAllUsersPostsAction())
@@ -128,10 +159,8 @@ const [isLoading, setIsLoading] = useState(true);
   //     .catch((error) => console.error(error));
   // }, [dispatch]);
 
-
     console.log('1 Posts from use Selector= ', allPosts)
    
-  
     // console.log('arrayofLikes=  ',arrayofLikes)
     // console.log('posts count od likes from use Selector= ', countOfLikes,typeof(countOfLikes))
     // arrayofLikes=Array(countOfLikes)
@@ -145,15 +174,21 @@ const [isLoading, setIsLoading] = useState(true);
         // const PostLikes = allPosts.filter((post) => post);
         // console.log('postLIIIKES',PostLikes.likes)
 
-
-
         return userPosts.map((post, index) => (
-         
-          <div key={index} >
-         
-          
-          
             
+          // arrayOfCommentsPush.push(post.commentaries),
+          // console.log('12331-',arrayOfCommentsPush),
+          post.commentaries.map((commentaries, index)=>{
+              arrayOfCommentsPush.push(index)
+              arrayOfCommentsPush.push(commentaries)
+              // arrayOfCommentsPush.push(commentaries)
+              // console.log('post=',post,'comment',commentaries)
+            
+            
+
+           
+    }),
+          <div key={index} >
             <p>{user.username}</p>
             <Image
               src={`${host}/${post.mediaLinks}`}
@@ -175,7 +210,8 @@ const [isLoading, setIsLoading] = useState(true);
 
                                         <Image src={commentLogo}
                                             alt='some alasdt2'
-                                            className='comment'/>
+                                            className='comment'
+                                            onClick={addCommentClick}/>
 
                                         <Image src={shareLogo}
                                             alt='some aasdlt2'
@@ -190,31 +226,87 @@ const [isLoading, setIsLoading] = useState(true);
                                 </div>
                                 <div className='gap'>
                                     <div className="counOftLikes">
-                                  
-                                
-                                  
+                      
                                     <span >{like[index]} отметок "Нравится"</span>
-                                        
-                                        
-                                            
-                                           
                                     </div>
                                 </div>
            <div className='authorname'>
-                    <span> {user.username} {post.description} </span>
+              <span> {user.username} {post.description} </span>
             </div>
             {/* <h1>{PostComments}</h1>  */}
-            {post.commentaries.map((commentaries, index)=>(
-                //  console.log('post -',user.username,'has comments= ',commentaries.commentary),
-                
+            
+            {/* {post.commentaries.map((commentaries, index)=>(
+                 console.log('post -',user.username,'has comments= ',commentaries.commentary),
                  <div className="comments">
                     <span key={index}>{user.username}  {commentaries.commentary}</span>
-                  
                  </div>
-                
 
             )
+            )} */}
+            {/* <p>-----------------------------</p> */}
+            {arrayOfCommentsPush.map((item)=>{
+            if(item.postId===post.id){
+              console.log(post,'ITEM_________________=',item,'item post.id',item.postId ,'post.id===',post.id)
+              return(<>
+                <div className="comments">
+                 <span key={index}>{user.username} {item.commentary}</span>
+               </div>
+              </>)
+            }
+            
+            
+           
+              
+              // if(item.commentaries.postId===post.id)(
+              //     <div className="comments">
+              //     <span key={index}>{user.username} {item.commentary}</span>
+              //   </div>
+              //   )
+              // post.commentaries.map((item2)=>{
+                
+              //   if(item2.postId===item.postId)(
+              //   <div className="comments">
+              //   <span key={index}>{user.username} {item.commentary}</span>
+              // </div>
+              // )
+                
+              // })
+              
+              }
             )}
+
+
+
+            <p>-----------------------------</p>
+            {console.log('state=',arrayOfComments)}
+            {arrayOfComments[index]}
+            {/* {arrayOfComments.map((item)=>{
+              <div className="comments">
+              <span key={index}>{user.username} {item.commentary}</span>
+            </div>
+            })} */}
+
+
+
+
+
+            {/* {arrayOfComments[index]}  */}
+            {/* {console.log('------------arrayOfComments',arrayOfComments)} */}
+            {/* {arrayOfComments.map((item)=>{ 
+              <h1>123{item}</h1>
+             })  } */}
+             {/* {arrayOfComments.map((item, index) => (
+              console.log('arrayOfComents',arrayOfComments,post),
+              
+                
+                <div className="comments" key={index}>
+                  <span>{user.username} {item.commentary}</span>
+                </div>
+              
+                
+              ))} */}
+             
+
           
           </div>
         ),
