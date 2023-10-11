@@ -210,7 +210,7 @@ export const showAllUserPosts = () => async (dispatch) => {
 
 export const addPostLikeAction=(post)=> async (dispatch)=>{
     // console.log('1 addPostLikeAction STARTED',post);
-    const postId=String(post.id)
+   
     // console.log('2 addPostLikeAction POSTID',postId);
 
     const token = localStorage.getItem('token');
@@ -219,7 +219,7 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
     let decodedToken = jwt_decode(token)
     // console.log('3 getUsersPosts decoded=', decodedToken.username);
 
-    if (! token) { // Handle the case where the token is not available or invalid
+    if (!token) { // Handle the case where the token is not available or invalid
         console.error('Token not available');
         return;
     }

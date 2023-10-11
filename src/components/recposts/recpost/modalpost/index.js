@@ -42,7 +42,7 @@ export default function ModalPost ({post,users,like}) {
     return (
       
            
-            <div className="">
+            <div className="modal">
 
 
               {post.commentaries.map((item,index) => (

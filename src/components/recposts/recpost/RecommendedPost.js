@@ -1,4 +1,4 @@
-'use client';
+
 import Image from 'next/image';
 import likeLogo from '@/app/images/heart-3510.svg';
 import commentLogo from '@/app/images/instagram-comment-13415.svg';
