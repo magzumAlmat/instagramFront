@@ -63,7 +63,7 @@ export default function ModalContent () {
         setSelectedFile(file);
 
     };
-      const shareFunction = () => {
+      const shareFunction = async() => {
        
         console.log('shareFunction file =',selectedFile)
         console.log('description =',description)
@@ -78,7 +78,7 @@ export default function ModalContent () {
             console.log('ShareFunc  formData Values',value);
           }
       
-        dispatch(createPostFunc(formData))
+        await dispatch(createPostFunc(formData))
         
 
 

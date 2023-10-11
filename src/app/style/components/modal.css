@@ -18,7 +18,7 @@
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     width: 70rem;
-    height: 50rem;
+    height: 55rem;
 }
 
 .modal-edit {
@@ -200,7 +200,8 @@
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
     max-width: 450px;
-    max-height: 660px; /* Задайте желаемую максимальную высоту */
+    height: 40rem;
+     /* Задайте желаемую максимальную высоту */
     overflow-y: auto; /* Добавьте вертикальную прокрутку при необходимости */
     padding: 14px; /* Добавьте отступы внутри блока по вашему усмотрению */
 }
@@ -274,7 +275,7 @@
     max-width: 100%;
 }
 .section {
-    padding: 6px 16px 6px 0;
+    padding: 9px 15px 12px 5px;
 }
 
 

@@ -59,7 +59,7 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
       allPosts.map((item,index)=>{
       //   console.log('likes',   item.likes.length)
         arrayofLikes.push(item.likes.length)
-         sum=sum+Number(item.likes.length)
+       
       })
       
     }
@@ -107,24 +107,7 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
    
   }
 
-//   const addCommentClick = async (post, event) => {
-//     try {
-//         const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
-//             headers: {
-//                 'Authorization': `Bearer ${authToken}`
-//             }
-//         });
-//         const comments = response.data.map(item => item.commentaries);
-//         // Filter comments for the specific post
-//         const postComments = comments.filter(comment => comment.postId === post.id);
-//         setArrayOfComments(postComments);
-//         setClickedPost(event);
-//         openModal();
-//     } catch (error) {
-//         // Handle error here
-//         console.error('Error fetching comments:', error);
-//     }
-// };
+
 
   const handleClick = async (post) => {
     await dispatch(addPostLikeAction(post))
@@ -149,13 +132,10 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     
 
     allPosts.map((item) => {
-      sum2=sum2+Number(item.likes.length)
-      // console.log('sum1=',sum,'sum2=',sum2)
-      if (sum!==sum2){
+     
+     
       arrayOfUpdatedLikes.push(item.likes.length)
-    }else{
-      console.log(sum,sum2,'равны')
-    }
+    
    
     LIKES.push([])
     LIKES.push(hardcodeArray)
@@ -180,7 +160,7 @@ const LIKES = useMemo(() => {
     return allPosts.map(item => item.likes.length);
   }
   return [];
-}, [allPosts]);
+}, [allPosts,like]);
     
 
     // const posts = useSelector((state) => state.userposts.posts);
@@ -224,7 +204,7 @@ const [isLoading, setIsLoading] = useState(true);
           // arrayOfCommentsPush.push(post.commentaries),
           // console.log('12331-',arrayOfCommentsPush),
           post.commentaries.map((commentaries, index)=>{
-              arrayOfCommentsPush.push(index)
+             
               arrayOfCommentsPush.push(commentaries)
               // arrayOfCommentsPush.push(commentaries)
               // console.log('post=',post,'comment',commentaries)
@@ -295,40 +275,33 @@ const [isLoading, setIsLoading] = useState(true);
             )
             )} */}
             {/* <p>-----------------------------</p> */}
-            {arrayOfCommentsPush.map((item)=>{
-            if(item.postId===post.id){
-              // console.log(post,'ITEM_________________=',item,'item post.id',item.postId ,'post.id===',post.id)
-              return(<>
-                <div className="comments">
-                 <span key={index}>{user.username} {item.commentary}</span>
-               </div>
-              </>)
-            }
-            
-            
+            {console.log('allUsers',allUsers)}
+            {}
+
+            {arrayOfCommentsPush.map((i) => (
+                                     console.log('1 arrayofCommentsPush',arrayOfCommentsPush),
+                                     allUsers.map((item3, index) => {
+                                      console.log('1 usernames',item3.username)
+                                     if(i.authorId===item3.id){
+                                      if(post.id===i.postId){
+                                        console.log('1 otvet компментарий ',i.commentary, ' с автором',item3.username,'дополнительно пост', post)  
+                                        return(<div >{item3.username}   {i.commentary}</div>)}
+                                      
+                                      
+                                      
+                                        
+                                        
+                                     }
+                                     })
+                                    ))}
+
+
            
-              
-              // if(item.commentaries.postId===post.id)(
-              //     <div className="comments">
-              //     <span key={index}>{user.username} {item.commentary}</span>
-              //   </div>
-              //   )
-              // post.commentaries.map((item2)=>{
-                
-              //   if(item2.postId===item.postId)(
-              //   <div className="comments">
-              //   <span key={index}>{user.username} {item.commentary}</span>
-              // </div>
-              // )
-                
-              // })
-              
-              }
-            )}
+            
 
 
 
-            <p>-----------------------------</p>
+            {/* <p>-----------------------------</p> */}
             {console.log('state - arrayOfComments',arrayOfComments)}
             {/* {arrayOfComments[index]} */}
             {/* {arrayOfComments.map((item)=>{
