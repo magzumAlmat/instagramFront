@@ -11,8 +11,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getUsersPostsAction, updatePostLikes} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersPostsAction,addPostLikeAction} from '@/store/slices/getUsersPostsSlice';
 import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
-
+import Link from 'next/link'
+import Modal from '@/components/createpost'
+import ModalPost from '@/components/profile/posts/post/modalpost'
 export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
+  const [clickedPost, setClickedPost] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+      setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+      setIsModalOpen(false);
+  };
+
     const dispatch = useDispatch()
     console.log('ALLPOST++++++++', allPosts)
     const [postId, setPostId] = useState(0);
@@ -60,9 +73,9 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   
   const addCommentClick = async (post) => {
     // await dispatch(addPostLikeAction(post))
-    console.log("1 add comment click",arrayOfComments)
+    // console.log("1 add comment click",arrayOfComments)
     arrayOfCommentsPush=[]
-    console.log('2 after click arrayOfComments',arrayOfCommentsPush)
+    // console.log('2 after click arrayOfComments',arrayOfCommentsPush)
     try {
       const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
                     headers: {
@@ -73,19 +86,44 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                   arrayOfCommentsPush.push(item.commentaries) 
                 })
                 
-                console.log("3 after click   ARRAYOFCOMMENTSPUSH", arrayOfCommentsPush)
+                // console.log("3 after click   ARRAYOFCOMMENTSPUSH", arrayOfCommentsPush)
                 // arrayOfCommentsPush.map((commentary, index) => {
                 //   conso
                 // })
-                
+                setArrayOfComments(arrayOfCommentsPush);
+                setClickedPost(post);
+                openModal();
     } catch {
       
     }
-    console.log('4 after click arrayofComments must be null',arrayOfComments)
-    console.log('5 beforesetcomments arrayofcomentspush=',arrayOfCommentsPush)
-    setArrayOfComments(arrayOfCommentsPush);
-    console.log('SETCOMMENTS',arrayOfComments)
+    // console.log('4 after click arrayofComments must be null',arrayOfComments)
+    // console.log('5 beforesetcomments arrayofcomentspush=',arrayOfCommentsPush)
+   
+    // console.log('SETCOMMENTS',arrayOfComments)
+
+  
+    // console.log('id post clicked post', clickedPost)
+   
   }
+
+//   const addCommentClick = async (post, event) => {
+//     try {
+//         const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+//             headers: {
+//                 'Authorization': `Bearer ${authToken}`
+//             }
+//         });
+//         const comments = response.data.map(item => item.commentaries);
+//         // Filter comments for the specific post
+//         const postComments = comments.filter(comment => comment.postId === post.id);
+//         setArrayOfComments(postComments);
+//         setClickedPost(event);
+//         openModal();
+//     } catch (error) {
+//         // Handle error here
+//         console.error('Error fetching comments:', error);
+//     }
+// };
 
   const handleClick = async (post) => {
     await dispatch(addPostLikeAction(post))
@@ -104,14 +142,14 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
       
     }
     setLike(arrayOfUpdatedLikes)
-    console.log('SETLIKE', like)
+    // console.log('SETLIKE', like)
     
     
     
 
     allPosts.map((item) => {
       sum2=sum2+Number(item.likes.length)
-      console.log('sum1=',sum,'sum2=',sum2)
+      // console.log('sum1=',sum,'sum2=',sum2)
       if (sum!==sum2){
       arrayOfUpdatedLikes.push(item.likes.length)
     }else{
@@ -125,13 +163,14 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     // console.log('allPostsFromRedux=',allPostsFromRedux)
     
   }
-  console.log('COMMENTARIES', arrayOfComments)
+  // console.log('COMMENTARIES', arrayOfComments)
   useEffect (() => {
     // setArrayOfComments(arrayOfCommentsPush);
     setLike(arrayofLikes)
     dispatch(getAllUsersPostsAction());
     setCountOfLikes(arrayofLikes)
     handleClick()
+    // addCommentClick()
   }, [allPosts])
 
 
@@ -159,13 +198,18 @@ const [isLoading, setIsLoading] = useState(true);
   //     .catch((error) => console.error(error));
   // }, [dispatch]);
 
-    console.log('1 Posts from use Selector= ', allPosts)
+    // console.log('1 Posts from use Selector= ', allPosts)
    
     // console.log('arrayofLikes=  ',arrayofLikes)
     // console.log('posts count od likes from use Selector= ', countOfLikes,typeof(countOfLikes))
     // arrayofLikes=Array(countOfLikes)
     // console.log('posts count od likes from use Selector= ', arrayofLikes,typeof(arrayofLikes))
 
+    const handleClickCommenttest = (post) => {
+      setClickedPost(post);
+      openModal();
+  };
+  
     const renderUserPosts = (user) => {
 
         const userPosts = allPosts.filter((post) => user.id ===post.creatorId);
@@ -207,11 +251,17 @@ const [isLoading, setIsLoading] = useState(true);
                                                 () => handleClick(post)
                                             }
                                             />
-
+                                      
                                         <Image src={commentLogo}
                                             alt='some alasdt2'
                                             className='comment'
-                                            onClick={addCommentClick}/>
+                                            onClick={() => addCommentClick(post)}
+                                            />
+                                            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                              {console.log('id post clicked post', clickedPost)}
+                                              <ModalPost  post={clickedPost}/>
+                                           </Modal>
+                                      
 
                                         <Image src={shareLogo}
                                             alt='some aasdlt2'
@@ -246,7 +296,7 @@ const [isLoading, setIsLoading] = useState(true);
             {/* <p>-----------------------------</p> */}
             {arrayOfCommentsPush.map((item)=>{
             if(item.postId===post.id){
-              console.log(post,'ITEM_________________=',item,'item post.id',item.postId ,'post.id===',post.id)
+              // console.log(post,'ITEM_________________=',item,'item post.id',item.postId ,'post.id===',post.id)
               return(<>
                 <div className="comments">
                  <span key={index}>{user.username} {item.commentary}</span>
@@ -278,8 +328,8 @@ const [isLoading, setIsLoading] = useState(true);
 
 
             <p>-----------------------------</p>
-            {console.log('state=',arrayOfComments)}
-            {arrayOfComments[index]}
+            {console.log('state - arrayOfComments',arrayOfComments)}
+            {/* {arrayOfComments[index]} */}
             {/* {arrayOfComments.map((item)=>{
               <div className="comments">
               <span key={index}>{user.username} {item.commentary}</span>
