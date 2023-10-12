@@ -66,6 +66,7 @@ export default function Post({post,currentUser,anotherUser}){
     
     <a className='profile-my-post'>
        
+       
     
         <Image 
             onClick={()=>{handleClick(post)}}

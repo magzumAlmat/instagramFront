@@ -205,9 +205,9 @@ export default function ModalPost ({post,users,like}) {
                             </div>
                         </div> */}
                         <div className="modal-post-liked ">
-                            <div>
+                            {/* <div>
                                 <Image src={smallProfile} style={{'height': '16px', 'width': '16px','margin': '20px'}} alt="asdads"/>
-                            </div>
+                            </div> */}
                             <div>
                             {/* {post.likes.map((i) => (
                                      users.map((item3, index) => {

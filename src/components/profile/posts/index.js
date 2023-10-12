@@ -70,17 +70,10 @@ export default function Posts(userId) {
 
     // console.log('1111my posts',  userPosts)
 
-    const posts = [
-        { postImage: image1 },
-        { postImage: image2 },
-        { postImage: image3 },
-        { postImage: image4 },
-        { postImage: image5 },
-        { postImage: image6 }
-    ];
-
+  
 
     const showPosts = userPosts.map((item, index) => ( 
+        console.log('post from Posts component',item),
         <Post key={index} post={item} currentUser={currentUser} anotherUser={userId} />    
     ));
 

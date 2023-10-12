@@ -7,7 +7,7 @@ export default function Profile (userId) {
     return (
         <>
             {isTrue ? (
-                    <Posts />
+                    <Posts userId={userId} />
                 )
                 :
                 (

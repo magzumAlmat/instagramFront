@@ -16,12 +16,12 @@ import Modal from '@/components/createpost'
 import ModalPost from '@/components/recposts/recpost/modalpost/index'
 import Posts from '@/components/profile/posts';
 import Profile from '@/components/profile';
-
+import { useRouter } from 'next/navigation'
 export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   const [clickedPost, setClickedPost] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
-  
   const openModal = () => {
       setIsModalOpen(true);
   };
@@ -102,7 +102,7 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                 openModal();
                 // setArrayOfComments(index);
                 // setArrayOfComments("NEW CLICKED DATAAAAA");
-                setArrayOfComments(arrayOfCommentsPush);
+                // setArrayOfComments(arrayOfCommentsPush);
                 console.log('arrayofcomments after click',arrayOfComments)
     } catch {
       
@@ -131,11 +131,11 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                   arrayOfUpdatedLikes.push(item.likes.length)
                   arrayOfarrays.push(item) 
                 })
-                
+                setLike(arrayOfUpdatedLikes)
     } catch {
       
     }
-    setLike(arrayOfUpdatedLikes)
+   
     // console.log('SETLIKE', like)
     
     
@@ -152,39 +152,74 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     })
     
     // console.log('allPostsFromRedux=',allPostsFromRedux)
-    
+    alert('You unliked/liked this post')
   }
   // console.log('COMMENTARIES', arrayOfComments)
-  useEffect (() => {
+  
+
+  const fetchComments = async () => { // Add "post" as a parameter
+    console.log('fetchComments run');
     
+    try {
+      const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+       
+      });
+     console.log('responsedatamain',response.data) 
+     arrayOfCommentsPush.push(response.data)
+      
+      
+    } catch (error) {
+      console.error('Error fetching comments: ', error);
+    }
+      console.log('__1',arrayOfCommentsPush)
+      // setArrayOfComments(arrayOfCommentsPush)
+  };
+  
+  useEffect(() => {
+    // Call the fetchComments function with a specific "post" object periodically (e.g., every 3 seconds)
+    
+      const intervalId = setInterval(() => fetchComments(), 2000);
+  
+      // Clean up the interval when the component unmounts
+      return () => clearInterval(intervalId);
+    
+  }, [arrayOfCommentsPush]);
+
+  useEffect (() => { 
     setLike(arrayofLikes)
     dispatch(getAllUsersPostsAction());
     setCountOfLikes(arrayofLikes)
-    handleClick()
-    // setArrayOfComments(arrayOfCommentsPush);
+    // handleClick()
+    
+    setArrayOfComments(arrayOfCommentsPush);
 
-    const fetchComments = async (post) => {
-      console.log('Fetch inside useEffect Started!')
-      try {
-        const response = await axios.get('http://157.245.193.184:3002/api/post/comments', {
-          headers: {
-            'Authorization': `Bearer ${authToken}`,
-          },
-          params: {
-            postId: post.id, // Pass the post ID to fetch comments for a specific post
-          },
-        });
-        const newComments = response.data;
+    // const fetchComments = async (post) => {
+    //   console.log('Fetch inside useEffect Started!')
+    //   try {
+    //     const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
+    //       headers: {
+    //         'Authorization': `Bearer ${authToken}`,
+    //       },
+    //       params: {
+    //         postId: post.id, // Pass the post ID to fetch comments for a specific post
+    //       },
+    //     });
+    //     const newComments = response.data;
         
-        setArrayOfComments(newComments);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchComments()
+    //     setArrayOfComments(newComments.commentaries);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+    // fetchComments()
     // addCommentClick()
   }, [allPosts])
 
+
+ 
 
 const LIKES = useMemo(() => {
   if (allPosts) {
@@ -224,12 +259,20 @@ const [isLoading, setIsLoading] = useState(true);
 
   const handleRedirectToProfile = (user) => {
     console.log('USER CLICKED',user)
-    return (
-      <>
-        <Profile userId={user} />
+  
+    router.push(`/anyuserprofile?user=${user.id}`)
+    
+    // router.push({
+    //   pathname: '/anyuserprofile',
+    //   query: { user:  user }
+    // })
 
-      </>
-    )
+    // router.push({
+    //   pathname: '/anyuserprofile',
+    //   query: { user: user.id }, 
+    // });
+    
+    
   }
   
 
@@ -257,7 +300,7 @@ const [isLoading, setIsLoading] = useState(true);
            
     }),
           <div key={index} >
-           <a  onClick={()=>handleRedirectToProfile(user.id)}>
+           <a  onClick={()=>handleRedirectToProfile(user)}>
             {console.log('post-------------',post)}
             { 
             allUsers.map((item3, index) => {
@@ -332,24 +375,32 @@ const [isLoading, setIsLoading] = useState(true);
             )
             )} */}
             {/* <p>-----------------------------</p> */}
-            {console.log('ARRAYOFCOMMENTARIES',arrayOfComments)}
+            {/* {console.log('ARRAYOFCOMMENTARIES',arrayOfComments)} */}
             {}
 
-            {arrayOfCommentsPush.map((i, index) => (
+            {/* {arrayOfComments.map((i, index) => (
               
-                                     console.log('1 arrayofCommentsPush',arrayOfCommentsPush),
+                                     console.log('1 arrayofCommentsPush',arrayOfComments),
+                                     i.map((ii)=>{
+                                      console.log('ii=',ii)
                                      allUsers.map((item3, index) => {
                                       // console.log('1 usernames',item3.username)
-                                     if(i.authorId===item3.id){
-                                      if(post.id===i.postId){
-                                        console.log('1 otvet компментарий ',i.commentary, ' с автором',item3.username,'дополнительно пост', post)  
-                                        return(<div >{item3.username}   {i.commentary}</div>)}
+                                     if(ii.authorId===item3.id){
+                                      if(post.id===ii.postId){
+                                        console.log('1 otvet компментарий ',ii.commentary, ' с автором',item3.username,'дополнительно пост', post)  
+                                        return(<div key={index}>{item3.username}   {ii.commentary}</div>)}
                                       
                                       
                                         
+                                     
                                      }
-                                     })
-                                    ))}
+                                    }
+                                     )
+                                    }
+                                    )
+                                     )
+                                    )} */}
+              
 
             
 
@@ -359,15 +410,33 @@ const [isLoading, setIsLoading] = useState(true);
 
 
             {/* <p>-----------------------------</p> */}
-            {console.log('state - arrayOfComments',arrayOfComments)}
-            {arrayOfComments.map((item) => (
-                  <div key={item.id}>
-                    <p>--------{item.commentary}--------</p>
+            {console.log('222 arrayOfComments',arrayOfComments)}
+          
+               
+            
+            {arrayOfComments.map((item, index) => {
+                // console.log(' 222=item of array',item)
+               
+               
+               
+               
+                  if(post.id==item.postId ){
+                    
+                  return(<div>{item.authorId} {item.commentary}</div>)
+                  console.log(' 222 item2Commentary=',item.commentary),
+                  <div key={index}>
+                    <div>--------{item.commentary}--------</div>
                   </div>
-                ))}
+                  }
+                })
+          
+          
+                     
+          }
+        
+        
                 
-            <div key={index}>
-                {/* ... Other post content ... */}
+            {/* <div key={index}>
                 <div className="comments">
                   {arrayOfComments[post.id] &&
                     arrayOfComments[post.id].map((comment, commentIndex) => (
@@ -376,7 +445,9 @@ const [isLoading, setIsLoading] = useState(true);
                       </div>
                     ))}
                 </div>
-              </div>
+              </div> */}
+
+
       {/* ... (other JSX) */}
 
             {/* {arrayOfComments.map((item)=>{

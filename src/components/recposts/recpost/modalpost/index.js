@@ -46,14 +46,14 @@ export default function ModalPost ({post,users,like}) {
       alert('comment uploaded')
       comments.map((item) => {
         commentariesPush.push(item)
-    })
+      })
       
 
     }
     useEffect (() => {
-        
         setCommentaries(commentariesPush)
     },[])
+    
     let mainImage=''
     
     post.mediaLinks.map((item,index) => {

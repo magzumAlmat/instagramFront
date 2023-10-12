@@ -20,13 +20,19 @@ import { useSelector,useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import { authorize } from '@/store/slices/authSlice'
 import jwtDecode from 'jwt-decode'
-export default function LayoutPage() {
+export default function LayoutPage(user) {
 
+    const [activeSection, setActiveSection] = useState("Home");
+   console.log('activeSection===',activeSection)
     
     const currentUser = useSelector((state) => state.auth.currentUser);
 
     const dispatch = useDispatch();
     useEffect(()=>{
+        if (user!=null){
+            setActiveSection(user)
+        }
+
         const token=localStorage.getItem('token')
         // console.log('22pofile token',token)
         if(token){
@@ -39,7 +45,7 @@ export default function LayoutPage() {
     },[])  
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState("Home");
+   
     const isCurrentUser=useSelector((state)=>{state.auth.isCurrentUser})
     const isAuth = useSelector((state) => state.auth.isAuth);
     const openModal = () => {
