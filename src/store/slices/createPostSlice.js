@@ -11,7 +11,9 @@ let initialState = {
     isAuth: false,
     currentUser: null,
     someVar: 'blah blah blah',
-    authToken: ''
+    authToken: '',
+    posts:[]
+    
 }
 
 if (token) {
@@ -26,7 +28,7 @@ if (token) {
             password: decodedToken.password,
             username: decodedToken.username,
         },
-        posts:{},
+        posts:[],
     }
 } else {
     localStorage.removeItem("token")
@@ -40,11 +42,10 @@ export const createPostSlice = createSlice({
     initialState,
 
     reducers: {
-        createPost:(state)=>{
+        createPost:(state,action)=>{
             // console.log('Token from create post slice:', token)
             // console.log('createpost reducer started')
             localStorage.setItem('token', action.payload.token)
-
             axios.defaults.headers.common['Authorization'] = `Bearer${
                 action.payload.token
             }`
@@ -59,12 +60,16 @@ export const createPostSlice = createSlice({
             };
             
             state.isAuth = true;
-
             state.userPosts={
 
             }
+
+           
+
+
            
         },
+
 
         getUsersPostsReducer:(state,action,data)=>{
             // console.log('4 getUsersPosts STARTED')
@@ -172,6 +177,7 @@ export const createPostFunc = (formData) => (dispatch) => {
             })
                 .then((response) => {
                     console.log('File uploaded successfully:', response.data);
+                    dispatch(createPost(response.data))
                 })
                 .catch((error) => {
                     console.error('Error uploading file:', error);

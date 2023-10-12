@@ -23,7 +23,7 @@ export default function ReccomendedPosts() {
     const [updatedLikes, setUpdatedLikes] = useState([]);
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
     // const authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44'
-
+    
     const [users, setUsers] = useState([]);
     const url = 'http://157.245.193.184:3002/';
 
@@ -31,49 +31,42 @@ export default function ReccomendedPosts() {
     // console.log('isAuth from recommended someVar',someVar)
     // console.log('posts from recommended posts',posts)
     
-    const allPosts = useSelector((state) => state.userposts.allPosts);
-    // dispatch(getUsersPostsAction())
+    const allPostsfromRedux = useSelector((state) => state.userposts.allPosts);
+    const allUsersfromRedux= useSelector((state) => state.userposts.allUsers);
+    const updatedLikesfromRedux = useSelector((state) => state.userposts.updatedLikes);
+    
     useEffect(() => {
+        dispatch(getUsersPostsAction())
         dispatch(getAllUsersAction());
         dispatch(getAllUsersPostsAction())
           .then(() => setIsLoading(false))
           .catch((error) => console.error(error));
-      }, [dispatch,])
+
+        setMyPosts(allPostsfromRedux)
+        setUsers(allUsersfromRedux)
+        setUpdatedLikes(updatedLikesfromRedux)
+
+      }, [dispatch])
       
       ;
 
-    useEffect(() => {
-        dispatch(getUsersPostsAction())
-        const fetchMyPosts = async () => {
-            try {
-                const users = await axios.get('http://157.245.193.184:3002/api/getallusers', {
-                        headers: {
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                })
-                
-
-                const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`
-                    }
-                });
-           
-
-                setUsers(users.data)
-                
-                setMyPosts(response.data);
-                setUpdatedLikes(response.data)
-            } catch (error) {
-                
-                console.error('Error fetching posts:', error);
-            }
-            
-        };
-
+      const fetchComments = async () => { // Add "post" as a parameter
+        dispatch(getAllUsersPostsAction());
+        console.log('fetchComments IN INDEX run',myposts);
         
-        fetchMyPosts();
-    }, []);
+          
+      
+      };
+      
+      useEffect(() => {
+        // Call the fetchComments function with a specific "post" object periodically (e.g., every 3 seconds)
+        
+          const intervalId = setInterval(() => fetchComments(), 2000);
+      
+          // Clean up the interval when the component unmounts
+          return () => clearInterval(intervalId);
+        
+      }, []);
 
 
 

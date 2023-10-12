@@ -157,40 +157,18 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   // console.log('COMMENTARIES', arrayOfComments)
   
 
-  const fetchComments = async () => { // Add "post" as a parameter
-    console.log('fetchComments run');
-    
-    try {
-      const response = await axios.get('http://157.245.193.184:3002/api/post/all', {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-       
-      });
-     console.log('responsedatamain',response.data) 
-     arrayOfCommentsPush.push(response.data)
-      
-      
-    } catch (error) {
-      console.error('Error fetching comments: ', error);
-    }
-      console.log('__1',arrayOfCommentsPush)
-      // setArrayOfComments(arrayOfCommentsPush)
-  };
-  
-  useEffect(() => {
-    // Call the fetchComments function with a specific "post" object periodically (e.g., every 3 seconds)
-    
-      const intervalId = setInterval(() => fetchComments(), 2000);
-  
-      // Clean up the interval when the component unmounts
-      return () => clearInterval(intervalId);
-    
-  }, [arrayOfCommentsPush]);
+  const existingPostIds = allPosts.map(post => post.id);
+          
+  // Фильтруйте новые посты, чтобы исключить дубликаты
+  const newPosts = allPosts.filter(newPost => !existingPostIds.includes(newPost.id));
+
+  // Добавьте только новые посты в state.allPosts
+  arrayOfCommentsPush.push(...newPosts);
+
 
   useEffect (() => { 
     setLike(arrayofLikes)
-    dispatch(getAllUsersPostsAction());
+    
     setCountOfLikes(arrayofLikes)
     // handleClick()
     

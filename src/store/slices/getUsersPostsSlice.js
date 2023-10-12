@@ -72,15 +72,41 @@ export const userPostsSlice = createSlice({
         showAllUserPostsReducer: (state, data) => {
             state.userPosts.push(...data.payload);
         },
-        getAllUsersPostsReducer: (state, data) => {
+        // getAllUsersPostsReducer: (state, data) => {
 
-            // state.allPosts.push(null)
-            console.log('11111AllPosts data =', data.payload)
-            state.allPosts.push(...data.payload);
-        },
+        //     // state.allPosts.push(null)
+        //     console.log('11111AllPosts data =', data.payload)
+        //     state.allPosts.push(...data.payload);
+        
+        
+        //     // data.payload.forEach(newPost => {
+        //     //     if (!state.allPosts.some(existingPost => existingPost.id === newPost.id)) {
+        //     //       state.allPosts.push(newPost);
+        //     //     }
+        //     //   });
+        
+        // },
+        getAllUsersPostsReducer: (state, data) => {
+            // Извлеките существующие идентификаторы постов
+            const existingPostIds = state.allPosts.map(post => post.id);
+          
+            // Фильтруйте новые посты, чтобы исключить дубликаты
+            const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
+          
+            // Добавьте только новые посты в state.allPosts
+            state.allPosts.push(...newPosts);
+          },
+
         getAllUsersReducer: (state, data) => {
             // console.log('AllUsers data =', data.payload)
-            state.allUsers.push(...data.payload);
+             // Извлеките существующие идентификаторы постов
+            const existingPostIds = state.allUsers.map(user => user.id);
+          
+            // Фильтруйте новые посты, чтобы исключить дубликаты
+            const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
+          
+            // Добавьте только новые посты в state.allPosts
+            state.allUsers.push(...newPosts);
 
         },
         addPostLikeReducer: (state, data) => {
