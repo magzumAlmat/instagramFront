@@ -14,10 +14,14 @@ import {getAllUsersAction} from '@/store/slices/getUsersPostsSlice';
 import Link from 'next/link'
 import Modal from '@/components/createpost'
 import ModalPost from '@/components/recposts/recpost/modalpost/index'
+import Posts from '@/components/profile/posts';
+import Profile from '@/components/profile';
+
 export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   const [clickedPost, setClickedPost] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  
   const openModal = () => {
       setIsModalOpen(true);
   };
@@ -34,7 +38,10 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
     const [countOfLike, setCountOfLikes] = useState([]);
     const [like, setLike] = useState([]);
     const [arrayOfComments, setArrayOfComments] = useState([]);
+    const [clickedUser,setClickedUser]=useState()
+    
 
+    const [comments, setComments] = useState({});
     // const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
     const host = 'http://157.245.193.184:3002';
@@ -93,7 +100,10 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
                
                 setClickedPost(post);
                 openModal();
+                // setArrayOfComments(index);
+                // setArrayOfComments("NEW CLICKED DATAAAAA");
                 setArrayOfComments(arrayOfCommentsPush);
+                console.log('arrayofcomments after click',arrayOfComments)
     } catch {
       
     }
@@ -146,11 +156,32 @@ export default function RecommendedPost({allPosts,allUsers, updatedLikes}) {
   }
   // console.log('COMMENTARIES', arrayOfComments)
   useEffect (() => {
-    // setArrayOfComments(arrayOfCommentsPush);
+    
     setLike(arrayofLikes)
     dispatch(getAllUsersPostsAction());
     setCountOfLikes(arrayofLikes)
     handleClick()
+    // setArrayOfComments(arrayOfCommentsPush);
+
+    const fetchComments = async (post) => {
+      console.log('Fetch inside useEffect Started!')
+      try {
+        const response = await axios.get('http://157.245.193.184:3002/api/post/comments', {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+          params: {
+            postId: post.id, // Pass the post ID to fetch comments for a specific post
+          },
+        });
+        const newComments = response.data;
+        
+        setArrayOfComments(newComments);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchComments()
     // addCommentClick()
   }, [allPosts])
 
@@ -190,7 +221,18 @@ const [isLoading, setIsLoading] = useState(true);
       setClickedPost(post);
       openModal();
   };
+
+  const handleRedirectToProfile = (user) => {
+    console.log('USER CLICKED',user)
+    return (
+      <>
+        <Profile userId={user} />
+
+      </>
+    )
+  }
   
+
     const renderUserPosts = (user) => {
 
         const userPosts = allPosts.filter((post) => user.id ===post.creatorId);
@@ -205,16 +247,30 @@ const [isLoading, setIsLoading] = useState(true);
           // console.log('12331-',arrayOfCommentsPush),
           post.commentaries.map((commentaries, index)=>{
              
-              arrayOfCommentsPush.push(commentaries)
+          arrayOfCommentsPush.push(commentaries)
               // arrayOfCommentsPush.push(commentaries)
               // console.log('post=',post,'comment',commentaries)
+              
             
             
 
            
     }),
           <div key={index} >
-            <p>{user.username}</p>
+           <a  onClick={()=>handleRedirectToProfile(user.id)}>
+            {console.log('post-------------',post)}
+            { 
+            allUsers.map((item3, index) => {
+              if(item3.id===post.creatorId){
+                // setClickedUser(item3)
+                return(<p>{item3.username}</p>)}
+            })
+            
+          }
+          </a>
+
+            {/* {console.log('user.username',user.username)} */}
+            {/* <p>{user.username}</p> */}
             <Image
               src={`${host}/${post.mediaLinks}`}
               alt="some aasdlt"
@@ -259,6 +315,7 @@ const [isLoading, setIsLoading] = useState(true);
                                     <div className="counOftLikes">
                       
                                     <span >{like[index]} отметок "Нравится"</span>
+                                    {/* <span>{arrayOfComments.commentaries[index]}</span> */}
                                     </div>
                                 </div>
            <div className='authorname'>
@@ -275,26 +332,26 @@ const [isLoading, setIsLoading] = useState(true);
             )
             )} */}
             {/* <p>-----------------------------</p> */}
-            {console.log('allUsers',allUsers)}
+            {console.log('ARRAYOFCOMMENTARIES',arrayOfComments)}
             {}
 
-            {arrayOfCommentsPush.map((i) => (
+            {arrayOfCommentsPush.map((i, index) => (
+              
                                      console.log('1 arrayofCommentsPush',arrayOfCommentsPush),
                                      allUsers.map((item3, index) => {
-                                      console.log('1 usernames',item3.username)
+                                      // console.log('1 usernames',item3.username)
                                      if(i.authorId===item3.id){
                                       if(post.id===i.postId){
                                         console.log('1 otvet компментарий ',i.commentary, ' с автором',item3.username,'дополнительно пост', post)  
                                         return(<div >{item3.username}   {i.commentary}</div>)}
                                       
                                       
-                                      
-                                        
                                         
                                      }
                                      })
                                     ))}
 
+            
 
            
             
@@ -303,7 +360,25 @@ const [isLoading, setIsLoading] = useState(true);
 
             {/* <p>-----------------------------</p> */}
             {console.log('state - arrayOfComments',arrayOfComments)}
-            {/* {arrayOfComments[index]} */}
+            {arrayOfComments.map((item) => (
+                  <div key={item.id}>
+                    <p>--------{item.commentary}--------</p>
+                  </div>
+                ))}
+                
+            <div key={index}>
+                {/* ... Other post content ... */}
+                <div className="comments">
+                  {arrayOfComments[post.id] &&
+                    arrayOfComments[post.id].map((comment, commentIndex) => (
+                      <div key={commentIndex}>
+                        <span>{comment.commentary}</span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+      {/* ... (other JSX) */}
+
             {/* {arrayOfComments.map((item)=>{
               <div className="comments">
               <span key={index}>{user.username} {item.commentary}</span>

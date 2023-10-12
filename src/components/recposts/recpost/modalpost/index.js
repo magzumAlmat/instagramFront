@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import img from '@/app/images/profile.jpg';
 import Image from "next/image";
 import smallProfile from '@/app/images/profile-pic.png'
@@ -24,20 +24,36 @@ export default function ModalPost ({post,users,like}) {
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
     
     const [newComment, setNewComment] = useState(""); // State to hold the new comment
+    const [commentaries, setCommentaries] = useState([]);
+    let commentariesPush = []
+
+    if (post) {
+        comments.map((item) => {
+            commentariesPush.push(item)
+        })
+    }
+
 
     const handleCommentChange = (event) => {
       setNewComment(event.target.value); // Update the new comment state
     };
   
     const handlePublishClick = async() => {
+        
       // Handle the "Опубликовать" click event
       console.log("Publishing comment: ", newComment);
       await dispatch(addPostCommentAction(newComment,post))
       alert('comment uploaded')
-
+      comments.map((item) => {
+        commentariesPush.push(item)
+    })
       
 
     }
+    useEffect (() => {
+        
+        setCommentaries(commentariesPush)
+    },[])
     let mainImage=''
     
     post.mediaLinks.map((item,index) => {
@@ -118,8 +134,7 @@ export default function ModalPost ({post,users,like}) {
                             ):(
                                 {comment=nodata}
                             )} */}
-
-                                {comments.map((i) => (
+                                {commentaries.map((i) => (
                                      users.map((item3, index) => {
                                      if(item3.id==i.authorId){
                                         return(<div key={i.id}>{item3.username}   {i.commentary}</div>)

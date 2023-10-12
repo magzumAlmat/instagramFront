@@ -12,7 +12,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import { authorize } from '@/store/slices/authSlice'
-export default function Posts() {
+export default function Posts(userId) {
     const isAuth = useSelector((state) => state.auth.isAuth);
     const currentUser = useSelector((state) => state.auth.currentUser);
 
@@ -81,7 +81,7 @@ export default function Posts() {
 
 
     const showPosts = userPosts.map((item, index) => ( 
-        <Post key={index} post={item} currentUser={currentUser} />    
+        <Post key={index} post={item} currentUser={currentUser} anotherUser={userId} />    
     ));
 
     return (

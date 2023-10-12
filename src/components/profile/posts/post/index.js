@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 import { getAllUsersAction } from '@/store/slices/getUsersPostsSlice'
 import { useDispatch,useSelector } from 'react-redux'
 import axios from 'axios'
-export default function Post({post,currentUser}){
-    
+export default function Post({post,currentUser,anotherUser}){
+    console.log('Clicked User',anotherUser)
     // const allUsers=useSelector(((state) => state.userposts.allUsers))
     const [allUsers, setUsers] = useState([]);
     console.log("ALLL USERS",allUsers)

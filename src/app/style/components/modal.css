@@ -200,7 +200,7 @@
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
     max-width: 450px;
-    height: 40rem;
+    height: 38rem;
      /* Задайте желаемую максимальную высоту */
     overflow-y: auto; /* Добавьте вертикальную прокрутку при необходимости */
     padding: 14px; /* Добавьте отступы внутри блока по вашему усмотрению */

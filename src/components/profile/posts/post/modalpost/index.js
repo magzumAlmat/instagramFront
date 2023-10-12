@@ -49,9 +49,9 @@ export default function ModalPost ({post,users,like}) {
 
     let nodata=comments
 
-    console.log('c',comments,comment.length)
+    console.log('COMMENTS1',comments,comment.length)
 
-    if (comments===undefined){
+    if (comments,comment.length===undefined){
         nodata=[{0:'NODATA'}]
         console.log('COMMENT HAVE NO DATA',comments,nodata)
        }
