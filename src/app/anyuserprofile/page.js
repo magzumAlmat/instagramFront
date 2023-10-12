@@ -20,7 +20,7 @@ import createLogo from '@/app/images/create-blog-small.svg';
 import profile from '@/app/images/user-photo-small.svg';
 import axios from 'axios'
 import Post from '@/components/profile/posts/post'
-
+// import Modal from '@/components/createpost'
 export default function anyUserProfilePage({user}) {
     const router= useRouter()
     const searchParams = useSearchParams()
@@ -36,16 +36,18 @@ export default function anyUserProfilePage({user}) {
     // const dispatch = useDispatch();
     
     const [isModalOpen, setIsModalOpen] = useState(false);
-   
 
     const openModal = () => {
         setIsModalOpen(true);
+        console.log('isModalOpen?:', isModalOpen);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        console.log('open?:', isModalOpen);
     };
 
+    
 
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
     useEffect(() => {
@@ -164,30 +166,37 @@ export default function anyUserProfilePage({user}) {
            
                  <Header/>
                         <div className="profile-container">
-                            <div className='profile flex jc-c ai-c'>
-                                <div className='profile-image'>
-                                    <Image src={profilePic} width={100} height={100} alt='some aasdlt' />
-                                </div>
-                                <div className='profile-info justify-content: space-around;'>
-                                    <div className='flex gap'>
-                                        <span className='username'> {item.username}</span>
-                                        <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px'}}>Edit</button>
-                                        <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px'}}>Show archive</button>
-                                        <button className='follow-button button' style={{'width':'90px','height':'30px','borderRadius':'6px'}}>
-                                            <Image src={settingsLogo} alt='some aasdlt'/>
-                                            </button>
-                                        <a className='text-d-n username' href="">...</a>
-                                    </div>
-                                    <div className='flex gap'>
-                                        <p>1258 posts</p>
-                                        <p>4M followers</p>
-                                        <p>1250 following</p>
-                                    </div>
-                                    <div>
-                                       {item.fullname}
-                                    </div>
-                                </div>
+                        <div className='profile flex jc-c ai-c'>
+                        <div className='profile-image'>
+                            {/* <button onClick={openModal} style={{'border': 'none'}}> */}
+                                <Image src={profilePic} width={100} height={100} alt='some alt' />
+                            {/* </button> */}
+                            {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                <Stories />
+                            </Modal> */}
+                            
+
+                        </div>
+                        <div className='profile-info justify-content: space-around;'>
+                            <div className='flex gap'>
+                                <span className='username'>{item.username}</span>
+                                <button className='follow-button button button-primary' style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}>Follow</button>
+                                {/* <button onClick={doLogOutUser}> */}
+                                {/* <Image src={exit} width={20} height={10} alt='some alt' />
+                                </button> */}
+                                <a className='text-d-n username' href="">...</a>
+
                             </div>
+                            <div className='flex gap'>
+                                <p>1258 posts</p>
+                                <p>4M followers</p>
+                                <p>1250 following</p>
+                            </div>
+                            <div>
+                                Terry Lucas
+                            </div>
+                        </div>
+                    </div>
                             <div className='profile-posts-top flex jc-c ai-c gap-10'>
                                 <span className='posts-top-icon'>POSTS</span>
                                 <input className='profile-posts-input' />

@@ -12,7 +12,7 @@ import { createPost, createPostFunc } from "@/store/slices/createPostSlice";
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-
+import { createStoryFunc } from "@/store/slices/createStorySlice";
 export default function ModalContent () {
     const router = useRouter()
  
@@ -21,9 +21,6 @@ export default function ModalContent () {
     const someVar = useSelector((state) => state.auth.someVar);
     
     console.log('this is localstorage=',localStorage)
-
-
-
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [isNext, setIsNext] = useState(false);
@@ -106,8 +103,23 @@ export default function ModalContent () {
 
       };
 
-      const shareStoriesFunction = () => {
+      const shareStoriesFunction = async() => {
        
+        console.log('shareFunction file =',selectedFile)
+        console.log('description =',description)
+
+        const formData = new FormData();
+        formData.append('story_media', selectedFile);
+        formData.append('title', description);
+        
+
+        // console.log('FORMDATA before pass to redux',formData)
+        for (const value of formData.values()) {
+            console.log('ShareFunc  formData Values',value);
+          }
+      
+        await dispatch(createStoryFunc(formData))
+        
         // console.log('shareFunction file =',selectedFile)
        
             // const  authToken='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
