@@ -9,6 +9,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import axios from 'axios'
 export default function Post({post,currentUser,anotherUser}){
     console.log('Clicked User',anotherUser)
+    console.log('ALL POSTS==',post)
     // const allUsers=useSelector(((state) => state.userposts.allUsers))
     const [allUsers, setUsers] = useState([]);
     console.log("ALLL USERS",allUsers)
@@ -63,6 +64,7 @@ export default function Post({post,currentUser,anotherUser}){
     
  
     return (
+    
     
     <a className='profile-my-post'>
        
