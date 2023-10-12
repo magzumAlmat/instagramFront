@@ -145,7 +145,7 @@ export default function anyUserProfilePage({user}) {
                         </button>
                     </div>
                     <div className='layout-left-body-item'>
-                        <button onClick={() => setActiveSection('Profile')} className='layout-left-body-button'>
+                        <button onClick={() => router.push(`/layout`) } className='layout-left-body-button'>
                             <Image src={profile}  alt='some alt'/>
                             <p>Профиль</p>
                         </button>

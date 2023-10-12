@@ -70,7 +70,13 @@ export const userPostsSlice = createSlice({
 
         },
         showAllUserPostsReducer: (state, data) => {
-            state.userPosts.push(...data.payload);
+            const existingPostIds = state.userPosts.map(post => post.id);
+          
+            // Фильтруйте новые посты, чтобы исключить дубликаты
+            const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
+            
+            // Добавьте только новые посты в state.allPosts
+            state.userPosts.push(...newPosts);
         },
         // getAllUsersPostsReducer: (state, data) => {
 
@@ -87,18 +93,23 @@ export const userPostsSlice = createSlice({
         
         // },
         getAllUsersPostsReducer: (state, data) => {
+            // console.log('AllUsers data =', data.payload)
             // Извлеките существующие идентификаторы постов
             const existingPostIds = state.allPosts.map(post => post.id);
           
             // Фильтруйте новые посты, чтобы исключить дубликаты
             const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
-          
+            
             // Добавьте только новые посты в state.allPosts
             state.allPosts.push(...newPosts);
+            state.posts.push(...newPosts);
+
+            console.log('new POSTS from redux',newPosts)
+            // console.log('state AllUsers data =')
           },
 
         getAllUsersReducer: (state, data) => {
-            // console.log('AllUsers data =', data.payload)
+
              // Извлеките существующие идентификаторы постов
             const existingPostIds = state.allUsers.map(user => user.id);
           
@@ -109,6 +120,7 @@ export const userPostsSlice = createSlice({
             state.allUsers.push(...newPosts);
 
         },
+
         addPostLikeReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
          
@@ -130,11 +142,14 @@ export const userPostsSlice = createSlice({
         },
 
         followUserReducer:(state, action) => {
-            // state.followedUsers = action.payload;
+            console.log('follow start',action.payload)
+            state.followedUsers = action.payload;
+
           },
      
         unfollowUserReducer:(state, action) => {
-            // state.followedUsers = action.payload;
+            console.log('unfollow start',action.payload)
+            state.followedUsers = action.payload;
           },
 
       
@@ -205,6 +220,7 @@ export const getAllUsersPostsAction=()=>async(dispatch)=>{
         });
         // console.log('response from axios=',response.data)
         dispatch(getAllUsersPostsReducer(response.data));
+        
 
     } catch (error) { // Handle errors, e.g., by returning an error object
         throw error;
@@ -296,15 +312,7 @@ export const followUserAction = (userId) => async (dispatch, getState) => {
   
     try {
       // Perform the follow action using the token
-      const response = await axios.post(
-        `${END_POINT}/api/follow/${userId}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${END_POINT}/api/follow/${userId}`,{headers: {Authorization: `Bearer ${token}`}});
   
       // Assuming the response contains the updated list of followed users
       dispatch(followUserReducer(response.data));
@@ -324,17 +332,10 @@ export const unfollowUserAction=(userId)=> async (dispatch)=>{
       return;
     }
   
+    // console.log('token when unfollow= ',token)
     try {
       // Perform the follow action using the token
-      const response = await axios.delete(
-        `${END_POINT}/api/unfollow/${userId}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${END_POINT}/api/unfollow/${String(userId)}`,null,{headers: {Authorization: `Bearer ${token}`}});
   
       // Assuming the response contains the updated list of followed users
       dispatch(unfollowUserReducer(response.data));

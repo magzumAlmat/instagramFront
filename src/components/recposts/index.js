@@ -30,7 +30,7 @@ export default function ReccomendedPosts() {
     // console.log('isAuth from recommended Posts',isAuth)
     // console.log('isAuth from recommended someVar',someVar)
     // console.log('posts from recommended posts',posts)
-    
+    const postsfromRedux = useSelector((state) => state);
     const allPostsfromRedux = useSelector((state) => state.userposts.allPosts);
     const allUsersfromRedux= useSelector((state) => state.userposts.allUsers);
     const updatedLikesfromRedux = useSelector((state) => state.userposts.updatedLikes);
@@ -46,13 +46,13 @@ export default function ReccomendedPosts() {
         setUsers(allUsersfromRedux)
         setUpdatedLikes(updatedLikesfromRedux)
 
-      }, [dispatch])
+      }, [dispatch,myposts])
       
       ;
 
       const fetchComments = async () => { // Add "post" as a parameter
         dispatch(getAllUsersPostsAction());
-        console.log('fetchComments IN INDEX run',myposts);
+        console.log('fetchComments IN INDEX run',myposts,postsfromRedux);
         
           
       
@@ -61,7 +61,7 @@ export default function ReccomendedPosts() {
       useEffect(() => {
         // Call the fetchComments function with a specific "post" object periodically (e.g., every 3 seconds)
         
-          const intervalId = setInterval(() => fetchComments(), 2000);
+          const intervalId = setInterval(() => fetchComments(), 12000);
       
           // Clean up the interval when the component unmounts
           return () => clearInterval(intervalId);
