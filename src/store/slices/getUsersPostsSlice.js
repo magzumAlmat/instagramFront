@@ -103,15 +103,13 @@ export const userPostsSlice = createSlice({
 
         },
 
-        followUserReducer:(state,data,userId)=>{
-            console.log('follow reducer data =', data.payload,userId)
-            state.followedUsers.push(...data.payload)
-        },
+        followUserReducer:(state, action) => {
+            // state.followedUsers = action.payload;
+          },
      
-        unfollowUserReducer:(state,data,userId)=>{
-            console.log('follow reducer data =', data.payload,userId)
-            state.followedUsers.push(...data.payload)
-        },
+        unfollowUserReducer:(state, action) => {
+            // state.followedUsers = action.payload;
+          },
 
       
 }});
@@ -261,70 +259,67 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
 
 
 
-export const followUserAction=(userId)=> async (dispatch)=>{
-    console.log('1 followUserAction STARTED | user',userId);
-   
-    // console.log('2 addPostLikeAction POSTID',postId);
-
+export const followUserAction = (userId) => async (dispatch, getState) => {
+  
     const token = localStorage.getItem('token');
 
-    // console.log('2 getUsersPosts token=', token);
-    let decodedToken = jwt_decode(token)
-    console.log('token from folllowAction', token);
-
-    if (!token) { // Handle the case where the token is not available or invalid
-        console.error('Token not available');
-        return;
+    if (!token) {
+      console.error('Token not available');
+      return;
     }
+  
+    try {
+      // Perform the follow action using the token
+      const response = await axios.post(
+        `${END_POINT}/api/follow/${userId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // Assuming the response contains the updated list of followed users
+      dispatch(followUserReducer(response.data));
+    } catch (error) {
+      console.error('Error following user:', error);
+    }
+  };
 
 
-
-    
-    const response = await axios.post(`${END_POINT}/api/follow/${String(userId)}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-    });
-    console.log('3 followuserAction response from axios=',response.data)
-
-    dispatch(followUserReducer(response.data));
-
-
-    
-}
 
 
 export const unfollowUserAction=(userId)=> async (dispatch)=>{
-    console.log('1 followUserAction STARTED | user',userId);
-   
-    // console.log('2 addPostLikeAction POSTID',postId);
-
     const token = localStorage.getItem('token');
 
-    // console.log('2 getUsersPosts token=', token);
-    let decodedToken = jwt_decode(token)
-    // console.log('3 getUsersPosts decoded=', decodedToken.username);
-
-    if (!token) { // Handle the case where the token is not available or invalid
-        console.error('Token not available');
-        return;
+    if (!token) {
+      console.error('Token not available');
+      return;
     }
+  
+    try {
+      // Perform the follow action using the token
+      const response = await axios.delete(
+        `${END_POINT}/api/unfollow/${userId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // Assuming the response contains the updated list of followed users
+      dispatch(unfollowUserReducer(response.data));
+    } catch (error) {
+      console.error('Error following user:', error);
+    }
+  };
 
-
-
+      
     
-    const response = await axios.post(`${END_POINT}/api/unfollow/${String(userId)}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-    });
-    console.log('3 followuserAction response from axios=',response.data)
 
-    dispatch(unfollowUserReducer(response.data));
-
-
-    
-}
 
 
 

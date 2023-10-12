@@ -23,7 +23,7 @@ import Post from '@/components/profile/posts/post'
 import { useDispatch ,useSelector} from 'react-redux'
 
 // import Modal from '@/components/createpost'
-import { followUserAction } from '@/store/slices/getUsersPostsSlice'
+import { followUserAction ,unfollowUserAction} from '@/store/slices/getUsersPostsSlice'
 export default function anyUserProfilePage({user}) {
 
     const dispatch=useDispatch()
@@ -193,7 +193,7 @@ export default function anyUserProfilePage({user}) {
                                 >Follow</button>
                                 <button className='follow-button button button-primary' 
                                 style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}
-                                onClick={async()=>{await dispatch(followUserAction(userId)),console.log('unfollowedUsers=',followedUsers)}}
+                                onClick={async()=>{await dispatch(unfollowUserAction(userId)),console.log('unfollowedUsers=',followedUsers)}}
                                 >UnFollow</button>
                                 {/* <button onClick={doLogOutUser}> */}
                                 {/* <Image src={exit} width={20} height={10} alt='some alt' />

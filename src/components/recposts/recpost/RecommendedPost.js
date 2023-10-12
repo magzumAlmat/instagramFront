@@ -271,16 +271,13 @@ const [isLoading, setIsLoading] = useState(true);
     //   pathname: '/anyuserprofile',
     //   query: { user: user.id }, 
     // });
-    
-    
+      
   }
   
-
     const renderUserPosts = (user) => {
 
         const userPosts = allPosts.filter((post) => user.id ===post.creatorId);
         const PostComments = allPosts.filter((post) => post.commentaries);
-        
         // const PostLikes = allPosts.filter((post) => post);
         // console.log('postLIIIKES',PostLikes.likes)
 
@@ -292,12 +289,7 @@ const [isLoading, setIsLoading] = useState(true);
              
           arrayOfCommentsPush.push(commentaries)
               // arrayOfCommentsPush.push(commentaries)
-              // console.log('post=',post,'comment',commentaries)
-              
-            
-            
-
-           
+              // console.log('post=',post,'comment',commentaries)           
     }),
           <div key={index} >
            <a  onClick={()=>handleRedirectToProfile(user)}>
@@ -400,15 +392,6 @@ const [isLoading, setIsLoading] = useState(true);
                                     )
                                      )
                                     )} */}
-              
-
-            
-
-           
-            
-
-
-
             {/* <p>-----------------------------</p> */}
             {console.log('222 arrayOfComments',arrayOfComments)}
           
