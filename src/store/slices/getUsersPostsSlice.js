@@ -2,7 +2,7 @@ import {createSlice, current} from '@reduxjs/toolkit';
 import axios from 'axios';
 import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
-import {useEffect} from 'react';
+import {use, useEffect} from 'react';
 
 
 const token = localStorage.getItem("token")
@@ -17,12 +17,13 @@ let initialState = {
     allPosts:[],
     allUsers:[],
     countOfLikes:[],
-    userPosts:[]
+    userPosts:[],
+    followedUsers:[]
 }
 
 if (token) {
     let decodedToken = jwt_decode(token)
-    // console.log('decodedToken from redux', decodedToken)
+    console.log('decodedToken from redux', token)
     initialState = {
         isAuth: true,
         currentUser: {
@@ -38,6 +39,7 @@ if (token) {
         countOfLikes:[],
         userPosts:[],
         someVar: '1111111111111111112',
+        followedUsers:[]
 
     }
 } else {
@@ -83,6 +85,7 @@ export const userPostsSlice = createSlice({
         },
         addPostLikeReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
+         
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
             // state.someVar=data.payload
@@ -99,11 +102,26 @@ export const userPostsSlice = createSlice({
 
 
         },
+
+        followUserReducer:(state,data,userId)=>{
+            console.log('follow reducer data =', data.payload,userId)
+            state.followedUsers.push(...data.payload)
+        },
      
+        unfollowUserReducer:(state,data,userId)=>{
+            console.log('follow reducer data =', data.payload,userId)
+            state.followedUsers.push(...data.payload)
+        },
+
+      
 }});
 
 
-export const {getUsersPostsReducer,getAllUsersPostsReducer,getAllUsersReducer,addPostLikeReducer, addPostCommentaryReducer,showAllUserPostsReducer,updatePostLikes} = userPostsSlice.actions;
+export const {getUsersPostsReducer,followUserReducer,unfollowUserReducer,
+    getAllUsersPostsReducer,
+    getAllUsersReducer,
+    addPostLikeReducer, addPostCommentaryReducer,
+    showAllUserPostsReducer,updatePostLikes} = userPostsSlice.actions;
 
 export const getUsersPostsAction = () => async (dispatch) => {
     // if(token){
@@ -238,6 +256,82 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
 
     
 }
+
+
+
+
+
+export const followUserAction=(userId)=> async (dispatch)=>{
+    console.log('1 followUserAction STARTED | user',userId);
+   
+    // console.log('2 addPostLikeAction POSTID',postId);
+
+    const token = localStorage.getItem('token');
+
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    console.log('token from folllowAction', token);
+
+    if (!token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+
+
+    
+    const response = await axios.post(`${END_POINT}/api/follow/${String(userId)}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    console.log('3 followuserAction response from axios=',response.data)
+
+    dispatch(followUserReducer(response.data));
+
+
+    
+}
+
+
+export const unfollowUserAction=(userId)=> async (dispatch)=>{
+    console.log('1 followUserAction STARTED | user',userId);
+   
+    // console.log('2 addPostLikeAction POSTID',postId);
+
+    const token = localStorage.getItem('token');
+
+    // console.log('2 getUsersPosts token=', token);
+    let decodedToken = jwt_decode(token)
+    // console.log('3 getUsersPosts decoded=', decodedToken.username);
+
+    if (!token) { // Handle the case where the token is not available or invalid
+        console.error('Token not available');
+        return;
+    }
+
+
+
+    
+    const response = await axios.post(`${END_POINT}/api/unfollow/${String(userId)}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    console.log('3 followuserAction response from axios=',response.data)
+
+    dispatch(unfollowUserReducer(response.data));
+
+
+    
+}
+
+
+
+
+
+
+
 
 export const addPostCommentAction=(comment,post)=> async (dispatch)=>{
     console.log('1 addPostCommentAction STARTED',comment,'postID=',post.id);

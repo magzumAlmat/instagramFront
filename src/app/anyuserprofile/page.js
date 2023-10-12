@@ -20,8 +20,13 @@ import createLogo from '@/app/images/create-blog-small.svg';
 import profile from '@/app/images/user-photo-small.svg';
 import axios from 'axios'
 import Post from '@/components/profile/posts/post'
+import { useDispatch ,useSelector} from 'react-redux'
+
 // import Modal from '@/components/createpost'
+import { followUserAction } from '@/store/slices/getUsersPostsSlice'
 export default function anyUserProfilePage({user}) {
+
+    const dispatch=useDispatch()
     const router= useRouter()
     const searchParams = useSearchParams()
     const userId = searchParams.get('user')
@@ -31,7 +36,8 @@ export default function anyUserProfilePage({user}) {
      const [loading, setLoading] = useState(true); // Initial loading state
     // console.log('USER=======',user)
     // const isAuth = useSelector((state) => state.auth.isAuth);
-    // const currentUser = useSelector((state) => state.auth.currentUser);
+    
+    const followedUsers= useSelector((state) => state.userposts.followedUsers);
 
     // const dispatch = useDispatch();
     
@@ -51,6 +57,7 @@ export default function anyUserProfilePage({user}) {
 
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjNAZ21haWwuY29tIiwiZnVsbF9uYW1lIjpudWxsLCJwaG9uZSI6bnVsbCwiaWF0IjoxNjk0NTg2NjczLCJleHAiOjE3MjYxMjI2NzN9.KTEqxyqQJ5avV6maDzAccZknj16_9m3g2NEOlwUch44';
     useEffect(() => {
+
         // dispatch(getUsersPostsAction())
         const fetchMyPosts = async () => {
             try {
@@ -180,7 +187,14 @@ export default function anyUserProfilePage({user}) {
                         <div className='profile-info justify-content: space-around;'>
                             <div className='flex gap'>
                                 <span className='username'>{item.username}</span>
-                                <button className='follow-button button button-primary' style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}>Follow</button>
+                                <button className='follow-button button button-primary' 
+                                style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}
+                                onClick={async()=>{await dispatch(followUserAction(userId)),console.log('followedUsers=',followedUsers)}}
+                                >Follow</button>
+                                <button className='follow-button button button-primary' 
+                                style={{ 'width': '90px', 'height': '30px', 'borderRadius': '6px' }}
+                                onClick={async()=>{await dispatch(followUserAction(userId)),console.log('unfollowedUsers=',followedUsers)}}
+                                >UnFollow</button>
                                 {/* <button onClick={doLogOutUser}> */}
                                 {/* <Image src={exit} width={20} height={10} alt='some alt' />
                                 </button> */}
@@ -190,7 +204,7 @@ export default function anyUserProfilePage({user}) {
                             <div className='flex gap'>
                                 <p>1258 posts</p>
                                 <p>4M followers</p>
-                                <p>1250 following</p>
+                                <p>{followedUsers}</p>
                             </div>
                             <div>
                                 Terry Lucas
