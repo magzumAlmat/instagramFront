@@ -46,7 +46,7 @@ export default function ReccomendedPosts() {
         setUsers(allUsersfromRedux)
         setUpdatedLikes(updatedLikesfromRedux)
 
-      }, [dispatch,myposts])
+      }, [allPostsfromRedux])
       
       ;
 
@@ -61,10 +61,10 @@ export default function ReccomendedPosts() {
       useEffect(() => {
         // Call the fetchComments function with a specific "post" object periodically (e.g., every 3 seconds)
         
-          const intervalId = setInterval(() => fetchComments(), 12000);
+        //   const intervalId = setInterval(() => fetchComments(), 12000);
       
           // Clean up the interval when the component unmounts
-          return () => clearInterval(intervalId);
+        //   return () => clearInterval(intervalId);
         
       }, []);
 

@@ -134,14 +134,17 @@ export const userPostsSlice = createSlice({
         },
         addPostCommentaryReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
+            state.allPosts = state.allPosts.map(item => {
+                if(item.id === data.payload.postId) {
+                    item.commentaries.push(data.payload)
+                    return item
+                } 
+                return item
 
-
+            })
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
             // state.someVar=data.payload
-
-
-
         },
 
         followUserReducer:(state, action) => {
@@ -304,7 +307,7 @@ export const addPostLikeAction=(post)=> async (dispatch)=>{
 
 
 
-export const followUserAction = (userId) => async (dispatch, getState) => {
+export const followUserAction = (userId) => async (dispatch) => {
   
     const token = localStorage.getItem('token');
 
@@ -315,7 +318,7 @@ export const followUserAction = (userId) => async (dispatch, getState) => {
   
     try {
       // Perform the follow action using the token
-      const response = await axios.post(`${END_POINT}/api/follow/${userId}`,{headers: {Authorization: `Bearer ${token}`}});
+      const response = await axios.post(`${END_POINT}/api/follow/${userId}`,null, {headers: {Authorization: `Bearer ${token}`}});
   
       // Assuming the response contains the updated list of followed users
       dispatch(followUserReducer(response.data));
@@ -338,7 +341,7 @@ export const unfollowUserAction=(userId)=> async (dispatch)=>{
     // console.log('token when unfollow= ',token)
     try {
       // Perform the follow action using the token
-      const response = await axios.delete(`${END_POINT}/api/unfollow/${String(userId)}`,null,{headers: {Authorization: `Bearer ${token}`}});
+      const response = await axios.delete(`${END_POINT}/api/unfollow/${String(userId)}`,{headers: {Authorization: `Bearer ${token}`}});
   
       // Assuming the response contains the updated list of followed users
       dispatch(unfollowUserReducer(response.data));

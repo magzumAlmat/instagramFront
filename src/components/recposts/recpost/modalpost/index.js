@@ -48,7 +48,6 @@ export default function ModalPost ({post,users,like}) {
         commentariesPush.push(item)
       })
       
-      await dispatch(getUsersPostsAction())
 
     }
     useEffect (() => {
