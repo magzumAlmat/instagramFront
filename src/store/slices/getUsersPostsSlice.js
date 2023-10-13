@@ -4,7 +4,6 @@ import END_POINT from '@/config/index';
 import jwt_decode from 'jwt-decode';
 import {use, useEffect} from 'react';
 
-
 const token = localStorage.getItem("token")
 
 let initialState = {
@@ -71,10 +70,8 @@ export const userPostsSlice = createSlice({
         },
         showAllUserPostsReducer: (state, data) => {
             const existingPostIds = state.userPosts.map(post => post.id);
-          
             // Фильтруйте новые посты, чтобы исключить дубликаты
             const newPosts = data.payload.filter(newPost => !existingPostIds.includes(newPost.id));
-            
             // Добавьте только новые посты в state.allPosts
             state.userPosts.push(...newPosts);
         },
@@ -84,13 +81,11 @@ export const userPostsSlice = createSlice({
         //     console.log('11111AllPosts data =', data.payload)
         //     state.allPosts.push(...data.payload);
         
-        
         //     // data.payload.forEach(newPost => {
         //     //     if (!state.allPosts.some(existingPost => existingPost.id === newPost.id)) {
         //     //       state.allPosts.push(newPost);
         //     //     }
         //     //   });
-        
         // },
         getAllUsersPostsReducer: (state, data) => {
             // console.log('AllUsers data =', data.payload)
@@ -109,7 +104,6 @@ export const userPostsSlice = createSlice({
           },
 
         getAllUsersReducer: (state, data) => {
-
              // Извлеките существующие идентификаторы постов
             const existingPostIds = state.allUsers.map(user => user.id);
           
@@ -128,9 +122,6 @@ export const userPostsSlice = createSlice({
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
             // state.someVar=data.payload
-
-
-
         },
         addPostCommentaryReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
