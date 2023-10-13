@@ -30,7 +30,7 @@ export default function anyUserProfilePage({user}) {
     const router= useRouter()
     const searchParams = useSearchParams()
     const userId = searchParams.get('user')
-    console.log('USER=======',userId);
+    // console.log('USER=======',userId);
     const [users, setUsers] = useState([]);
     const [myposts, setMyPosts] = useState([]);
      const [loading, setLoading] = useState(true); // Initial loading state
@@ -45,7 +45,7 @@ export default function anyUserProfilePage({user}) {
 
     const openModal = () => {
         setIsModalOpen(true);
-        console.log('isModalOpen?:', isModalOpen);
+        // console.log('isModalOpen?:', isModalOpen);
     };
 
     const closeModal = () => {

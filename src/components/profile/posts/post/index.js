@@ -8,17 +8,14 @@ import { getAllUsersAction } from '@/store/slices/getUsersPostsSlice'
 import { useDispatch,useSelector } from 'react-redux'
 import axios from 'axios'
 export default function Post({post,currentUser,anotherUser}){
-    
-    console.log('Clicked User',anotherUser)
-    console.log('ALL POSTS==',post)
+
+    // console.log('Clicked User',anotherUser)
+    console.log('ALL POSTS from parent component==',post)
     // const allUsers=useSelector(((state) => state.userposts.allUsers))
     const [allUsers, setUsers] = useState([]);
-    console.log("ALLL USERS",allUsers)
+    // console.log("ALLL USERS",allUsers)
     const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
-    // useEffect(() => {
-    //     dispatch(getAllUsersAction());
-    //   }, [allUsers]);
-    
+  
     useEffect(() => {
         
         const fetchMyPosts = async () => {
@@ -78,7 +75,7 @@ export default function Post({post,currentUser,anotherUser}){
             width={500} height={300}
             />
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-            {console.log('id post clicked post', clickedPost)}
+            {/* {console.log('id post clicked post', clickedPost)} */}
             <ModalPost post={clickedPost} users={allUsers} />
         </Modal>
      

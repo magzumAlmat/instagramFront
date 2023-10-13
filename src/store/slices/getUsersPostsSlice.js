@@ -103,8 +103,8 @@ export const userPostsSlice = createSlice({
             // Добавьте только новые посты в state.allPosts
             state.allPosts.push(...newPosts);
             state.posts.push(...newPosts);
-
-            console.log('new POSTS from redux',newPosts)
+            
+            console.log('call new  POSTS from REDUX',newPosts)
             // console.log('state AllUsers data =')
           },
 
@@ -123,7 +123,8 @@ export const userPostsSlice = createSlice({
 
         addPostLikeReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
-         
+            // state.allPosts.push(data.payload);
+            // dispatch(getAllUsersPostsReducer())
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
             // state.someVar=data.payload
@@ -133,6 +134,8 @@ export const userPostsSlice = createSlice({
         },
         addPostCommentaryReducer: (state, data) => {
             console.log('4 AllLikes data =', data.payload)
+
+
             // state.countOfLikes.push(data)
             // state.allUsers.push(...data.payload);
             // state.someVar=data.payload
@@ -167,7 +170,7 @@ export const getUsersPostsAction = () => async (dispatch) => {
     //     localStorage.removeItem("token")
     // }
 
-    console.log('1 getUsersPosts STARTED',token);
+   
     const token = localStorage.getItem('token');
 
     console.log('2 getUsersPosts token=', token);

@@ -39,7 +39,7 @@ export default function ReccomendedPosts() {
         dispatch(getUsersPostsAction())
         dispatch(getAllUsersAction());
         dispatch(getAllUsersPostsAction())
-          .then(() => setIsLoading(false))
+          .then()
           .catch((error) => console.error(error));
 
         setMyPosts(allPostsfromRedux)
@@ -52,7 +52,7 @@ export default function ReccomendedPosts() {
 
       const fetchComments = async () => { // Add "post" as a parameter
         dispatch(getAllUsersPostsAction());
-        console.log('fetchComments IN INDEX run',myposts,postsfromRedux);
+        console.log('Команда fetch для обновления данных  ',postsfromRedux.userposts);
         
           
       
@@ -72,14 +72,13 @@ export default function ReccomendedPosts() {
 
 
 
-    // const showPosts = myposts.map((item, index) => (
-    //     <RecommendedPost key={index} users={users} myposts={myposts}
-    //         post={item}/>
-    // ));
+    const showPosts =   <RecommendedPost  allUsers={users} updatedLikes={updatedLikes} allPosts={myposts}/>
+    
 
     return (
         <div className='recommended flex'>
-          <RecommendedPost  allUsers={users} updatedLikes={updatedLikes} allPosts={myposts}/>
+          {/* <RecommendedPost  allUsers={users} updatedLikes={updatedLikes} allPosts={myposts}/> */}
+          {showPosts}
         </div>
     );
 

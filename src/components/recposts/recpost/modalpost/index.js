@@ -13,7 +13,7 @@ import { authSlice,authorize,logout } from '@/store/slices/authSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from "axios";
 import { addPostCommentAction } from "@/store/slices/getUsersPostsSlice";
-
+import { getUsersPostsAction } from "@/store/slices/getUsersPostsSlice";
 export default function ModalPost ({post,users,like}) {
     const dispatch = useDispatch()
     console.log('111post from modal post', post)
@@ -48,6 +48,7 @@ export default function ModalPost ({post,users,like}) {
         commentariesPush.push(item)
       })
       
+      await dispatch(getUsersPostsAction())
 
     }
     useEffect (() => {

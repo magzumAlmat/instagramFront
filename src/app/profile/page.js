@@ -25,8 +25,8 @@ export default function ProfilePage() {
 
     const dispatch=useDispatch()
 
-    console.log('thisis isAuth from UserSIGNUP= ',isAuth)
-    console.log('thisis current user in profile= ',currentUser)
+    // console.log('thisis isAuth from UserSIGNUP= ',isAuth)
+    // console.log('thisis current user in profile= ',currentUser)
     
     const doLogOutUser=()=>{
       

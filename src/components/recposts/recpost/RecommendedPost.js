@@ -271,12 +271,12 @@ const [isLoading, setIsLoading] = useState(true);
     }),
           <div key={index} >
            <a  onClick={()=>handleRedirectToProfile(user)}>
-            {console.log('post-------------',post)}
+            {/* {console.log('post-------------',post)} */}
             { 
             allUsers.map((item3, index) => {
               if(item3.id===post.creatorId){
                 // setClickedUser(item3)
-                return(<p>{item3.username}</p>)}
+                return(<p key={index}>{item3.username}</p>)}
             })
             
           }
@@ -286,7 +286,7 @@ const [isLoading, setIsLoading] = useState(true);
             {/* <p>{user.username}</p> */}
             <Image
               src={`${host}/${post.mediaLinks}`}
-              alt="some aasdlt"
+              alt="some aasdasdlt"
               width={500}
               height={500}
             />
@@ -308,18 +308,18 @@ const [isLoading, setIsLoading] = useState(true);
                                             onClick={() => addCommentClick(post)}
                                             />
                                             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                              {console.log('id post clicked post', clickedPost)}
+                                              {/* {console.log('id post clicked post', clickedPost)} */}
                                               <ModalPost  post={clickedPost} users={allUsers} like={like}/>
                                            </Modal>
                                       
 
                                         <Image src={shareLogo}
-                                            alt='some aasdlt2'
+                                            alt='some aasdlasdt2'
                                             className='send'/>
                                     </div>
                                     <div className="raw-item1" id="raw">
                                         <Image src={saveLogo}
-                                            alt='some asdalt2'
+                                            alt='some asdaasdlt2'
                                             className='save'
                                             id="raw"/>
                                     </div>
@@ -371,7 +371,7 @@ const [isLoading, setIsLoading] = useState(true);
                                      )
                                     )} */}
             {/* <p>-----------------------------</p> */}
-            {console.log('222 arrayOfComments',arrayOfComments)}
+            {/* {console.log('222 arrayOfComments',arrayOfComments)} */}
           
                
             

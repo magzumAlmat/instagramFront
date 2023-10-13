@@ -47,7 +47,7 @@ export default function Stories() {
     return (
         <div className='profile flex'>
             {showPosts}
-            {console.log(showPosts)}
+            {/* {console.log(showPosts)} */}
         </div>
     );
 

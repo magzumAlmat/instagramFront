@@ -23,7 +23,7 @@ import jwtDecode from 'jwt-decode'
 export default function LayoutPage(user) {
 
     const [activeSection, setActiveSection] = useState("Home");
-   console.log('activeSection===',activeSection)
+//    console.log('activeSection===',activeSection)
     
     const currentUser = useSelector((state) => state.auth.currentUser);
 
@@ -134,7 +134,9 @@ export default function LayoutPage(user) {
             </div>
             <div className='layout-right'>
           
-            <h3>{console.log('1  isAuth=',isAuth)}</h3>
+            <h3>
+                {console.log('1  isAuth=',isAuth)}
+            </h3>
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                     <ModalContent />
                 </Modal>

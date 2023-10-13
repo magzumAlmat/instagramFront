@@ -19,7 +19,7 @@ export default function Posts(userId) {
 
     const dispatch = useDispatch();
     const  userPosts= useSelector((state) => state.userposts.userPosts);
-    console.log('1 Функция Posts отработалась',userPosts)
+    // console.log('1 Функция Posts отработалась',userPosts)
 
 
     // const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbG1hdC5tYWd6dW0xMjM0QGdtYWlsLmNvbSIsImZ1bGxfbmFtZSI6bnVsbCwicGhvbmUiOm51bGwsImlhdCI6MTY5NTY5ODE5NSwiZXhwIjoxNzI3MjM0MTk1fQ.r4M018A6NHYIV6tMAcaQOQowb3IhmHZ5u9VnSzRBEik'
@@ -74,7 +74,7 @@ export default function Posts(userId) {
   
 
     const showPosts = userPosts.map((item, index) => ( 
-        console.log('post from Posts component',item),
+        // console.log('post from Posts component',item),
         <Post key={index} post={item} currentUser={currentUser} anotherUser={userId} />    
     ));
 
